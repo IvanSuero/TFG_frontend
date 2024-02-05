@@ -7,7 +7,7 @@ const linksList = [
   {
     title: 'Profile',
     icon: 'person',
-    link: '/'
+    link: '/clients'
   },
   {
     title: 'Language',

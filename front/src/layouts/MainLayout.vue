@@ -4,14 +4,12 @@
       <NavBar :drawer="drawer" @drawer-modify="onDrawerModify"/>
     </q-header>
 
-    <q-drawer show-if-above v-model="drawer" side="left" content-class="bg-grey-2">
+    <q-drawer v-model="drawer" side="left" content-class="bg-grey-2">
       <SideBar ref="sideBar" v-bind:linksList="linksList" active="Home"/>
     </q-drawer>
 
-    <q-page-container>
-      <q-page padding>
-        <router-view />
-      </q-page>
+    <q-page-container padding>
+
     </q-page-container>
   </q-layout>
 </template>
@@ -20,7 +18,7 @@
 import { defineComponent } from 'vue'
 import SideBar from 'src/components/SideBar/SideBar.vue'
 import NavBar from 'src/components/NavBar.vue'
-import linksList from 'src/utils/sideBar'
+import linksList from 'src/utils/sideBarItemsList.js'
 
 export default defineComponent({
   name: 'MainLayout',

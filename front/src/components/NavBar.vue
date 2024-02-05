@@ -1,9 +1,6 @@
 <template>
     <q-toolbar>
         <q-btn flat round dense :icon="drawer ? 'close' : 'menu'" @click="modifyDrawer" />
-        <q-toolbar-title>
-          <router-link to="/" class="text-white">.WMS</router-link>
-        </q-toolbar-title>
       </q-toolbar>
 </template>
 
