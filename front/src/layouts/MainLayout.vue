@@ -9,7 +9,7 @@
     </q-drawer>
 
     <q-page-container padding>
-
+      <CardList v-bind:mainMenuItemsList="menuItemsList.mainMenuItemsList"/>
     </q-page-container>
   </q-layout>
 </template>
@@ -19,17 +19,21 @@ import { defineComponent } from 'vue'
 import SideBar from 'src/components/SideBar/SideBar.vue'
 import NavBar from 'src/components/NavBar.vue'
 import linksList from 'src/utils/sideBarItemsList.js'
+import CardList from 'src/components/Cards/CardList.vue'
+import menuItemsList from 'src/utils/menuItemsList'
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
     SideBar,
-    NavBar
+    NavBar,
+    CardList
   },
   data () {
     return {
       drawer: true,
-      linksList
+      linksList,
+      menuItemsList
     }
   },
   methods: {

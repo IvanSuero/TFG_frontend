@@ -5,14 +5,14 @@ const mainMenuItemsList = [
     icon: 'person'
   },
   {
-    name: 'Suppliers',
-    path: '/suppliers',
-    icon: 'person'
-  },
-  {
     name: 'Warehouse',
     path: '/warehouse',
     icon: 'warehouse'
+  },
+  {
+    name: 'Suppliers',
+    path: '/suppliers',
+    icon: 'person'
   }
 ]
 
@@ -64,4 +64,4 @@ const areaItemsList = [
   }
 ]
 
-export default (mainMenuItemsList, areaItemsList)
+export default { mainMenuItemsList, areaItemsList }
