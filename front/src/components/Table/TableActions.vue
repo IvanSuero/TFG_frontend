@@ -6,7 +6,7 @@
       title="Products"
       :rows="rows"
       :columns="columns"
-      :row-key="name"
+      :row-key="columns.name"
       :visible-columns="visibleColumns">
 
       <template v-slot:top>
@@ -56,15 +56,22 @@ tbody{
 <script>
 
 import { defineComponent } from 'vue'
-import { rows, columns } from '../../utils/columns/ProductColumns'
 
 export default defineComponent({
   name: 'TableActions',
-  data: () => {
+  props: {
+    rows: {
+      type: Array,
+      default: () => []
+    },
+    columns: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data () {
     return {
-      rows,
-      columns,
-      visibleColumns: columns.map(col => col.name)
+      visibleColumns: this.columns.map(col => col.name)
     }
   }
 })
