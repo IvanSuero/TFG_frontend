@@ -1,8 +1,8 @@
 <template>
-  <q-layout view="hHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf">
     <CommonHeader />
-    <q-page-container>
-      <TableActions :rows="rows" :columns="getColumns(columns)" />
+    <q-page-container padding>
+      <TableActions :rows="getRows(rows)" :columns="getColumns(columns)" />
     </q-page-container>
   </q-layout>
 </template>
@@ -12,7 +12,7 @@
 import { defineComponent } from 'vue'
 import CommonHeader from 'src/components/CommonHeader.vue'
 import TableActions from 'src/components/Table/TableActions.vue'
-import { columns } from 'src/utils/columns/ProductColumns'
+import { columns } from 'src/utils/Columns'
 import { rows } from 'src/utils/rows'
 
 export default defineComponent({
@@ -30,6 +30,9 @@ export default defineComponent({
   methods: {
     getColumns (columns) {
       return this.columns.filter(column => column.areaColumns === this.$route.name.toLowerCase())[0].columns
+    },
+    getRows (rows) {
+      return this.rows.filter(row => row.areaRows === this.$route.name.toLowerCase())[0].rows
     }
   }
 })

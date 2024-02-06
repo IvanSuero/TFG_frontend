@@ -22,12 +22,12 @@ const routes = [
   {
     path: '/clients-list',
     component: () => import('layouts/TaskTableLayout.vue'),
-    name: 'Clients-list'
+    name: 'Clientslist'
   },
   {
     path: '/sellorders',
     component: () => import('layouts/TaskTableLayout.vue'),
-    name: 'Sell-orders'
+    name: 'Sellorders'
   },
   {
     path: '/suppliers',
@@ -37,12 +37,12 @@ const routes = [
   {
     path: '/suppliers-list',
     component: () => import('layouts/TaskTableLayout.vue'),
-    name: 'Suppliers-list'
+    name: 'Supplierslist'
   },
   {
     path: '/buyorders',
     component: () => import('layouts/TaskTableLayout.vue'),
-    name: 'Buy-orders'
+    name: 'Buyorders'
   },
   {
     path: '/warehouse',

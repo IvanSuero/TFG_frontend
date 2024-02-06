@@ -33,7 +33,7 @@ export const columns = [
     ]
   },
   {
-    areaColumns: 'clients',
+    areaColumns: 'clientslist',
     columns: [
       {
         name: 'name',

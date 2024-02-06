@@ -1,7 +1,7 @@
 <template>
-  <q-layout view="hHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf">
     <CommonHeader />
-    <q-page-container>
+    <q-page-container padding>
       <CardList v-bind:mainMenuItemsList="getAreaItemsList()"/>
     </q-page-container>
   </q-layout>
