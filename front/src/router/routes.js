@@ -21,12 +21,12 @@ const routes = [
   },
   {
     path: '/clients-list',
-    component: () => import('layouts/AreaTaskLayout.vue'),
+    component: () => import('layouts/TaskTableLayout.vue'),
     name: 'Clients-list'
   },
   {
     path: '/sellorders',
-    component: () => import('layouts/AreaTaskLayout.vue'),
+    component: () => import('layouts/TaskTableLayout.vue'),
     name: 'Sell-orders'
   },
   {
@@ -36,12 +36,12 @@ const routes = [
   },
   {
     path: '/suppliers-list',
-    component: () => import('layouts/AreaTaskLayout.vue'),
+    component: () => import('layouts/TaskTableLayout.vue'),
     name: 'Suppliers-list'
   },
   {
     path: '/buyorders',
-    component: () => import('layouts/AreaTaskLayout.vue'),
+    component: () => import('layouts/TaskTableLayout.vue'),
     name: 'Buy-orders'
   },
   {
@@ -51,12 +51,12 @@ const routes = [
   },
   {
     path: '/products',
-    component: () => import('layouts/AreaTaskLayout.vue'),
+    component: () => import('layouts/TaskTableLayout.vue'),
     name: 'Products'
   },
   {
     path: '/inventory',
-    component: () => import('layouts/AreaTaskLayout.vue'),
+    component: () => import('layouts/TaskTableLayout.vue'),
     name: 'Inventory'
   },
 

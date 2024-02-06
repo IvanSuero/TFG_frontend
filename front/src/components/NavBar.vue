@@ -1,7 +1,10 @@
 <template>
-    <q-toolbar>
-        <q-btn flat round dense :icon="drawer ? 'close' : 'menu'" @click="modifyDrawer" />
-      </q-toolbar>
+  <q-toolbar>
+    <q-btn flat round dense :icon="drawer ? 'close' : 'menu'" @click="modifyDrawer" />
+    <q-toolbar-title>
+      <h6>{{ title }}</h6>
+    </q-toolbar-title>
+  </q-toolbar>
 </template>
 
 <script>
@@ -19,6 +22,11 @@ export default defineComponent({
   methods: {
     modifyDrawer () {
       this.$emit('drawerModify')
+    }
+  },
+  data () {
+    return {
+      title: this.$route.path.trim().split('/').pop()
     }
   }
 })
