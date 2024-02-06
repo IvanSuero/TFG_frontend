@@ -1,5 +1,5 @@
 <template>
-  <q-card class="card" clickable>
+  <q-card class="card" clickable @click="goToRoute()">
     <q-card-section>
       <q-icon :name="item.icon" size="50px"/>
     </q-card-section>
@@ -35,6 +35,11 @@ export default defineComponent({
     item: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    goToRoute () {
+      this.$router.push(this.item.path)
     }
   }
 })

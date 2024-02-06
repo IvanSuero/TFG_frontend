@@ -1,6 +1,7 @@
 <template>
   <div class="card-list">
     <CardItem v-for="item in mainMenuItemsList" :key="item.name" :item="item" />
+    <CardItem :item="{name: 'Back', icon: 'arrow_left', path: '/'}" />
   </div>
 </template>
 

@@ -2,62 +2,62 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    name: 'main-menu'
+    name: 'Main-menu'
   },
   {
     path: '/profile',
     component: () => import('layouts/ProfileLayout.vue'),
-    name: 'profile'
+    name: 'Profile'
   },
   {
     path: '/settings',
     component: () => import('layouts/SettingsLayout.vue'),
-    name: 'settings'
+    name: 'Settings'
   },
   {
     path: '/clients',
-    component: () => import('layouts/ClientsLayout.vue'),
-    name: 'clients'
+    component: () => import('layouts/AreaTaskLayout.vue'),
+    name: 'Clients'
   },
   {
     path: '/clients-list',
-    component: () => import('layouts/ClientsListLayout.vue'),
-    name: 'clients-list'
+    component: () => import('layouts/AreaTaskLayout.vue'),
+    name: 'Clients-list'
   },
   {
     path: '/sellorders',
-    component: () => import('layouts/SellOrdersLayout.vue'),
-    name: 'sell-orders'
+    component: () => import('layouts/AreaTaskLayout.vue'),
+    name: 'Sell-orders'
   },
   {
     path: '/suppliers',
-    component: () => import('layouts/SuppliersLayout.vue'),
-    name: 'suppliers'
+    component: () => import('layouts/AreaTaskLayout.vue'),
+    name: 'Suppliers'
   },
   {
     path: '/suppliers-list',
-    component: () => import('layouts/SuppliersListLayout.vue'),
-    name: 'suppliers-list'
+    component: () => import('layouts/AreaTaskLayout.vue'),
+    name: 'Suppliers-list'
   },
   {
     path: '/buyorders',
-    component: () => import('layouts/BuyOrdersLayout.vue'),
-    name: 'buy-orders'
+    component: () => import('layouts/AreaTaskLayout.vue'),
+    name: 'Buy-orders'
   },
   {
     path: '/warehouse',
-    component: () => import('layouts/WarehouseLayout.vue'),
-    name: 'warehouse'
+    component: () => import('layouts/AreaTaskLayout.vue'),
+    name: 'Warehouse'
   },
   {
     path: '/products',
-    component: () => import('layouts/ProductsLayout.vue'),
-    name: 'products'
+    component: () => import('layouts/AreaTaskLayout.vue'),
+    name: 'Products'
   },
   {
     path: '/inventory',
-    component: () => import('layouts/InventoryLayout.vue'),
-    name: 'inventory'
+    component: () => import('layouts/AreaTaskLayout.vue'),
+    name: 'Inventory'
   },
 
   // Always leave this as last one,

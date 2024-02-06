@@ -19,48 +19,39 @@ const mainMenuItemsList = [
 const areaItemsList = [
   {
     area: 'Clients',
-    items: [
-      {
-        name: 'Clients List',
-        path: '/list',
-        icon: 'person'
-      },
-      {
-        name: 'Sell orders',
-        path: '/sellorders',
-        icon: 'bill'
-      }
-    ]
+    name: 'Clients List',
+    path: '/clients-list',
+    icon: 'person'
+  },
+  {
+    area: 'Clients',
+    name: 'Sell orders',
+    path: '/sellorders',
+    icon: 'folder'
   },
   {
     area: 'Suppliers',
-    items: [
-      {
-        name: 'Suppliers List',
-        path: '/list',
-        icon: 'person'
-      },
-      {
-        name: 'Buy orders',
-        path: '/buyorders',
-        icon: 'bill'
-      }
-    ]
+    name: 'Suppliers List',
+    path: '/list',
+    icon: 'person'
+  },
+  {
+    area: 'Suppliers',
+    name: 'Buy orders',
+    path: '/buyorders',
+    icon: 'folder'
   },
   {
     area: 'Warehouse',
-    items: [
-      {
-        name: 'Products',
-        path: '/products',
-        icon: 'box'
-      },
-      {
-        name: 'Inventory',
-        path: '/inventory',
-        icon: 'plus'
-      }
-    ]
+    name: 'Products',
+    path: '/products',
+    icon: 'shopping_cart'
+  },
+  {
+    area: 'Warehouse',
+    name: 'Inventory',
+    path: '/inventory',
+    icon: 'add'
   }
 ]
 

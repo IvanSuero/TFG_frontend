@@ -7,7 +7,7 @@ const linksList = [
   {
     title: 'Profile',
     icon: 'person',
-    link: '/clients'
+    link: '/profile'
   },
   {
     title: 'Language',
@@ -17,7 +17,7 @@ const linksList = [
   {
     title: 'Settings',
     icon: 'settings',
-    link: '/'
+    link: '/settings'
   },
   {
     title: 'Disconnect',
