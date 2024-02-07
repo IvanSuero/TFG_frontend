@@ -96,7 +96,7 @@ export default defineComponent({
     return {
       visibleColumns: this.columns.map(col => col.name),
       options: [
-        'Add', 'Remove', 'View detail', 'Edit'
+        'Add', 'Remove', 'View detail', 'Edit', 'Test'
       ],
       model: ref('Actions')
     }
