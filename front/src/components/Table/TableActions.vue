@@ -7,31 +7,34 @@
       :rows="rows"
       :columns="columns"
       :row-key="columns.name"
-      :filters="filter"
+      selection="single"
+      v-model:selected="selected"
       :visible-columns="visibleColumns"
     >
-      <template v-slot:top>
+
+      <template v-slot:top-left>
+        <q-input dense debounce="300" v-model="filter" label="Search" outlined>
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
+
+      <template v-slot:top-right>
         <q-select
           v-model="model"
           class="q-ml-md"
-          outlined color="primary"
+          outlined
           dense
           options-dense
           :options="options"
         />
         <q-btn
-          outline color="primary"
+          outline
           class="q-ml-md"
           label="Download"
           @click="() => console.log('Download')"
         />
-        <q-space />
-        <q-input class="q-ml-md" dense debounce="300" v-model="filter" label="Search">
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-        <q-space />
         <q-select
           class="q-ml-md"
           v-model="visibleColumns"
@@ -50,6 +53,9 @@
       </template>
 
     </q-table>
+    <div class="q-mt-md">
+      Selected: {{ JSON.stringify(selected) }}
+    </div>
   </div>
 </template>
 
@@ -93,12 +99,14 @@ export default defineComponent({
     }
   },
   data () {
+    const selected = ref([])
     return {
       visibleColumns: this.columns.map(col => col.name),
       options: [
         'Add', 'Remove', 'View detail', 'Edit'
       ],
-      model: ref('Actions')
+      model: ref('ACTIONS'),
+      selected
     }
   }
 })
