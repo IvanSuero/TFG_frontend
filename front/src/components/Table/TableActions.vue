@@ -7,10 +7,33 @@
       :rows="rows"
       :columns="columns"
       :row-key="columns.name"
-      :visible-columns="visibleColumns">
-
+      :filters="filter"
+      :visible-columns="visibleColumns"
+    >
       <template v-slot:top>
         <q-select
+          v-model="model"
+          class="q-ml-md"
+          outlined color="primary"
+          dense
+          options-dense
+          :options="options"
+        />
+        <q-btn
+          outline color="primary"
+          class="q-ml-md"
+          label="Download"
+          @click="() => console.log('Download')"
+        />
+        <q-space />
+        <q-input class="q-ml-md" dense debounce="300" v-model="filter" label="Search">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+        <q-space />
+        <q-select
+          class="q-ml-md"
           v-model="visibleColumns"
           multiple
           outlined
@@ -55,7 +78,7 @@ tbody{
 
 <script>
 
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'TableActions',
@@ -71,7 +94,11 @@ export default defineComponent({
   },
   data () {
     return {
-      visibleColumns: this.columns.map(col => col.name)
+      visibleColumns: this.columns.map(col => col.name),
+      options: [
+        'Add', 'Remove', 'View detail', 'Edit'
+      ],
+      model: ref('Actions')
     }
   }
 })
