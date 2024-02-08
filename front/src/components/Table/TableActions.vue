@@ -5,10 +5,8 @@
       flat bordered
       title="Products"
       :rows="rows"
-      :columns="columns"
+      :columns="columns.columns"
       :row-key="columns.name"
-      selection="single"
-      v-model:selected="selected"
       :visible-columns="visibleColumns"
     >
 
@@ -21,20 +19,36 @@
       </template>
 
       <template v-slot:top-right>
-        <q-select
-          v-model="model"
-          class="q-ml-md"
-          outlined
-          dense
-          options-dense
-          :options="options"
-        />
-        <q-btn
+        <q-btn-dropdown
+          square
           outline
-          class="q-ml-md"
-          label="Download"
-          @click="() => console.log('Download')"
-        />
+          :label="actions"
+          style="color: black"
+          menu-anchor="bottom start"
+          menu-self="top start"
+          content-style="margin-top: 0.5rem !important; border-radius: 0px !important"
+          content-class="border-almostBlack"
+          unelevated
+          class="commonTableTop__dropdown topBar__button"
+        >
+          <q-list class="dropdownBtn__container">
+            <div
+              v-for="button in columns.actions"
+              :key="button.name"
+              class="bg-waiting"
+            >
+              <q-btn
+                class="dropdown__btn justify_start text_start"
+                :label="button.label"
+                :key="button.name"
+                flat
+                @click="activeAction(button)"
+              >
+              </q-btn>
+
+            </div>
+          </q-list>
+        </q-btn-dropdown>
         <q-select
           class="q-ml-md"
           v-model="visibleColumns"
@@ -45,7 +59,7 @@
           :display-value="$q.lang.table.columns"
           emit-value
           map-options
-          :options="columns"
+          :options="columns.columns"
           option-value="name"
           options-cover
           style="min-width: 150px"
@@ -54,7 +68,36 @@
 
     </q-table>
     <div class="q-mt-md">
-      items selected: {{ JSON.stringify(selected) }}
+      <CommonPopup v-if="showAddPopup" isOpen="showPopup" popupTitle="Add" @closePopup="closePopup">
+        <q-form>
+          <q-input v-for="item in columns.columns" :key="item.name" :label="item.label" />
+          <div style="display: flex; gap: 1rem; padding-top: 1.5rem;">
+            <q-btn
+              label="Cancel"
+              color="negative"
+              @click="closePopup"
+            ></q-btn>
+            <q-btn
+              label="Confirm"
+              color="secondary"
+              @click="closePopup"
+            ></q-btn>
+          </div>
+        </q-form>
+      </CommonPopup>
+      <CommonPopup v-if="showViewPopup" isOpen="showPopup" popupTitle="View" @closePopup="closePopup">
+        <q-form>
+          <q-input v-for="item in columns.columns" :key="item.name" :label="item.label" class="non-editable"
+            :readonly="true"/>
+          <div style="display: flex; gap: 1rem; padding-top: 1.5rem;">
+            <q-btn
+              label="Close"
+              color="warning"
+              @click="closePopup"
+            ></q-btn>
+          </div>
+        </q-form>
+      </CommonPopup>
     </div>
   </div>
 </template>
@@ -80,34 +123,72 @@ thead tr:first-child th{
 tbody{
   scroll-margin-top: 48px;
 }
+.topBar__button{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+.dropdownBtn__container > div:last-child{
+  border-bottom: 0px;
+}
+.dropdownBtn__container > div{
+  border-bottom: 0.7px solid black;
+}
+.bg-waiting{
+  background-color: white;
+}
+.dropdown__btn{
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+.justify_start{
+  justify-content: flex-start;
+}
 </style>
 
 <script>
 
 import { defineComponent, ref } from 'vue'
+import CommonPopup from 'src/components/CommonPopup.vue'
 
 export default defineComponent({
   name: 'TableActions',
+  components: {
+    CommonPopup
+  },
   props: {
     rows: {
       type: Array,
       default: () => []
     },
     columns: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => ({})
     }
   },
   data () {
-    const selected = ref([])
     return {
-      visibleColumns: this.columns.map(col => col.name),
-      options: [
-        'Add', 'Remove', 'View detail', 'Edit'
-      ],
-      model: ref('ACTIONS'),
-      selected
+      visibleColumns: this.columns.columns.map(col => col.name),
+      filter: ref(''),
+      actions: ref('Actions'),
+      showAddPopup: ref(false),
+      showViewPopup: ref(false)
     }
-  }
+  },
+  methods: {
+    activeAction (button) {
+      if (button.name === 'add') {
+        this.showAddPopup = true
+      } else if (button.name === 'view') {
+        this.showViewPopup = true
+      }
+    },
+    closePopup () {
+      this.showAddPopup = false
+      this.showViewPopup = false
+    }
+  },
+  emits: ['closePopup']
 })
 </script>

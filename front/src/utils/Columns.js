@@ -30,6 +30,40 @@ export const columns = [
         align: 'left',
         sortable: true
       }
+    ],
+    actions: [
+      {
+        name: 'add',
+        label: 'Add',
+        edit: true,
+        empty: true,
+        confirmBtn: 'Add new Product',
+        cancelBtn: 'Cancel'
+      },
+      {
+        name: 'edit',
+        label: 'Edit',
+        edit: true,
+        empty: false,
+        confirmBtn: 'Save',
+        cancelBtn: 'Cancel'
+      },
+      {
+        name: 'delete',
+        label: 'Delete',
+        edit: false,
+        empty: false,
+        confirmBtn: 'Delete',
+        cancelBtn: 'Cancel'
+      },
+      {
+        name: 'view',
+        label: 'View',
+        edit: false,
+        empty: false,
+        confirmBtn: 'Close',
+        cancelBtn: ''
+      }
     ]
   },
   {
