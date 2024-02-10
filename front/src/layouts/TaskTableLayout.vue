@@ -29,7 +29,7 @@ export default defineComponent({
   },
   methods: {
     getColumns (columns) {
-      return this.columns.filter(column => column.areaColumns === this.$route.name.toLowerCase())[0].columns
+      return this.columns.filter(column => column.areaColumns === this.$route.name.toLowerCase())[0]
     },
     getRows (rows) {
       return this.rows.filter(row => row.areaRows === this.$route.name.toLowerCase())[0].rows
