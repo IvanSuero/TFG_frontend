@@ -73,12 +73,12 @@
           <q-input v-for="item in columns.columns" :key="item.name" :label="item.label" />
           <div style="display: flex; gap: 1rem; padding-top: 1.5rem;">
             <q-btn
-              label="Cancel"
+              :label="getLabelBtn('add', false)"
               color="negative"
               @click="closePopup"
             ></q-btn>
             <q-btn
-              label="Confirm"
+              :label="getLabelBtn('add', true)"
               color="secondary"
               @click="closePopup"
             ></q-btn>
@@ -91,7 +91,7 @@
             :readonly="true"/>
           <div style="display: flex; gap: 1rem; padding-top: 1.5rem;">
             <q-btn
-              label="Close"
+              :label="getLabelBtn('view', true)"
               color="warning"
               @click="closePopup"
             ></q-btn>
@@ -187,6 +187,10 @@ export default defineComponent({
     closePopup () {
       this.showAddPopup = false
       this.showViewPopup = false
+    },
+    getLabelBtn (title, confirm) {
+      if (confirm) return this.columns.actions.filter(action => action.name === title)[0].buttons[0].confirmBtn
+      else return this.columns.actions.filter(action => action.name === title)[0].buttons[0].cancelBtn
     }
   },
   emits: ['closePopup']
