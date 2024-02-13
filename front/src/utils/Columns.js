@@ -157,5 +157,71 @@ export const columns = [
         ]
       }
     ]
+  },
+  {
+    areaColumns: 'sellorders',
+    columns: [
+      {
+        name: 'orderid',
+        label: 'Order ID',
+        field: 'Order ID',
+        align: 'left',
+        sortable: true
+      },
+      {
+        name: 'date',
+        label: 'Date',
+        field: 'Date',
+        align: 'center',
+        sortable: true
+      },
+      {
+        name: 'client',
+        label: 'Client',
+        field: 'Client',
+        align: 'left',
+        sortable: true
+      },
+      {
+        name: 'items',
+        label: 'Items',
+        field: 'Items',
+        align: 'center',
+        sortable: true
+      },
+      {
+        name: 'price',
+        label: 'Price',
+        field: 'Price',
+        align: 'right',
+        sortable: true
+      }
+    ],
+    actions: [
+      {
+        name: 'add',
+        label: 'Create',
+        edit: true,
+        empty: true,
+        buttons: [
+          {
+            confirmBtn: 'Create Sell Order',
+            cancelBtn: 'Cancel'
+          }
+        ]
+      },
+      {
+        name: 'view',
+        label: 'View',
+        edit: false,
+        empty: false,
+        buttons: [
+          {
+            confirmBtn: 'Close',
+            cancelBtn: ''
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -1,7 +1,7 @@
 <template>
   <div class="card-list">
     <CardItem v-for="item in mainMenuItemsList" :key="item.name" :item="item" />
-    <CardItem :item="{name: 'Back', icon: 'arrow_left', path: '/'}" />
+    <CardItem v-show="showBackButton" :item="{name: 'Back', icon: 'arrow_left', path: '/'}" />
   </div>
 </template>
 
@@ -28,6 +28,10 @@ export default defineComponent({
     mainMenuItemsList: {
       type: Array[Object],
       default: () => []
+    },
+    showBackButton: {
+      type: Boolean,
+      default: false
     }
   },
   setup () {

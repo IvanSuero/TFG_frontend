@@ -136,6 +136,30 @@ export const rows = [
         name: 'Client 2',
         email: 'client2@client.es',
         budget: 2000
+      },
+      {
+        name: 'Client 3',
+        email: 'client3@client.es',
+        budget: 3000
+      }
+    ]
+  },
+  {
+    areaRows: 'sellorders',
+    rows: [
+      {
+        orderid: '0001',
+        date: '01/01/2024',
+        client: 'Client 1',
+        items: 3,
+        price: '345.65€'
+      },
+      {
+        orderid: '0002',
+        date: '01/02/2024',
+        client: 'Client 3',
+        items: 12,
+        price: '2345.65€'
       }
     ]
   }

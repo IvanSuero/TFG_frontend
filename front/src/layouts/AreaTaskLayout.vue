@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <CommonHeader />
     <q-page-container padding>
-      <CardList v-bind:mainMenuItemsList="getAreaItemsList()"/>
+      <CardList v-bind:mainMenuItemsList="getAreaItemsList()" showBackButton=true />
     </q-page-container>
   </q-layout>
 </template>
