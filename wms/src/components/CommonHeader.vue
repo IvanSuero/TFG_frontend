@@ -1,5 +1,5 @@
 <template>
-  <q-header bordered class="bg-primary text-white">
+  <q-header class="bg-primary text-white">
     <NavBar :drawer="drawer" @drawer-modify="onDrawerModify"/>
   </q-header>
 

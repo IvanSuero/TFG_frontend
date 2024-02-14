@@ -1,9 +1,11 @@
 <template>
   <q-toolbar>
     <q-toolbar-title>
-      <h6>{{ title }}</h6>
+      <div class="title">
+        <a @click="this.$router.push({ name: 'areas' })"><h6>{{ title }}</h6></a>
+      </div>
     </q-toolbar-title>
-    <q-btn flat round dense :icon="drawer ? 'close' : 'menu'" @click="modifyDrawer" />
+    <q-btn flat round dense :icon="drawer ? 'close' : 'menu'" @click="modifyDrawer" size="20px" />
   </q-toolbar>
 </template>
 
@@ -11,6 +13,16 @@
 .q-toolbar{
   height: 75px;
   padding: 0 20px 0 50px ;
+}
+.title{
+  width: 100%;
+}
+.title h6{
+  width: fit-content;
+  padding: 0 10px;
+}
+.title h6:hover{
+  cursor: pointer;
 }
 </style>
 
