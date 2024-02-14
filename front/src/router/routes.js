@@ -2,7 +2,12 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    name: 'Main-menu'
+    name: 'Main-menu',
+    children: [
+      { path: 'clients', component: () => import('pages/MainLayout.vue') },
+      { path: 'warehouse', component: () => import('pages/MainLayout.vue') },
+      { path: 'suppliers', component: () => import('pages/MainLayout.vue') }
+    ]
   },
   {
     path: '/profile',
@@ -13,51 +18,6 @@ const routes = [
     path: '/settings',
     component: () => import('layouts/SettingsLayout.vue'),
     name: 'Settings'
-  },
-  {
-    path: '/clients',
-    component: () => import('layouts/AreaTaskLayout.vue'),
-    name: 'Clients'
-  },
-  {
-    path: '/clients-list',
-    component: () => import('layouts/TaskTableLayout.vue'),
-    name: 'Clientslist'
-  },
-  {
-    path: '/sellorders',
-    component: () => import('layouts/TaskTableLayout.vue'),
-    name: 'Sellorders'
-  },
-  {
-    path: '/suppliers',
-    component: () => import('layouts/AreaTaskLayout.vue'),
-    name: 'Suppliers'
-  },
-  {
-    path: '/suppliers-list',
-    component: () => import('layouts/TaskTableLayout.vue'),
-    name: 'Supplierslist'
-  },
-  {
-    path: '/buyorders',
-    component: () => import('layouts/TaskTableLayout.vue'),
-    name: 'Buyorders'
-  },
-  {
-    path: '/warehouse',
-    component: () => import('layouts/AreaTaskLayout.vue'),
-    name: 'Warehouse'
-  },
-  {
-    path: '/products',
-    component: () => import('layouts/TaskTableLayout.vue'),
-    name: 'Products'
-  },
-  {
-    path: '/inventory',
-    component: () => import('layouts/TaskTableLayout.vue'),
-    name: 'Inventory'
   },
 
   // Always leave this as last one,
