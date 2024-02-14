@@ -1,16 +1,13 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-page-container padding>
-      <q-btn
-        v-for="button in buttons"
-        :key="button.name"
-        :label="button.name"
-        @click="() =>console.log(button.name)"
-      >
-
-      </q-btn>
-    </q-page-container>
-  </q-layout>
+  <q-page>
+    <q-btn
+      v-for="button in buttons"
+      :key="button.name"
+      :label="button.name"
+      @click="() =>console.log(button.name)"
+    >
+    </q-btn>
+  </q-page>
 </template>
 
 <script>

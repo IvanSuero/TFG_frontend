@@ -1,11 +1,18 @@
 <template>
   <q-toolbar>
-    <q-btn flat round dense :icon="drawer ? 'close' : 'menu'" @click="modifyDrawer" />
     <q-toolbar-title>
       <h6>{{ title }}</h6>
     </q-toolbar-title>
+    <q-btn flat round dense :icon="drawer ? 'close' : 'menu'" @click="modifyDrawer" />
   </q-toolbar>
 </template>
+
+<style>
+.q-toolbar{
+  height: 75px;
+  padding: 0 20px 0 50px ;
+}
+</style>
 
 <script>
 import { defineComponent } from 'vue'

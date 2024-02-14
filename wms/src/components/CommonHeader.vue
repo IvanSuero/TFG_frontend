@@ -1,10 +1,10 @@
 <template>
-  <q-header elevated>
+  <q-header bordered class="bg-primary text-white">
     <NavBar :drawer="drawer" @drawer-modify="onDrawerModify"/>
   </q-header>
 
-  <q-drawer v-model="drawer" side="left" content-class="bg-grey-2">
-    <SideBar ref="sideBar" v-bind:linksList="linksList" active="Home"/>
+  <q-drawer v-model="drawer" side="right" overlay behavior="mobile" bordered content-class="bg-grey-2">
+    <SideBar ref="sideBar" v-bind:linksList="linksList" active="Home" @drawer-modify="onDrawerModify"/>
   </q-drawer>
 </template>
 

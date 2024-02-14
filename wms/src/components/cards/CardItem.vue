@@ -39,7 +39,7 @@ export default defineComponent({
   },
   methods: {
     goToRoute () {
-      this.$router.push(this.item.path)
+      this.$router.push({ name: this.item.path })
     }
   }
 })

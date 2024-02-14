@@ -26,7 +26,7 @@ export default defineComponent({
     getItems () {
       const items = []
       Object.entries(areas).forEach(([key, value]) => {
-        items.push({ name: value.name, icon: value.icon, path: value.path })
+        items.push({ name: value.field, icon: value.icon, path: value.path })
       })
       return items
     }

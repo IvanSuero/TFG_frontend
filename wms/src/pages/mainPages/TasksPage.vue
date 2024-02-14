@@ -27,7 +27,7 @@ export default defineComponent({
       const items = []
       const area = this.$route.name.toUpperCase()
       Object.entries(areas[area].actions).forEach(([key, value]) => {
-        items.push({ name: value.name, icon: value.icon, path: value.path })
+        items.push({ name: value.field, icon: value.icon, path: value.path })
       })
       return items
     }

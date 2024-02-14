@@ -11,8 +11,8 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/mainPages/TasksPage.vue'), name: 'clients' },
-      { path: 'list', component: () => import('layouts/ActionLayout.vue'), name: 'clientsList', meta: { area: 'clients' } },
-      { path: 'orders', component: () => import('layouts/ActionLayout.vue'), name: 'clientsOrders', meta: { area: 'clients' } }
+      { path: 'list', component: () => import('pages/tablePages/ActionPage.vue'), name: 'clientsList', meta: { area: 'clients' } },
+      { path: 'orders', component: () => import('pages/tablePages/ActionPage.vue'), name: 'clientsOrders', meta: { area: 'clients' } }
     ]
   },
   {
@@ -20,8 +20,8 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/mainPages/TasksPage.vue'), name: 'suppliers' },
-      { path: 'list', component: () => import('layouts/ActionLayout.vue'), name: 'suppliersList', meta: { area: 'suppliers' } },
-      { path: 'orders', component: () => import('layouts/ActionLayout.vue'), name: 'suppliersOrders', meta: { area: 'suppliers' } }
+      { path: 'list', component: () => import('pages/tablePages/ActionPage.vue'), name: 'suppliersList', meta: { area: 'suppliers' } },
+      { path: 'orders', component: () => import('pages/tablePages/ActionPage.vue'), name: 'suppliersOrders', meta: { area: 'suppliers' } }
     ]
   },
   {
@@ -29,8 +29,8 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/mainPages/TasksPage.vue'), name: 'warehouse' },
-      { path: 'products', component: () => import('layouts/ActionLayout.vue'), name: 'products', meta: { area: 'warehouse' } },
-      { path: 'inventory', component: () => import('layouts/ActionLayout.vue'), name: 'inventory', meta: { area: 'warehouse' } }
+      { path: 'products', component: () => import('pages/tablePages/ActionPage.vue'), name: 'products', meta: { area: 'warehouse' } },
+      { path: 'inventory', component: () => import('pages/tablePages/ActionPage.vue'), name: 'inventory', meta: { area: 'warehouse' } }
     ]
   },
 
