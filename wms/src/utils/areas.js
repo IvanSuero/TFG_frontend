@@ -2,10 +2,12 @@ const areas = {
   CLIENTS: {
     name: 'clients',
     path: 'clients',
+    icon: 'person',
     actions: {
       CLIENTSLIST: {
         name: 'list',
         path: 'clientsList',
+        icon: 'list',
         buttons: {
           ADD: {
             name: 'add'
@@ -24,6 +26,7 @@ const areas = {
       CLIENTSORDERS: {
         name: 'orders',
         path: 'clientsOrders',
+        icon: 'shopping_cart',
         buttons: {
           ADD: {
             name: 'add'
@@ -44,10 +47,12 @@ const areas = {
   SUPPLIERS: {
     name: 'suppliers',
     path: 'suppliers',
+    icon: 'person',
     actions: {
       SUPPLIERSLIST: {
         name: 'list',
         path: 'suppliersList',
+        icon: 'list',
         buttons: {
           ADD: {
             name: 'add'
@@ -66,6 +71,7 @@ const areas = {
       SUPPLIERSORDERS: {
         name: 'orders',
         path: 'suppliersOrders',
+        icon: 'shopping_cart',
         buttons: {
           ADD: {
             name: 'add'
@@ -86,10 +92,12 @@ const areas = {
   WAREHOUSE: {
     name: 'warehouse',
     path: 'warehouse',
+    icon: 'warehouse',
     actions: {
       PRODUCTS: {
         name: 'products',
         path: 'products',
+        icon: 'list',
         buttons: {
           ADD: {
             name: 'add'
@@ -108,6 +116,7 @@ const areas = {
       INVENTORY: {
         name: 'inventory',
         path: 'inventory',
+        icon: 'add',
         buttons: {
           CREATE: {
             name: 'create'

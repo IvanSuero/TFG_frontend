@@ -1,14 +1,7 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page>
     <div>
-      <h1 class="text-h6">Areas Page</h1>
-      <p class="text-subtitle1">This is the areas page</p>
-      <q-btn
-        v-for="area in areas"
-        :key="area.name"
-        :label="area.name"
-        @click="() => $router.push({ name: area.path })"
-      />
+      <CardList :items="getItems()" :showBackButton="showBackButton" />
     </div>
   </q-page>
 </template>
@@ -16,12 +9,26 @@
 <script>
 import { defineComponent } from 'vue'
 import areas from '../../utils/areas'
+import CardList from 'src/components/cards/CardList.vue'
 
 export default defineComponent({
   name: 'AreasPage',
+  components: {
+    CardList
+  },
   data () {
     return {
-      areas
+      showBackButton: false
+    }
+  },
+
+  methods: {
+    getItems () {
+      const items = []
+      Object.entries(areas).forEach(([key, value]) => {
+        items.push({ name: value.name, icon: value.icon, path: value.path })
+      })
+      return items
     }
   }
 })

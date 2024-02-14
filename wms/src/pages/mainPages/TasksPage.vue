@@ -1,14 +1,7 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page>
     <div>
-      <h1 class="text-h6">Tasks Page</h1>
-      <p class="text-subtitle1">This is the tasks page</p>
-      <q-btn
-        v-for="action in actions"
-        :key="action.name"
-        :label="action.name"
-        @click="() => $router.push({ name: action.path })"
-      />
+      <CardList :items="getItems()" :showBackButton="showBackButton" />
     </div>
   </q-page>
 </template>
@@ -16,13 +9,27 @@
 <script>
 import { defineComponent } from 'vue'
 import areas from '../../utils/areas'
+import CardList from 'src/components/cards/CardList.vue'
 
 export default defineComponent({
   name: 'TasksPage',
+  components: {
+    CardList
+  },
   data () {
-    const area = this.$route.name.toUpperCase()
     return {
-      actions: areas[area].actions
+      showBackButton: true
+    }
+  },
+
+  methods: {
+    getItems () {
+      const items = []
+      const area = this.$route.name.toUpperCase()
+      Object.entries(areas[area].actions).forEach(([key, value]) => {
+        items.push({ name: value.name, icon: value.icon, path: value.path })
+      })
+      return items
     }
   }
 })

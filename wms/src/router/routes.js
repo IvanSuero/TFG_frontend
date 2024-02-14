@@ -8,7 +8,7 @@ const routes = [
   },
   {
     path: '/clients',
-    component: () => import('layouts/TasksLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/mainPages/TasksPage.vue'), name: 'clients' },
       { path: 'list', component: () => import('layouts/ActionLayout.vue'), name: 'clientsList', meta: { area: 'clients' } },
@@ -17,7 +17,7 @@ const routes = [
   },
   {
     path: '/suppliers',
-    component: () => import('layouts/TasksLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/mainPages/TasksPage.vue'), name: 'suppliers' },
       { path: 'list', component: () => import('layouts/ActionLayout.vue'), name: 'suppliersList', meta: { area: 'suppliers' } },
@@ -26,7 +26,7 @@ const routes = [
   },
   {
     path: '/warehouse',
-    component: () => import('layouts/TasksLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/mainPages/TasksPage.vue'), name: 'warehouse' },
       { path: 'products', component: () => import('layouts/ActionLayout.vue'), name: 'products', meta: { area: 'warehouse' } },
