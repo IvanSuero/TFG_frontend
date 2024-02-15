@@ -13,19 +13,23 @@ const areas = {
         buttons: {
           ADD: {
             name: 'add',
-            field: 'Add Client'
+            field: 'Add'
           },
           EDIT: {
             name: 'edit',
-            field: 'Edit Client'
+            field: 'Edit'
           },
           DELETE: {
             name: 'delete',
-            field: 'Delete Client'
+            field: 'Delete'
           },
           VIEW: {
             name: 'view',
-            field: 'View Client'
+            field: 'View'
+          },
+          DOWNLOAD: {
+            name: 'download',
+            field: 'Download'
           }
         }
       },
@@ -37,19 +41,23 @@ const areas = {
         buttons: {
           ADD: {
             name: 'add',
-            field: 'Add Order'
+            field: 'Add'
           },
           EDIT: {
             name: 'edit',
-            field: 'Edit Order'
+            field: 'Edit'
           },
           DELETE: {
             name: 'delete',
-            field: 'Delete Order'
+            field: 'Delete'
           },
           VIEW: {
             name: 'view',
-            field: 'View Order'
+            field: 'View'
+          },
+          DOWNLOAD: {
+            name: 'download',
+            field: 'Download'
           }
         }
       }
@@ -69,19 +77,23 @@ const areas = {
         buttons: {
           ADD: {
             name: 'add',
-            field: 'Add Supplier'
+            field: 'Add'
           },
           EDIT: {
             name: 'edit',
-            field: 'Edit Supplier'
+            field: 'Edit'
           },
           DELETE: {
             name: 'delete',
-            field: 'Delete Supplier'
+            field: 'Delete'
           },
           VIEW: {
             name: 'view',
-            field: 'View Supplier'
+            field: 'View'
+          },
+          DOWNLOAD: {
+            name: 'download',
+            field: 'Download'
           }
         }
       },
@@ -93,19 +105,23 @@ const areas = {
         buttons: {
           ADD: {
             name: 'add',
-            field: 'Add Order'
+            field: 'Add'
           },
           EDIT: {
             name: 'edit',
-            field: 'Edit Order'
+            field: 'Edit'
           },
           DELETE: {
             name: 'delete',
-            field: 'Delete Order'
+            field: 'Delete'
           },
           VIEW: {
             name: 'view',
-            field: 'View Order'
+            field: 'View'
+          },
+          DOWNLOAD: {
+            name: 'download',
+            field: 'Download'
           }
         }
       }
@@ -125,19 +141,23 @@ const areas = {
         buttons: {
           ADD: {
             name: 'add',
-            field: 'Add Product'
+            field: 'Add'
           },
           EDIT: {
             name: 'edit',
-            field: 'Edit Product'
+            field: 'Edit'
           },
           DELETE: {
             name: 'delete',
-            field: 'Delete Product'
+            field: 'Delete'
           },
           VIEW: {
             name: 'view',
-            field: 'View Product'
+            field: 'View'
+          },
+          DOWNLOAD: {
+            name: 'download',
+            field: 'Download'
           }
         }
       },
@@ -149,7 +169,7 @@ const areas = {
         buttons: {
           CREATE: {
             name: 'create',
-            field: 'Create Inventory'
+            field: 'Create'
           }
         }
       }

@@ -2,7 +2,7 @@
   <q-toolbar>
     <q-toolbar-title>
       <div class="title">
-        <a @click="this.$router.push({ name: 'areas' })"><h6>{{ title }}</h6></a>
+        <a @click="this.$router.push({ name: 'areas' })"><h6>.WMS</h6></a>
       </div>
     </q-toolbar-title>
     <q-btn flat round dense :icon="drawer ? 'close' : 'menu'" @click="modifyDrawer" size="20px" />
@@ -41,11 +41,6 @@ export default defineComponent({
   methods: {
     modifyDrawer () {
       this.$emit('drawerModify')
-    }
-  },
-  data () {
-    return {
-      title: this.$route.name.toUpperCase()
     }
   }
 })

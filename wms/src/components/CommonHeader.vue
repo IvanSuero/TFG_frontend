@@ -13,6 +13,7 @@
 import { defineComponent } from 'vue'
 import NavBar from 'src/components/NavBar.vue'
 import SideBar from 'src/components/sidebar/SideBar.vue'
+import mainMenuItemsList from 'src/utils/menuItemsList'
 
 export default defineComponent({
   name: 'CommonHeader',
@@ -23,11 +24,7 @@ export default defineComponent({
   data () {
     return {
       drawer: false,
-      linksList: [
-        { name: 'Home', icon: 'home', to: '/' },
-        { name: 'About', icon: 'info', to: '/about' },
-        { name: 'Contact', icon: 'mail', to: '/contact' }
-      ]
+      linksList: mainMenuItemsList
     }
   },
   methods: {
