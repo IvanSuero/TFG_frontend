@@ -12,7 +12,7 @@
         :key="button.label"
         clickable
         v-close-popup
-        @click="activateSelection(button)"
+        @click="handleSelection(button)"
       >
         <q-item-section>
           <q-item-label>{{ button.field }}</q-item-label>
@@ -31,7 +31,7 @@
       v-show="selection!=='none'"
       color="secondary"
       label="Submit"
-      @click="submitSelection"
+      @click="submitSelection()"
     ></q-btn>
   </div>
 </template>
@@ -53,21 +53,27 @@ export default defineComponent({
     const area = this.$route.meta.area.toUpperCase()
     const action = this.$route.name.toUpperCase()
     return {
-      buttons: areas[area].actions[action].buttons
+      buttons: areas[area].actions[action].buttons,
+      selectedBtn: null
     }
   },
 
-  emit: ['activateSelection', 'clearSelection', 'submitSelection'],
+  emit: ['activateSelection', 'clearSelection', 'submitSelection', 'openPopup'],
 
   methods: {
-    activateSelection (button) {
-      this.$emit('activateSelection', button)
+    handleSelection (button) {
+      this.selectedBtn = button
+      if (button.selection !== 'none') {
+        this.$emit('activateSelection', button)
+      } else {
+        this.$emit('openPopup', button)
+      }
     },
     clearSelection () {
       this.$emit('clearSelection')
     },
-    submitSelection () {
-      this.$emit('submitSelection')
+    submitSelection (button) {
+      this.$emit('openPopup', this.selectedBtn)
     }
   }
 })

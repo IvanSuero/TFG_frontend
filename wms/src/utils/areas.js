@@ -244,6 +244,94 @@ const areas = {
         }
       }
     }
+  },
+  STATISTICS: {
+    name: 'statistics',
+    field: 'Statistics',
+    path: 'statistics',
+    icon: 'bar_chart',
+    actions: {
+      SALES: {
+        name: 'sales',
+        field: 'Sales',
+        path: 'sales',
+        icon: 'trending_up',
+        buttons: {
+          VIEW: {
+            name: 'view',
+            field: 'View',
+            selection: 'none',
+            functionType: 'popup'
+          },
+          DOWNLOAD: {
+            name: 'download',
+            field: 'Download',
+            selection: 'none',
+            functionType: 'action'
+          }
+        }
+      },
+      PURCHASES: {
+        name: 'purchases',
+        field: 'Purchases',
+        path: 'purchases',
+        icon: 'trending_down',
+        buttons: {
+          VIEW: {
+            name: 'view',
+            field: 'View',
+            selection: 'none',
+            functionType: 'popup'
+          },
+          DOWNLOAD: {
+            name: 'download',
+            field: 'Download',
+            selection: 'none',
+            functionType: 'action'
+          }
+        }
+      },
+      GLOBAL: {
+        name: 'global',
+        field: 'Global',
+        path: 'global',
+        icon: 'public',
+        buttons: {
+          VIEW: {
+            name: 'view',
+            field: 'View',
+            selection: 'none',
+            functionType: 'popup'
+          },
+          DOWNLOAD: {
+            name: 'download',
+            field: 'Download',
+            selection: 'none',
+            functionType: 'action'
+          }
+        }
+      },
+      INVENTORY: {
+        name: 'inventory',
+        field: 'Inventory',
+        path: 'inventory',
+        icon: 'inventory_2',
+        buttons: {
+          VIEW: {
+            name: 'view',
+            field: 'View',
+            selection: 'none',
+            functionType: 'popup'
+          },
+          DOWNLOAD: {
+            name: 'download',
+            field: 'Download',
+            selection: 'none',
+            functionType: 'action'
+          }
+        }
+      }
+    }
   }
 }
 

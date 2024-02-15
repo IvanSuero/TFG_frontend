@@ -3,7 +3,7 @@
     <TableHeader
       @activate-selection="onActivateSelection"
       @clear-selection="onClearSelection"
-      @submit-selection="onSubmitSelection"
+      @open-popup="onOpenPopup"
       :selection="selection"
       :selected="selected"
     />
@@ -18,9 +18,7 @@
     >
     </q-table>
 
-    <q-dialog
-      v-model="alert"
-    >
+    <q-dialog v-model="alert">
       <q-card>
         <q-card-section class="text-h6">{{ this.$route.meta.area.toUpperCase() }}</q-card-section>
         <q-card-section>
@@ -35,6 +33,7 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn label="Close" color="primary" @click="onClearSelection" />
+          <q-btn label="Submit" color="secondary" @click="callFunction" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -140,8 +139,17 @@ export default defineComponent({
       this.selected = []
       this.alert = false
     },
-    onSubmitSelection () {
-      this.alert = true
+    onOpenPopup (button) {
+      if (button.functionType === 'popup') {
+        this.alert = true
+      } else if (button.functionType === 'action') {
+        this.callFunction()
+      }
+    },
+    callFunction () {
+      // call function
+      this.alert = false
+      this.onClearSelection()
     }
   }
 })

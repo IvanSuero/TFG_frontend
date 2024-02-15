@@ -1,7 +1,7 @@
 <template>
   <div class="card-list">
     <CardItem v-for="item in items" :key="item.name" :item="item" />
-    <CardItem v-show="showBackButton" :item="{name: 'Back', icon: 'arrow_left', path: 'areas'}" />
+    <CardItem v-show="showBackButton" :item="{ name: 'Back', icon: 'arrow_back', path: 'areas' }" />
   </div>
 </template>
 
