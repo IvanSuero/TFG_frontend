@@ -52,8 +52,8 @@ export default defineComponent({
   },
   props: {
     linksList: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => {}
     },
     active: {
       type: String,

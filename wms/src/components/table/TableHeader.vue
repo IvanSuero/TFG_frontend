@@ -1,8 +1,9 @@
 <template>
   <div class="q-pa-md q-gutter-md">
-      <q-btn-dropdown
+    <q-btn-dropdown
       color="primary"
       label="Actions"
+      v-show="selection==='none'"
     >
 
     <q-list>
@@ -11,7 +12,7 @@
         :key="button.label"
         clickable
         v-close-popup
-        @click="activateSelection"
+        @click="activateSelection(button)"
       >
         <q-item-section>
           <q-item-label>{{ button.field }}</q-item-label>
@@ -21,13 +22,13 @@
 
     </q-btn-dropdown>
     <q-btn
-      v-show="selection"
+      v-show="selection!=='none'"
       color="amber"
       label="Clear"
       @click="clearSelection"
     ></q-btn>
     <q-btn
-      v-show="selection"
+      v-show="selection!=='none'"
       color="secondary"
       label="Submit"
       @click="submitSelection"
@@ -44,7 +45,8 @@ export default defineComponent({
   name: 'TableHeader',
 
   props: {
-    selection: Boolean
+    selection: String,
+    selected: Array
   },
 
   data () {
@@ -58,8 +60,8 @@ export default defineComponent({
   emit: ['activateSelection', 'clearSelection', 'submitSelection'],
 
   methods: {
-    activateSelection () {
-      this.$emit('activateSelection')
+    activateSelection (button) {
+      this.$emit('activateSelection', button)
     },
     clearSelection () {
       this.$emit('clearSelection')

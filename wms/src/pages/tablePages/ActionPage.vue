@@ -1,22 +1,43 @@
 <template>
   <q-page padding>
-    <TableHeader @activate-selection="onActivateSelection" @clear-selection="onClearSelection" @submit-selection="onSubmitSelection" :selection="selection"/>
-    <q-table v-if="!selection"
+    <TableHeader
+      @activate-selection="onActivateSelection"
+      @clear-selection="onClearSelection"
+      @submit-selection="onSubmitSelection"
+      :selection="selection"
+      :selected="selected"
+    />
+    <q-table
       class="sticky-header-table"
       flat bordered
       :rows="rows"
       :columns="columns"
       row-key="reference"
-    ></q-table>
-    <q-table v-else
-      class="sticky-header-table"
-      flat bordered
-      :rows="rows"
-      :columns="columns"
-      row-key="reference"
-      selection="multiple"
+      :selection="selection"
       v-model:selected="selected"
-    ></q-table>
+    >
+    </q-table>
+
+    <q-dialog
+      v-model="alert"
+    >
+      <q-card>
+        <q-card-section class="text-h6">{{ this.$route.meta.area.toUpperCase() }}</q-card-section>
+        <q-card-section>
+          <q-list bordered>
+            <q-item v-for="row in selected" :key="row.reference">
+              <q-item-section>{{ row.reference }}</q-item-section>
+              <q-item-section>{{ row.name }}</q-item-section>
+              <q-item-section>{{ row.age }}</q-item-section>
+              <q-item-section>{{ row.country }}</q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn label="Close" color="primary" @click="onClearSelection" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -54,7 +75,8 @@ export default defineComponent({
 
   data () {
     return {
-      selection: false,
+      alert: false,
+      selection: 'none',
       selected: ref([]),
       rows: [
         {
@@ -110,15 +132,16 @@ export default defineComponent({
   },
 
   methods: {
-    onActivateSelection () {
-      this.selection = true
+    onActivateSelection (button) {
+      this.selection = button.selection
     },
     onClearSelection () {
-      this.selection = false
+      this.selection = 'none'
       this.selected = []
+      this.alert = false
     },
     onSubmitSelection () {
-      this.onClearSelection()
+      this.alert = true
     }
   }
 })

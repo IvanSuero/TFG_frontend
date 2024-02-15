@@ -30,7 +30,7 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/mainPages/TasksPage.vue'), name: 'warehouse' },
       { path: 'products', component: () => import('pages/tablePages/ActionPage.vue'), name: 'products', meta: { area: 'warehouse' } },
-      { path: 'inventory', component: () => import('pages/tablePages/ActionPage.vue'), name: 'inventory', meta: { area: 'warehouse' } }
+      { path: 'transfers', component: () => import('pages/tablePages/ActionPage.vue'), name: 'transfers', meta: { area: 'warehouse' } }
     ]
   },
 

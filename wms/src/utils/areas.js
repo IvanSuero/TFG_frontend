@@ -13,23 +13,33 @@ const areas = {
         buttons: {
           ADD: {
             name: 'add',
-            field: 'Add'
+            field: 'Add',
+            selection: 'none',
+            functionType: 'popup'
           },
           EDIT: {
             name: 'edit',
-            field: 'Edit'
+            field: 'Edit',
+            selection: 'single',
+            functionType: 'popup'
           },
           DELETE: {
             name: 'delete',
-            field: 'Delete'
+            field: 'Delete',
+            selection: 'multiple',
+            functionType: 'popup'
           },
           VIEW: {
             name: 'view',
-            field: 'View'
+            field: 'View',
+            selection: 'single',
+            functionType: 'popup'
           },
           DOWNLOAD: {
             name: 'download',
-            field: 'Download'
+            field: 'Download',
+            selection: 'multiple',
+            functionType: 'action'
           }
         }
       },
@@ -41,23 +51,33 @@ const areas = {
         buttons: {
           ADD: {
             name: 'add',
-            field: 'Add'
+            field: 'Add',
+            selection: 'none',
+            functionType: 'popup'
           },
           EDIT: {
             name: 'edit',
-            field: 'Edit'
+            field: 'Edit',
+            selection: 'single',
+            functionType: 'popup'
           },
           DELETE: {
             name: 'delete',
-            field: 'Delete'
+            field: 'Delete',
+            selection: 'multiple',
+            functionType: 'popup'
           },
           VIEW: {
             name: 'view',
-            field: 'View'
+            field: 'View',
+            selection: 'single',
+            functionType: 'popup'
           },
           DOWNLOAD: {
             name: 'download',
-            field: 'Download'
+            field: 'Download',
+            selection: 'multiple',
+            functionType: 'action'
           }
         }
       }
@@ -77,23 +97,33 @@ const areas = {
         buttons: {
           ADD: {
             name: 'add',
-            field: 'Add'
+            field: 'Add',
+            selection: 'none',
+            functionType: 'popup'
           },
           EDIT: {
             name: 'edit',
-            field: 'Edit'
+            field: 'Edit',
+            selection: 'single',
+            functionType: 'popup'
           },
           DELETE: {
             name: 'delete',
-            field: 'Delete'
+            field: 'Delete',
+            selection: 'multiple',
+            functionType: 'popup'
           },
           VIEW: {
             name: 'view',
-            field: 'View'
+            field: 'View',
+            selection: 'single',
+            functionType: 'popup'
           },
           DOWNLOAD: {
             name: 'download',
-            field: 'Download'
+            field: 'Download',
+            selection: 'multiple',
+            functionType: 'action'
           }
         }
       },
@@ -105,23 +135,33 @@ const areas = {
         buttons: {
           ADD: {
             name: 'add',
-            field: 'Add'
+            field: 'Add',
+            selection: 'none',
+            functionType: 'popup'
           },
           EDIT: {
             name: 'edit',
-            field: 'Edit'
+            field: 'Edit',
+            selection: 'single',
+            functionType: 'popup'
           },
           DELETE: {
             name: 'delete',
-            field: 'Delete'
+            field: 'Delete',
+            selection: 'multiple',
+            functionType: 'popup'
           },
           VIEW: {
             name: 'view',
-            field: 'View'
+            field: 'View',
+            selection: 'single',
+            functionType: 'popup'
           },
           DOWNLOAD: {
             name: 'download',
-            field: 'Download'
+            field: 'Download',
+            selection: 'multiple',
+            functionType: 'action'
           }
         }
       }
@@ -141,35 +181,65 @@ const areas = {
         buttons: {
           ADD: {
             name: 'add',
-            field: 'Add'
+            field: 'Add',
+            selection: 'none',
+            functionType: 'popup'
           },
           EDIT: {
             name: 'edit',
-            field: 'Edit'
+            field: 'Edit',
+            selection: 'single',
+            functionType: 'popup'
           },
           DELETE: {
             name: 'delete',
-            field: 'Delete'
+            field: 'Delete',
+            selection: 'multiple',
+            functionType: 'popup'
           },
           VIEW: {
             name: 'view',
-            field: 'View'
+            field: 'View',
+            selection: 'single',
+            functionType: 'popup'
           },
           DOWNLOAD: {
             name: 'download',
-            field: 'Download'
+            field: 'Download',
+            selection: 'multiple',
+            functionType: 'action'
+          },
+          INVENTORY: {
+            name: 'inventory',
+            field: 'Inventory',
+            selection: 'multiple',
+            functionType: 'popup'
           }
         }
       },
-      INVENTORY: {
-        name: 'inventory',
-        field: 'Inventory',
-        path: 'inventory',
-        icon: 'add',
+      TRANSFERS: {
+        name: 'transfers',
+        field: 'Transfers',
+        path: 'transfers',
+        icon: 'compare_arrows',
         buttons: {
-          CREATE: {
-            name: 'create',
-            field: 'Create'
+          NEW: {
+            name: 'new',
+            field: 'new',
+            selection: 'none',
+            functionType: 'popup'
+          },
+          VIEW: {
+            name: 'view',
+            field: 'View',
+            selection: 'single',
+            functionType: 'popup'
+          },
+          DOWNLOAD: {
+            name: 'download',
+            field: 'Download',
+            selection: 'multiple',
+            functionType: 'action'
           }
         }
       }
