@@ -15,31 +15,36 @@ const areas = {
             name: 'add',
             field: 'Add',
             selection: 'none',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'add'
           },
           EDIT: {
             name: 'edit',
             field: 'Edit',
             selection: 'single',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'edit'
           },
           DELETE: {
             name: 'delete',
             field: 'Delete',
             selection: 'multiple',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'view'
           },
           VIEW: {
             name: 'view',
             field: 'View',
             selection: 'single',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'view'
           },
           DOWNLOAD: {
             name: 'download',
             field: 'Download',
             selection: 'multiple',
-            functionType: 'action'
+            functionType: 'action',
+            popup: ''
           }
         }
       },
@@ -53,31 +58,36 @@ const areas = {
             name: 'add',
             field: 'Add',
             selection: 'none',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'add'
           },
           EDIT: {
             name: 'edit',
             field: 'Edit',
             selection: 'single',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'edit'
           },
           DELETE: {
             name: 'delete',
             field: 'Delete',
             selection: 'multiple',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'view'
           },
           VIEW: {
             name: 'view',
             field: 'View',
             selection: 'single',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'view'
           },
           DOWNLOAD: {
             name: 'download',
             field: 'Download',
             selection: 'multiple',
-            functionType: 'action'
+            functionType: 'action',
+            popup: ''
           }
         }
       }
@@ -99,31 +109,36 @@ const areas = {
             name: 'add',
             field: 'Add',
             selection: 'none',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'add'
           },
           EDIT: {
             name: 'edit',
             field: 'Edit',
             selection: 'single',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'edit'
           },
           DELETE: {
             name: 'delete',
             field: 'Delete',
             selection: 'multiple',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'view'
           },
           VIEW: {
             name: 'view',
             field: 'View',
             selection: 'single',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'view'
           },
           DOWNLOAD: {
             name: 'download',
             field: 'Download',
             selection: 'multiple',
-            functionType: 'action'
+            functionType: 'action',
+            popup: ''
           }
         }
       },
@@ -137,31 +152,36 @@ const areas = {
             name: 'add',
             field: 'Add',
             selection: 'none',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'add'
           },
           EDIT: {
             name: 'edit',
             field: 'Edit',
             selection: 'single',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'edit'
           },
           DELETE: {
             name: 'delete',
             field: 'Delete',
             selection: 'multiple',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'view'
           },
           VIEW: {
             name: 'view',
             field: 'View',
             selection: 'single',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'view'
           },
           DOWNLOAD: {
             name: 'download',
             field: 'Download',
             selection: 'multiple',
-            functionType: 'action'
+            functionType: 'action',
+            popup: ''
           }
         }
       }
@@ -183,37 +203,43 @@ const areas = {
             name: 'add',
             field: 'Add',
             selection: 'none',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'add'
           },
           EDIT: {
             name: 'edit',
             field: 'Edit',
             selection: 'single',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'edit'
           },
           DELETE: {
             name: 'delete',
             field: 'Delete',
             selection: 'multiple',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'view'
           },
           VIEW: {
             name: 'view',
             field: 'View',
             selection: 'single',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'view'
           },
           DOWNLOAD: {
             name: 'download',
             field: 'Download',
             selection: 'multiple',
-            functionType: 'action'
+            functionType: 'action',
+            popup: ''
           },
           INVENTORY: {
             name: 'inventory',
             field: 'Inventory',
             selection: 'multiple',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'inventory'
           }
         }
       },
@@ -227,19 +253,22 @@ const areas = {
             name: 'new',
             field: 'new',
             selection: 'none',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'add'
           },
           VIEW: {
             name: 'view',
             field: 'View',
             selection: 'single',
-            functionType: 'popup'
+            functionType: 'popup',
+            popup: 'view'
           },
           DOWNLOAD: {
             name: 'download',
             field: 'Download',
             selection: 'multiple',
-            functionType: 'action'
+            functionType: 'action',
+            popup: ''
           }
         }
       }
@@ -257,17 +286,12 @@ const areas = {
         path: 'sales',
         icon: 'trending_up',
         buttons: {
-          VIEW: {
-            name: 'view',
-            field: 'View',
-            selection: 'none',
-            functionType: 'popup'
-          },
           DOWNLOAD: {
             name: 'download',
             field: 'Download',
             selection: 'none',
-            functionType: 'action'
+            functionType: 'action',
+            popup: ''
           }
         }
       },
@@ -277,17 +301,12 @@ const areas = {
         path: 'purchases',
         icon: 'trending_down',
         buttons: {
-          VIEW: {
-            name: 'view',
-            field: 'View',
-            selection: 'none',
-            functionType: 'popup'
-          },
           DOWNLOAD: {
             name: 'download',
             field: 'Download',
             selection: 'none',
-            functionType: 'action'
+            functionType: 'action',
+            popup: ''
           }
         }
       },
@@ -297,17 +316,12 @@ const areas = {
         path: 'global',
         icon: 'public',
         buttons: {
-          VIEW: {
-            name: 'view',
-            field: 'View',
-            selection: 'none',
-            functionType: 'popup'
-          },
           DOWNLOAD: {
             name: 'download',
             field: 'Download',
             selection: 'none',
-            functionType: 'action'
+            functionType: 'action',
+            popup: ''
           }
         }
       },
@@ -317,17 +331,12 @@ const areas = {
         path: 'inventory',
         icon: 'inventory_2',
         buttons: {
-          VIEW: {
-            name: 'view',
-            field: 'View',
-            selection: 'none',
-            functionType: 'popup'
-          },
           DOWNLOAD: {
             name: 'download',
             field: 'Download',
             selection: 'none',
-            functionType: 'action'
+            functionType: 'action',
+            popup: ''
           }
         }
       }

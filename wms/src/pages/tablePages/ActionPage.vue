@@ -12,31 +12,13 @@
       flat bordered
       :rows="rows"
       :columns="columns"
-      row-key="reference"
+      row-key="id"
       :selection="selection"
       v-model:selected="selected"
     >
     </q-table>
 
-    <q-dialog v-model="alert">
-      <q-card>
-        <q-card-section class="text-h6">{{ this.$route.meta.area.toUpperCase() }}</q-card-section>
-        <q-card-section>
-          <q-list bordered>
-            <q-item v-for="row in selected" :key="row.reference">
-              <q-item-section>{{ row.reference }}</q-item-section>
-              <q-item-section>{{ row.name }}</q-item-section>
-              <q-item-section>{{ row.age }}</q-item-section>
-              <q-item-section>{{ row.country }}</q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn label="Close" color="primary" @click="onClearSelection" />
-          <q-btn label="Submit" color="secondary" @click="callFunction" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+    <CommonPopup v-if="alert!==''" :alert="alert"/>
   </q-page>
 </template>
 
@@ -62,71 +44,27 @@ thead tr:first-child th{
 
 <script>
 
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import TableHeader from 'src/components/table/TableHeader.vue'
+import CommonPopup from 'src/components/CommonPopup.vue'
+import rows from 'src/utils/sample/rows.json'
+import columns from 'src/utils/sample/columns.json'
 
 export default defineComponent({
   name: 'ActionLayout',
 
   components: {
-    TableHeader
+    TableHeader,
+    CommonPopup
   },
 
   data () {
     return {
-      alert: false,
+      alert: '',
       selection: 'none',
-      selected: ref([]),
-      rows: [
-        {
-          reference: 'REF-0001',
-          name: 'John Doe',
-          age: 25,
-          country: 'USA'
-        },
-        {
-          reference: 'REF-0002',
-          name: 'Jane Doe',
-          age: 22,
-          country: 'Canada'
-        },
-        {
-          reference: 'REF-0003',
-          name: 'Joe Bloggs',
-          age: 30,
-          country: 'UK'
-        }
-      ],
-      columns: [
-        {
-          name: 'reference',
-          label: 'Reference',
-          align: 'left',
-          field: 'reference',
-          sortable: true
-        },
-        {
-          name: 'name',
-          label: 'Name',
-          align: 'left',
-          field: 'name',
-          sortable: true
-        },
-        {
-          name: 'age',
-          label: 'Age',
-          align: 'left',
-          field: 'age',
-          sortable: true
-        },
-        {
-          name: 'country',
-          label: 'Country',
-          align: 'left',
-          field: 'country',
-          sortable: true
-        }
-      ]
+      selected: [],
+      rows: rows[this.$route.name],
+      columns: columns[this.$route.name]
     }
   },
 
@@ -137,19 +75,26 @@ export default defineComponent({
     onClearSelection () {
       this.selection = 'none'
       this.selected = []
-      this.alert = false
+      this.alert = ''
     },
     onOpenPopup (button) {
       if (button.functionType === 'popup') {
-        this.alert = true
+        this.alert = button.popup
       } else if (button.functionType === 'action') {
         this.callFunction()
       }
     },
     callFunction () {
       // call function
-      this.alert = false
+      this.alert = ''
       this.onClearSelection()
+    }
+  },
+
+  watch: {
+    $route () {
+      this.rows = rows[this.$route.name]
+      this.columns = columns[this.$route.name]
     }
   }
 })

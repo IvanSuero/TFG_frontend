@@ -1,0 +1,48 @@
+{
+  "clientsList": [
+    {
+      "name": "id",
+      "label": "ID",
+      "field": "id",
+      "align": "left",
+      "sortable": true
+    },
+    {
+      "name": "name",
+      "label": "Name",
+      "field": "name",
+      "align": "left",
+      "sortable": true
+    },
+    {
+      "name": "email",
+      "label": "Email",
+      "field": "email",
+      "align": "left",
+      "sortable": true
+    }
+  ],
+  "products": [
+    {
+      "name": "id",
+      "label": "ID",
+      "field": "id",
+      "align": "left",
+      "sortable": true
+    },
+    {
+      "name": "name",
+      "label": "Name",
+      "field": "name",
+      "align": "left",
+      "sortable": true
+    },
+    {
+      "name": "price",
+      "label": "Price",
+      "field": "price",
+      "align": "left",
+      "sortable": true
+    }
+  ]
+}

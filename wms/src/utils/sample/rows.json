@@ -1,0 +1,41 @@
+{
+  "clientsList": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "johndoe@example.com"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "janesmith@example.com"
+    },
+    {
+      "id": 3,
+      "name": "Alice Johnson",
+      "email": "alicejohnson@example.com"
+    },
+    {
+      "id": 4,
+      "name": "Bob Brown",
+      "email": "bob@example.com"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Product 1",
+      "price": 10.99
+    },
+    {
+      "id": 2,
+      "name": "Product 2",
+      "price": 19.99
+    },
+    {
+      "id": 3,
+      "name": "Product 3",
+      "price": 7.99
+    }
+  ]
+}
