@@ -1,6 +1,6 @@
 const mainMenuItemsList = {
   HOME: {
-    name: 'Home',
+    name: 'Areas',
     path: '/',
     icon: 'home'
   },

@@ -1,19 +1,31 @@
 <template>
-    <q-dialog v-model="addPopup">
-      <AddPopup />
+  <div>
+    <q-dialog
+      v-model="addPopup"
+      persistent
+      @update:model-value="$emit('closePopup')"
+    >
+      <AddPopup :cols="columns" /> <!--editable and empty-->
     </q-dialog>
 
     <q-dialog v-model="editPopup">
-      <EditPopup />
+      <!--editable and filled with data-->
+      <EditPopup
+        :cols="columns"
+        :item="items[0]"
+      />
     </q-dialog>
 
     <q-dialog v-model="viewPopup">
+      <!--not editable and filled with data-->
       <ViewPopup />
     </q-dialog>
 
     <q-dialog v-model="inventoryPopup">
+      <!--custom popup-->
       <InventoryPopup />
     </q-dialog>
+  </div>
 </template>
 
 <script>
@@ -37,15 +49,26 @@ export default defineComponent({
     alert: {
       type: String,
       default: ''
+    },
+    cols: {
+      type: Array,
+      default: () => []
+    },
+    selected: {
+      type: Array,
+      default: () => []
     }
   },
+  emits: ['closePopup'],
 
   data () {
     return {
       addPopup: this.alert === 'add',
       editPopup: this.alert === 'edit',
       viewPopup: this.alert === 'view',
-      inventoryPopup: this.alert === 'inventory'
+      inventoryPopup: this.alert === 'inventory',
+      columns: this.cols,
+      items: this.selected
     }
   }
 })

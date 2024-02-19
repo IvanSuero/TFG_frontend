@@ -1,23 +1,24 @@
 <template>
   <q-page padding>
     <TableHeader
+      :selection="selection"
+      :selected="selected"
       @activate-selection="onActivateSelection"
       @clear-selection="onClearSelection"
       @open-popup="onOpenPopup"
-      :selection="selection"
-      :selected="selected"
     />
     <q-table
+      v-model:selected="selected"
       class="sticky-header-table"
-      flat bordered
+      flat
+      bordered
       :rows="rows"
       :columns="columns"
       row-key="id"
       :visible-columns="visibleColumns"
       :selection="selection"
-      v-model:selected="selected"
     >
-      <template v-slot:top>
+      <template #top>
         <q-select
           v-model="visibleColumns"
           multiple
@@ -35,29 +36,15 @@
       </template>
     </q-table>
 
-    <CommonPopup v-if="alert!==''" :alert="alert"/>
+    <CommonPopup
+      v-if="alert!==null"
+      :alert="alert"
+      :cols="getColumns()"
+      :selected="selected"
+      @close-popup="onClearSelection"
+    />
   </q-page>
 </template>
-
-<style>
-.sticky-header-table {
-  height: 100%;
-}
-
-.sticky-header-table .q-table__top, .q-table__bottom, thead tr:first-child th {
-  background-color: #f5f5f5;
-  font-size: 14px;
-}
-
-thead tr th{
-  position: sticky;
-  z-index: 1;
-}
-
-thead tr:first-child th{
-  top: 0;
-}
-</style>
 
 <script>
 
@@ -78,12 +65,19 @@ export default defineComponent({
   data () {
     const cols = columns[this.$route.name]
     return {
-      alert: '',
+      alert: null,
       selection: 'none',
       selected: [],
       rows: rows[this.$route.name],
       columns: cols,
       visibleColumns: cols.filter(column => column.visible).map(column => column.name)
+    }
+  },
+
+  watch: {
+    $route () {
+      this.rows = rows[this.$route.name]
+      this.columns = columns[this.$route.name]
     }
   },
 
@@ -93,8 +87,8 @@ export default defineComponent({
     },
     onClearSelection () {
       this.selection = 'none'
+      this.alert = null
       this.selected = []
-      this.alert = ''
     },
     onOpenPopup (button) {
       if (button.functionType === 'popup') {
@@ -105,16 +99,32 @@ export default defineComponent({
     },
     callFunction () {
       // call function
-      this.alert = ''
+      this.alert = null
       this.onClearSelection()
-    }
-  },
-
-  watch: {
-    $route () {
-      this.rows = rows[this.$route.name]
-      this.columns = columns[this.$route.name]
+    },
+    getColumns () {
+      return this.columns
     }
   }
 })
 </script>
+
+<style>
+.sticky-header-table {
+  height: 100%;
+}
+
+.sticky-header-table .q-table__top, .q-table__bottom, thead tr:first-child th {
+  background-color: #f5f5f5;
+  font-size: 14px;
+}
+
+thead tr th{
+  position: sticky;
+  z-index: 1;
+}
+
+thead tr:first-child th{
+  top: 0;
+}
+</style>

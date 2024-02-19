@@ -4,7 +4,7 @@
   </q-header>
 
   <q-drawer v-model="drawer" side="right" overlay behavior="mobile" bordered content-class="bg-grey-2">
-    <SideBar ref="sideBar" v-bind:linksList="linksList" active="Home" @drawer-modify="onDrawerModify"/>
+    <SideBar ref="sideBar" v-bind:linksList="linksList" @drawer-modify="onDrawerModify"/>
   </q-drawer>
 </template>
 
