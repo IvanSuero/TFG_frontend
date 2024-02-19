@@ -2,40 +2,25 @@
   <q-page>
     <div>
       <q-dialog
-        v-model="addPopup"
+        v-model="openPopup"
         @update:model-value="$emit('closePopup')"
       >
-        <AddPopup :cols="columns" /> <!--editable and empty-->
-      </q-dialog>
-
-      <q-dialog
-        v-model="editPopup"
-        @update:model-value="$emit('closePopup')"
-      >
-        <!--editable and filled with data-->
-        <EditPopup
-          :cols="columns"
-          :item="items[0]"
-        />
-      </q-dialog>
-
-      <q-dialog
-        v-model="viewPopup"
-        @update:model-value="$emit('closePopup')"
-      >
-        <!--not editable and filled with data-->
-        <ViewPopup
-          :cols="columns"
-          :items="items"
-        />
-      </q-dialog>
-
-      <q-dialog
-        v-model="inventoryPopup"
-        @update:model-value="$emit('closePopup')"
-      >
-        <!--custom popup-->
-        <InventoryPopup />
+        <q-card class="popup">
+          <!--q-section title-->
+          <q-card-section>
+            <q-toolbar>
+              <q-toolbar-title>{{ title }}</q-toolbar-title>
+            </q-toolbar>
+          </q-card-section>
+          <q-card-section>
+            <component
+              :is="popup"
+              :cols="columns"
+              :item="items[0]"
+              :items="items"
+            />
+          </q-card-section>
+        </q-card>
       </q-dialog>
     </div>
   </q-page>
@@ -47,6 +32,7 @@ import AddPopup from 'src/components/popups/AddPopup.vue'
 import EditPopup from 'src/components/popups/EditPopup.vue'
 import ViewPopup from 'src/components/popups/ViewPopup.vue'
 import InventoryPopup from 'src/components/popups/InventoryPopup.vue'
+import DeletePopup from 'src/components/popups/DeletePopup.vue'
 
 export default defineComponent({
   name: 'ActionLayout',
@@ -55,7 +41,8 @@ export default defineComponent({
     AddPopup,
     EditPopup,
     ViewPopup,
-    InventoryPopup
+    InventoryPopup,
+    DeletePopup
   },
 
   props: {
@@ -76,15 +63,39 @@ export default defineComponent({
 
   data () {
     return {
-      addPopup: this.alert === 'add',
-      editPopup: this.alert === 'edit',
-      viewPopup: this.alert === 'view',
-      inventoryPopup: this.alert === 'inventory',
       columns: this.cols,
       items: this.selected,
+      openPopup: this.alert !== '',
+      popup: this.getPopup(),
       title: this.alert.toUpperCase()
+    }
+  },
+
+  methods: {
+    getPopup () {
+      switch (this.alert) {
+        case 'add':
+          return 'AddPopup'
+        case 'edit':
+          return 'EditPopup'
+        case 'view':
+          return 'ViewPopup'
+        case 'inventory':
+          return 'InventoryPopup'
+        case 'delete':
+          return 'DeletePopup'
+        default:
+          return ''
+      }
     }
   }
 })
 
 </script>
+
+<style>
+.popup {
+  width: 50%;
+  max-width: 500px;
+}
+</style>

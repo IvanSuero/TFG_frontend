@@ -30,7 +30,7 @@ const areas = {
             field: 'Delete',
             selection: 'multiple',
             functionType: 'popup',
-            popup: 'view'
+            popup: 'delete'
           },
           VIEW: {
             name: 'view',

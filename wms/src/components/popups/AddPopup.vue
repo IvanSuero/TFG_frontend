@@ -1,35 +1,31 @@
 <template>
-  <q-card class="q-ma-md">
-    <q-card-section>
-      <q-form @submit="submit">
-        <div class="inputForm">
-          <q-input
-            v-for="column in columns"
-            :key="column.name"
-            v-model="newItem[column.name]"
-            :label="column.label"
-            outlined
-            dense
-            clearable
-          />
-        </div>
-        <q-btn
-          v-close-popup
-          class="btnForm"
-          type="submit"
-          label="Submit"
-          color="primary"
-        />
-        <q-btn
-          v-close-popup
-          class="btnForm"
-          type="cancel"
-          label="Cancel"
-          color="warning"
-        />
-      </q-form>
-    </q-card-section>
-  </q-card>
+  <q-form @submit="submit">
+    <div class="inputForm">
+      <q-input
+        v-for="column in columns"
+        :key="column.name"
+        v-model="newItem[column.name]"
+        :label="column.label"
+        outlined
+        dense
+        clearable
+      />
+    </div>
+    <q-btn
+      v-close-popup
+      class="btnForm"
+      type="submit"
+      label="Submit"
+      color="primary"
+    />
+    <q-btn
+      v-close-popup
+      class="btnForm"
+      type="cancel"
+      label="Cancel"
+      color="warning"
+    />
+  </q-form>
 </template>
 
 <script>
