@@ -35,7 +35,7 @@ const areas = {
           VIEW: {
             name: 'view',
             field: 'View',
-            selection: 'single',
+            selection: 'multiple',
             functionType: 'popup',
             popup: 'view'
           },

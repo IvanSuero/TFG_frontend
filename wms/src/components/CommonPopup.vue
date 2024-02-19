@@ -1,39 +1,44 @@
 <template>
-  <div>
-    <q-dialog
-      v-model="addPopup"
-      @update:model-value="$emit('closePopup')"
-    >
-      <AddPopup :cols="columns" /> <!--editable and empty-->
-    </q-dialog>
+  <q-page>
+    <div>
+      <q-dialog
+        v-model="addPopup"
+        @update:model-value="$emit('closePopup')"
+      >
+        <AddPopup :cols="columns" /> <!--editable and empty-->
+      </q-dialog>
 
-    <q-dialog
-      v-model="editPopup"
-      @update:model-value="$emit('closePopup')"
-    >
-      <!--editable and filled with data-->
-      <EditPopup
-        :cols="columns"
-        :item="items[0]"
-      />
-    </q-dialog>
+      <q-dialog
+        v-model="editPopup"
+        @update:model-value="$emit('closePopup')"
+      >
+        <!--editable and filled with data-->
+        <EditPopup
+          :cols="columns"
+          :item="items[0]"
+        />
+      </q-dialog>
 
-    <q-dialog
-      v-model="viewPopup"
-      @update:model-value="$emit('closePopup')"
-    >
-      <!--not editable and filled with data-->
-      <ViewPopup />
-    </q-dialog>
+      <q-dialog
+        v-model="viewPopup"
+        @update:model-value="$emit('closePopup')"
+      >
+        <!--not editable and filled with data-->
+        <ViewPopup
+          :cols="columns"
+          :items="items"
+        />
+      </q-dialog>
 
-    <q-dialog
-      v-model="inventoryPopup"
-      @update:model-value="$emit('closePopup')"
-    >
-      <!--custom popup-->
-      <InventoryPopup />
-    </q-dialog>
-  </div>
+      <q-dialog
+        v-model="inventoryPopup"
+        @update:model-value="$emit('closePopup')"
+      >
+        <!--custom popup-->
+        <InventoryPopup />
+      </q-dialog>
+    </div>
+  </q-page>
 </template>
 
 <script>
@@ -76,7 +81,8 @@ export default defineComponent({
       viewPopup: this.alert === 'view',
       inventoryPopup: this.alert === 'inventory',
       columns: this.cols,
-      items: this.selected
+      items: this.selected,
+      title: this.alert.toUpperCase()
     }
   }
 })
