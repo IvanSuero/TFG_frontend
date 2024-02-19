@@ -37,6 +37,7 @@
 #logo{
   text-align: center;
   font-size: 45px;
+  font-weight: bold;
   color: black;
 }
 </style>
