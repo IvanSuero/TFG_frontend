@@ -1,23 +1,24 @@
 <template>
   <q-page padding>
     <TableHeader
+      :selection="selection"
+      :selected="selected"
       @activate-selection="onActivateSelection"
       @clear-selection="onClearSelection"
       @open-popup="onOpenPopup"
-      :selection="selection"
-      :selected="selected"
     />
     <q-table
+      v-model:selected="selected"
       class="sticky-header-table"
-      flat bordered
+      flat
+      bordered
       :rows="rows"
       :columns="columns"
       row-key="id"
       :visible-columns="visibleColumns"
       :selection="selection"
-      v-model:selected="selected"
     >
-      <template v-slot:top>
+      <template #top>
         <q-select
           v-model="visibleColumns"
           multiple
@@ -35,29 +36,15 @@
       </template>
     </q-table>
 
-    <CommonPopup v-if="alert!==null" :alert="alert" :cols="getColumns()" :selected="selected"/>
+    <CommonPopup
+      v-if="alert!==null"
+      :alert="alert"
+      :cols="getColumns()"
+      :selected="selected"
+      @close-popup="onClearSelection"
+    />
   </q-page>
 </template>
-
-<style>
-.sticky-header-table {
-  height: 100%;
-}
-
-.sticky-header-table .q-table__top, .q-table__bottom, thead tr:first-child th {
-  background-color: #f5f5f5;
-  font-size: 14px;
-}
-
-thead tr th{
-  position: sticky;
-  z-index: 1;
-}
-
-thead tr:first-child th{
-  top: 0;
-}
-</style>
 
 <script>
 
@@ -87,14 +74,21 @@ export default defineComponent({
     }
   },
 
+  watch: {
+    $route () {
+      this.rows = rows[this.$route.name]
+      this.columns = columns[this.$route.name]
+    }
+  },
+
   methods: {
     onActivateSelection (button) {
       this.selection = button.selection
     },
     onClearSelection () {
       this.selection = 'none'
-      this.selected = []
       this.alert = null
+      this.selected = []
     },
     onOpenPopup (button) {
       if (button.functionType === 'popup') {
@@ -111,13 +105,26 @@ export default defineComponent({
     getColumns () {
       return this.columns
     }
-  },
-
-  watch: {
-    $route () {
-      this.rows = rows[this.$route.name]
-      this.columns = columns[this.$route.name]
-    }
   }
 })
 </script>
+
+<style>
+.sticky-header-table {
+  height: 100%;
+}
+
+.sticky-header-table .q-table__top, .q-table__bottom, thead tr:first-child th {
+  background-color: #f5f5f5;
+  font-size: 14px;
+}
+
+thead tr th{
+  position: sticky;
+  z-index: 1;
+}
+
+thead tr:first-child th{
+  top: 0;
+}
+</style>

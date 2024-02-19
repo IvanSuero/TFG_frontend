@@ -6,46 +6,31 @@
           <q-input
             v-for="column in columns"
             :key="column.name"
-            :label="column.label"
             v-model="newItem[column.name]"
+            :label="column.label"
             outlined
             dense
             clearable
           />
         </div>
         <q-btn
+          v-close-popup
           class="btnForm"
           type="submit"
           label="Submit"
           color="primary"
-          v-close-popup
         />
         <q-btn
+          v-close-popup
           class="btnForm"
           type="cancel"
           label="Cancel"
           color="warning"
-          v-close-popup
         />
       </q-form>
     </q-card-section>
   </q-card>
 </template>
-
-<style>
-.q-form{
-  padding: 10px;
-}
-.inputForm {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.btnForm {
-  width: 100%;
-  margin-top: 10px;
-}
-</style>
 
 <script>
 
@@ -73,3 +58,18 @@ export default {
   }
 }
 </script>
+
+<style>
+.q-form{
+  padding: 10px;
+}
+.inputForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.btnForm {
+  width: 100%;
+  margin-top: 10px;
+}
+</style>
