@@ -41,7 +41,7 @@
       :alert="alert"
       :cols="getColumns()"
       :selected="selected"
-      @close-popup="onClearSelection"
+      @close-popup="alert = null"
     />
   </q-page>
 </template>
@@ -87,8 +87,8 @@ export default defineComponent({
     },
     onClearSelection () {
       this.selection = 'none'
-      this.alert = null
       this.selected = []
+      this.alert = null
     },
     onOpenPopup (button) {
       if (button.functionType === 'popup') {

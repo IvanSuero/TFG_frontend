@@ -2,13 +2,15 @@
   <div>
     <q-dialog
       v-model="addPopup"
-      persistent
       @update:model-value="$emit('closePopup')"
     >
       <AddPopup :cols="columns" /> <!--editable and empty-->
     </q-dialog>
 
-    <q-dialog v-model="editPopup">
+    <q-dialog
+      v-model="editPopup"
+      @update:model-value="$emit('closePopup')"
+    >
       <!--editable and filled with data-->
       <EditPopup
         :cols="columns"
@@ -16,12 +18,18 @@
       />
     </q-dialog>
 
-    <q-dialog v-model="viewPopup">
+    <q-dialog
+      v-model="viewPopup"
+      @update:model-value="$emit('closePopup')"
+    >
       <!--not editable and filled with data-->
       <ViewPopup />
     </q-dialog>
 
-    <q-dialog v-model="inventoryPopup">
+    <q-dialog
+      v-model="inventoryPopup"
+      @update:model-value="$emit('closePopup')"
+    >
       <!--custom popup-->
       <InventoryPopup />
     </q-dialog>

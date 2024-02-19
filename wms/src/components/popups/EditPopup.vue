@@ -9,6 +9,7 @@
             v-model="newItem[column.name]"
             :placeholder="item[column.name]"
             :hint="column.field"
+            :disable="!column.modifiable"
             outlined
             dense
             clearable
@@ -24,21 +25,6 @@
     </q-card-section>
   </q-card>
 </template>
-
-<style>
-.q-form{
-  padding: 10px;
-}
-.inputForm {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.btnForm {
-  width: 100%;
-  margin-top: 10px;
-}
-</style>
 
 <script>
 
@@ -70,3 +56,18 @@ export default {
   }
 }
 </script>
+
+<style>
+.q-form{
+  padding: 10px;
+}
+.inputForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.btnForm {
+  width: 100%;
+  margin-top: 10px;
+}
+</style>
