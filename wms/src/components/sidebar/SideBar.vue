@@ -7,7 +7,7 @@
         v-for="item in linksList"
         :key="item.name"
         :item="item"
-        :active="item.name === active"
+        :active="isActive(item)"
       />
     </q-list>
   </div>
@@ -54,16 +54,15 @@ export default defineComponent({
     linksList: {
       type: Object,
       default: () => {}
-    },
-    active: {
-      type: String,
-      default: ''
     }
   },
   emit: ['drawerModify'],
   methods: {
     closeDrawer () {
       this.$emit('drawerModify')
+    },
+    isActive (item) {
+      return item.name.toUpperCase() === this.$route.name.toUpperCase()
     }
   }
 })

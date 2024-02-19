@@ -35,7 +35,7 @@
       </template>
     </q-table>
 
-    <CommonPopup v-if="alert!==''" :alert="alert"/>
+    <CommonPopup v-if="alert!==null" :alert="alert" :cols="getColumns()" :selected="selected"/>
   </q-page>
 </template>
 
@@ -78,7 +78,7 @@ export default defineComponent({
   data () {
     const cols = columns[this.$route.name]
     return {
-      alert: '',
+      alert: null,
       selection: 'none',
       selected: [],
       rows: rows[this.$route.name],
@@ -94,7 +94,7 @@ export default defineComponent({
     onClearSelection () {
       this.selection = 'none'
       this.selected = []
-      this.alert = ''
+      this.alert = null
     },
     onOpenPopup (button) {
       if (button.functionType === 'popup') {
@@ -105,8 +105,11 @@ export default defineComponent({
     },
     callFunction () {
       // call function
-      this.alert = ''
+      this.alert = null
       this.onClearSelection()
+    },
+    getColumns () {
+      return this.columns
     }
   },
 

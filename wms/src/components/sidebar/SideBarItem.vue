@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     goToRoute () {
-      this.$router.push(this.item.to)
+      this.$router.push(this.item.path)
     }
   }
 }
