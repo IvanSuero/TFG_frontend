@@ -13,9 +13,26 @@
       :rows="rows"
       :columns="columns"
       row-key="id"
+      :visible-columns="visibleColumns"
       :selection="selection"
       v-model:selected="selected"
     >
+      <template v-slot:top>
+        <q-select
+          v-model="visibleColumns"
+          multiple
+          outlined
+          dense
+          options-dense
+          :display-value="$q.lang.table.columns"
+          emit-value
+          map-options
+          :options="columns"
+          option-value="name"
+          options-cover
+          style="min-width: 150px"
+        />
+      </template>
     </q-table>
 
     <CommonPopup v-if="alert!==''" :alert="alert"/>
@@ -59,12 +76,14 @@ export default defineComponent({
   },
 
   data () {
+    const cols = columns[this.$route.name]
     return {
       alert: '',
       selection: 'none',
       selected: [],
       rows: rows[this.$route.name],
-      columns: columns[this.$route.name]
+      columns: cols,
+      visibleColumns: cols.filter(column => column.visible).map(column => column.name)
     }
   },
 

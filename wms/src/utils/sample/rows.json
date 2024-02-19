@@ -3,22 +3,26 @@
     {
       "id": 1,
       "name": "John Doe",
-      "email": "johndoe@example.com"
+      "email": "johndoe@example.com",
+      "budget": 100
     },
     {
       "id": 2,
       "name": "Jane Smith",
-      "email": "janesmith@example.com"
+      "email": "janesmith@example.com",
+      "budget": 200
     },
     {
       "id": 3,
       "name": "Alice Johnson",
-      "email": "alicejohnson@example.com"
+      "email": "alicejohnson@example.com",
+      "budget": 150
     },
     {
       "id": 4,
       "name": "Bob Brown",
-      "email": "bob@example.com"
+      "email": "bob@example.com",
+      "budget": 300
     }
   ],
   "products": [

@@ -5,21 +5,32 @@
       "label": "ID",
       "field": "id",
       "align": "left",
-      "sortable": true
+      "sortable": true,
+      "visible": false
     },
     {
       "name": "name",
       "label": "Name",
       "field": "name",
       "align": "left",
-      "sortable": true
+      "sortable": true,
+      "visible": true
     },
     {
       "name": "email",
       "label": "Email",
       "field": "email",
       "align": "left",
-      "sortable": true
+      "sortable": true,
+      "visible": true
+    },
+    {
+      "name": "budget",
+      "label": "Budget",
+      "field": "budget",
+      "align": "left",
+      "sortable": true,
+      "visible": true
     }
   ],
   "products": [
@@ -28,21 +39,24 @@
       "label": "ID",
       "field": "id",
       "align": "left",
-      "sortable": true
+      "sortable": true,
+      "visible": true
     },
     {
       "name": "name",
       "label": "Name",
       "field": "name",
       "align": "left",
-      "sortable": true
+      "sortable": true,
+      "visible": true
     },
     {
       "name": "price",
       "label": "Price",
       "field": "price",
       "align": "left",
-      "sortable": true
+      "sortable": true,
+      "visible": true
     }
   ]
 }
