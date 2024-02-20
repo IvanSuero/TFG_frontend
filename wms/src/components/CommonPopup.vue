@@ -7,12 +7,10 @@
       >
         <q-card class="popup">
           <!--q-section title-->
-          <q-card-section>
-            <q-toolbar>
-              <q-toolbar-title>{{ title }}</q-toolbar-title>
-            </q-toolbar>
+          <q-card-section class="title">
+            {{ title }}
           </q-card-section>
-          <q-card-section>
+          <q-card-section class="card-section">
             <component
               :is="popup"
               :cols="columns"
@@ -67,7 +65,7 @@ export default defineComponent({
       items: this.selected,
       openPopup: this.alert !== '',
       popup: this.getPopup(),
-      title: this.alert.toUpperCase()
+      title: this.alert.toUpperCase() + ' ' + this.$route.meta.title.toUpperCase()
     }
   },
 
@@ -97,5 +95,13 @@ export default defineComponent({
 .popup {
   width: 50%;
   max-width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  font-size: 20px;
+  padding: 10px;
+  text-align: center;
+  padding: 20px 0 0 0;
 }
 </style>

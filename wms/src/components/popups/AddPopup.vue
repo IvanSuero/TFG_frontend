@@ -11,20 +11,22 @@
         clearable
       />
     </div>
-    <q-btn
-      v-close-popup
-      class="btnForm"
-      type="submit"
-      label="Submit"
-      color="primary"
-    />
-    <q-btn
-      v-close-popup
-      class="btnForm"
-      type="cancel"
-      label="Cancel"
-      color="warning"
-    />
+    <div class="formBtns">
+      <q-btn
+        v-close-popup
+        class="btnForm"
+        type="submit"
+        label="Submit"
+        color="primary"
+      />
+      <q-btn
+        v-close-popup
+        class="btnForm"
+        type="cancel"
+        label="Cancel"
+        color="warning"
+      />
+    </div>
   </q-form>
 </template>
 
@@ -58,10 +60,18 @@ export default {
 <style>
 .q-form{
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 .inputForm {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+.formBtns {
+  display: flex;
+  flex-direction: row-reverse;
   gap: 10px;
 }
 .btnForm {
