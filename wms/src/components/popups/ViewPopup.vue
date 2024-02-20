@@ -50,7 +50,7 @@ export default {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
 }
 .inputForm {
   display: flex;
