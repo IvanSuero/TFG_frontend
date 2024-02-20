@@ -1,12 +1,5 @@
 <template>
   <q-page padding>
-    <TableHeader
-      :selection="selection"
-      :selected="selected"
-      @activate-selection="onActivateSelection"
-      @clear-selection="onClearSelection"
-      @open-popup="onOpenPopup"
-    />
     <q-table
       v-model:selected="selected"
       class="sticky-header-table"
@@ -19,6 +12,13 @@
       :selection="selection"
     >
       <template #top>
+        <TableHeader
+          :selection="selection"
+          :selected="selected"
+          @activate-selection="onActivateSelection"
+          @clear-selection="onClearSelection"
+          @open-popup="onOpenPopup"
+        />
         <q-select
           v-model="visibleColumns"
           multiple
@@ -70,7 +70,8 @@ export default defineComponent({
       selected: [],
       rows: rows[this.$route.name],
       columns: cols,
-      visibleColumns: cols.filter(column => column.visible).map(column => column.name)
+      visibleColumns: cols.filter(column => column.visible).map(column => column.name),
+      initialStocks: [...rows[this.$route.name].map(row => row.stock)]
     }
   },
 

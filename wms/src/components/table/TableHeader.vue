@@ -1,38 +1,36 @@
 <template>
   <div class="q-pa-md q-gutter-md">
     <q-btn-dropdown
+      v-show="selection==='none'"
       color="primary"
       label="Actions"
-      v-show="selection==='none'"
     >
-
-    <q-list>
-      <q-item
-        v-for="button in buttons"
-        :key="button.label"
-        clickable
-        v-close-popup
-        @click="handleSelection(button)"
-      >
-        <q-item-section>
-          <q-item-label>{{ button.field }}</q-item-label>
-        </q-item-section>
-      </q-item>
-    </q-list>
-
+      <q-list>
+        <q-item
+          v-for="button in buttons"
+          :key="button.label"
+          v-close-popup
+          clickable
+          @click="handleSelection(button)"
+        >
+          <q-item-section>
+            <q-item-label>{{ button.field }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
     </q-btn-dropdown>
     <q-btn
       v-show="selection!=='none'"
       color="amber"
       label="Clear"
       @click="clearSelection"
-    ></q-btn>
+    />
     <q-btn
       v-show="selection!=='none'"
       color="secondary"
       label="Submit"
       @click="submitSelection()"
-    ></q-btn>
+    />
   </div>
 </template>
 
@@ -49,6 +47,8 @@ export default defineComponent({
     selected: Array
   },
 
+  emits: ['activateSelection', 'clearSelection', 'submitSelection', 'openPopup'],
+
   data () {
     const area = this.$route.meta.area.toUpperCase()
     const action = this.$route.name.toUpperCase()
@@ -57,8 +57,6 @@ export default defineComponent({
       selectedBtn: null
     }
   },
-
-  emit: ['activateSelection', 'clearSelection', 'submitSelection', 'openPopup'],
 
   methods: {
     handleSelection (button) {

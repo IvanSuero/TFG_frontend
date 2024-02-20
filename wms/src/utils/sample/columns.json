@@ -44,7 +44,9 @@
       "field": "id",
       "align": "left",
       "sortable": true,
-      "visible": true
+      "visible": true,
+      "modifiable": false,
+      "editable": false
     },
     {
       "name": "name",
@@ -52,7 +54,9 @@
       "field": "name",
       "align": "left",
       "sortable": true,
-      "visible": true
+      "visible": true,
+      "modifiable": true,
+      "editable": false
     },
     {
       "name": "price",
@@ -60,7 +64,19 @@
       "field": "price",
       "align": "left",
       "sortable": true,
-      "visible": true
+      "visible": true,
+      "modifiable": true,
+      "editable": false
+    },
+    {
+      "name": "stock",
+      "label": "Stock",
+      "field": "stock",
+      "align": "left",
+      "sortable": true,
+      "visible": true,
+      "modifiable": true,
+      "editable": true
     }
   ]
 }
