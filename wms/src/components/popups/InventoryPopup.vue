@@ -22,7 +22,7 @@
               :props="props"
             >
               <q-badge
-                :color="props.row.inventory < props.row.stock ? 'red' : 'green'"
+                :color="getColor(props.row)"
                 :label="props.row.inventory"
                 class="cursor-pointer"
               />
@@ -84,7 +84,21 @@ export default {
     getColumns () {
       const columns = [...this.cols]
       columns.push({ name: 'inventory', label: 'Inventory', field: 'inventory', align: 'left' })
+      this.items.forEach(item => {
+        item.inventory = item.stock
+      })
       return columns
+    },
+
+    getColor (row) {
+      console.log(row.inventory, row.stock)
+      if (+row.inventory === +row.stock) {
+        return 'green'
+      } else if (row.inventory < row.stock) {
+        return 'red'
+      } else {
+        return 'blue'
+      }
     }
   }
 }
