@@ -51,8 +51,6 @@
 import { defineComponent } from 'vue'
 import TableHeader from 'src/components/table/TableHeader.vue'
 import CommonPopup from 'src/components/CommonPopup.vue'
-import rows from 'src/utils/sample/rows.json'
-import columns from 'src/utils/sample/columns.json'
 
 export default defineComponent({
   name: 'ActionLayout',
@@ -63,23 +61,37 @@ export default defineComponent({
   },
 
   data () {
-    const cols = columns[this.$route.name]
     return {
       alert: null,
       selection: 'none',
       selected: [],
-      rows: rows[this.$route.name],
-      columns: cols,
-      visibleColumns: cols.filter(column => column.visible).map(column => column.name),
-      initialStocks: [...rows[this.$route.name].map(row => row.stock)]
+      rows: [],
+      columns: [],
+      visibleColumns: [],
+      initialStocks: []
     }
   },
 
   watch: {
     $route () {
-      this.rows = rows[this.$route.name]
-      this.columns = columns[this.$route.name]
+      this.rows = this.rows[this.$route.name]
+      this.columns = this.columns[this.$route.name]
     }
+  },
+
+  async mounted () {
+    let response = (await fetch('http://localhost:3000/api/' + this.$route.name))
+    let data = await response.json()
+    this.rows = data[this.$route.name]
+
+    if (this.$route.name === 'products') {
+      this.initialStocks = [...data[this.$route.name].map(row => row.stock)]
+    }
+
+    response = await fetch('http://localhost:3000/api/columns')
+    data = await response.json()
+    this.columns = data.columns[this.$route.name]
+    this.visibleColumns = this.columns.map(column => column.name)
   },
 
   methods: {
