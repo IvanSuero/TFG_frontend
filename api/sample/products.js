@@ -1,4 +1,4 @@
-const clients = [
+const clientsList = [
     {
       "id": 1,
       "name": "John Doe",
@@ -97,7 +97,7 @@ const clientsOrders = [
 ]
 
 module.exports = {
-    clients,
+    clientsList,
     products,
     clientsOrders
 }
