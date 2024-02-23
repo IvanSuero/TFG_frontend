@@ -80,18 +80,18 @@ export default defineComponent({
   },
 
   async mounted () {
-    let response = (await fetch('http://localhost:3000/api/' + this.$route.name))
-    let data = await response.json()
+    const response = (await fetch('http://localhost:3000/api/' + this.$route.name))
+    const data = await response.json()
     this.rows = data[this.$route.name]
 
     if (this.$route.name === 'products') {
       this.initialStocks = [...data[this.$route.name].map(row => row.stock)]
     }
 
-    response = await fetch('http://localhost:3000/api/columns')
-    data = await response.json()
-    this.columns = data.columns[this.$route.name]
-    this.visibleColumns = this.columns.map(column => column.name)
+    const res = await fetch('http://localhost:3000/api/columns/' + this.$route.name)
+    const dat = await res.json()
+    this.columns = dat.columns
+    this.visibleColumns = dat.columns.map(column => column.name)
   },
 
   methods: {

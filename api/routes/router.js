@@ -2,13 +2,34 @@ const express = require('express')
 const router = express.Router()
 const path = require('path')
 
-const {products, clientsList, clientsOrders} = require ('../sample/products')
-const columns = require ('../sample/columns')
+const {products, clientsList, clientsOrders, suppliersList, suppliersOrders, transfers} = require ('../sample/data')
+const { cProducts, cClientsList, cClientsOrders, cSuppliersList, cSuppliersOrders, cTransfers} = require ('../sample/columns')
 
 // Columns routes
 
-router.get('/columns', (req, res) => {
-  res.json({ columns: columns})
+router.get('/columns/clientsList', (req, res) => {
+  console.log(cClientsList)
+  res.json({ columns: cClientsList})
+})
+
+router.get('/columns/clientsOrders', (req, res) => {
+  res.json({ columns: cClientsOrders})
+})
+
+router.get('/columns/suppliersList', (req, res) => {
+  res.json({ columns: cSuppliersList})
+})
+
+router.get('/columns/suppliersOrders', (req, res) => {
+  res.json({ columns: cSuppliersOrders})
+})
+
+router.get('/columns/products', (req, res) => {
+  res.json({ columns: cProducts})
+})
+
+router.get('/columns/transfers', (req, res) => {
+  res.json({ columns: cTransfers})
 })
 
 // Clients routes

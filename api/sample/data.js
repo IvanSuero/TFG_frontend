@@ -50,41 +50,18 @@ const clientsOrders = [
   {
     "id": 1,
     "client": "John Doe",
-    "products": [
-      {
-        "id": 1,
-        "quantity": 3
-      },
-      {
-        "id": 2,
-        "quantity": 1
-      }
-    
-    ],
     "quantity": 2,
     "cost": 61.96
   },
   {
     "id": 2,
     "client": "Jane Smith",
-    "products": [
-      {
-        "id": 2,
-        "quantity": 2
-      }
-    ],
     "quantity": 1,
     "cost": 39.98
   },
   {
     "id": 3,
     "client": "Alice Johnson",
-    "products": [
-      {
-        "id": 3,
-        "quantity": 5
-      }
-    ],
     "quantity": 1,
     "cost": 39.95
   },
@@ -96,8 +73,92 @@ const clientsOrders = [
   }
 ]
 
+const suppliersList = [
+  {
+    "id": 1,
+    "name": "Supplier 1",
+    "email": ""
+  },
+  {
+    "id": 2,
+    "name": "Supplier 2",
+    "email": ""
+  },
+  {
+    "id": 3,
+    "name": "Supplier 3",
+    "email": ""
+  },
+  {
+    "id": 4,
+    "name": "Supplier 4",
+    "email": ""
+  }
+]
+
+const suppliersOrders = [
+  {
+    "id": 1,
+    "supplier": "Supplier 1",
+    "quantity": 2,
+    "cost": 61.96
+  },
+  {
+    "id": 2,
+    "supplier": "Supplier 2",
+    "quantity": 1,
+    "cost": 39.98
+  },
+  {
+    "id": 3,
+    "supplier": "Supplier 3",
+    "quantity": 1,
+    "cost": 39.95
+  },
+  {
+    "id": 4,
+    "supplier": "Supplier 4",
+    "quantity": 2,
+    "cost": 89.85
+  }
+]
+
+const transfers = [
+  {
+    "id": 1,
+    "type": "Input",
+    "product": "Product 1",
+    "quantity": 2,
+    "cost": 61.96
+  },
+  {
+    "id": 2,
+    "type": "Output",
+    "product": "Product 2",
+    "quantity": 1,
+    "cost": 39.98
+  },
+  {
+    "id": 3,
+    "type": "Input",
+    "product": "Product 3",
+    "quantity": 1,
+    "cost": 39.95
+  },
+  {
+    "id": 4,
+    "type": "Output",
+    "product": "Product 4",
+    "quantity": 2,
+    "cost": 89.85
+  }
+]
+
 module.exports = {
     clientsList,
     products,
-    clientsOrders
+    clientsOrders,
+    suppliersList,
+    suppliersOrders,
+    transfers
 }
