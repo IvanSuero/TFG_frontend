@@ -67,8 +67,7 @@ export default defineComponent({
       selected: [],
       rows: [],
       columns: [],
-      visibleColumns: [],
-      initialStocks: []
+      visibleColumns: []
     }
   },
 
@@ -111,9 +110,8 @@ export default defineComponent({
       this.$axios
         .get(url, {})
         .then(function (response) {
-          console.log(response.data.columns.columns[self.$route.name])
-          self.columns = response.data.columns.columns[self.$route.name]
-          self.visibleColumns = response.data.columns.columns[self.$route.name].map(column => column.name)
+          self.columns = response.data.columns.columns.clientsList
+          self.visibleColumns = response.data.columns.columns.clientsList.map(column => column.name)
         })
         .catch(function (error) {
           console.log(error)
@@ -121,16 +119,11 @@ export default defineComponent({
     },
     getTableData () {
       const self = this
-      const url = 'https://backend-api-test-nine.vercel.app/api/data/' + this.$route.name
+      const url = 'https://backend-api-test-nine.vercel.app/api/data/clientsList'
       this.$axios
         .get(url, {})
         .then(function (response) {
-          console.log(response)
           self.rows = response.data.data
-
-          if (self.$route.name === 'products') {
-            self.initialStocks = [...response.data[self.$route.name].map(row => row.stock)]
-          }
         })
         .catch(function (error) {
           console.log(error)

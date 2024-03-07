@@ -1,6 +1,5 @@
 <template>
   <q-layout view="hHh lpR fFf">
-
     <CommonHeader />
 
     <q-page-container padding>

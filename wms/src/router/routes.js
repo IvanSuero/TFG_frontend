@@ -11,7 +11,7 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/mainPages/TasksPage.vue'), name: 'clients' },
-      { path: 'list', component: () => import('pages/tablePages/ActionPage.vue'), name: 'clientsList', meta: { area: 'clients', title: 'Clients' } },
+      { path: 'list', component: () => import('pages/actionPages/ClientsList.vue'), name: 'clientsList', meta: { area: 'clients', title: 'Clients' } },
       { path: 'orders', component: () => import('pages/tablePages/ActionPage.vue'), name: 'clientsOrders', meta: { area: 'clients', title: 'Sell Order' } }
     ]
   },
