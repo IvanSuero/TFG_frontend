@@ -88,7 +88,7 @@ export default defineComponent({
       this.initialStocks = [...data[this.$route.name].map(row => row.stock)]
     }
 
-    const res = await fetch('https://backend-api-test-nine.vercel.app/api/columns')
+    const res = await fetch('https://backend-api-test-nine.vercel.app/api/columns/')
     const dat = await res.json()
     this.columns = dat.columns.columns[this.$route.name]
     this.visibleColumns = dat.columns.columns[this.$route.name].map(column => column.name)
