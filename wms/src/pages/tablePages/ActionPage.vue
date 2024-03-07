@@ -80,18 +80,18 @@ export default defineComponent({
   },
 
   async mounted () {
-    const response = (await fetch('http://localhost:3000/api/' + this.$route.name))
+    const response = (await fetch('https://backend-api-test-nine.vercel.app/api/data/' + this.$route.name))
     const data = await response.json()
-    this.rows = data[this.$route.name]
+    this.rows = data.data
 
     if (this.$route.name === 'products') {
       this.initialStocks = [...data[this.$route.name].map(row => row.stock)]
     }
 
-    const res = await fetch('http://localhost:3000/api/columns/' + this.$route.name)
+    const res = await fetch('https://backend-api-test-nine.vercel.app/api/columns')
     const dat = await res.json()
-    this.columns = dat.columns
-    this.visibleColumns = dat.columns.map(column => column.name)
+    this.columns = dat.columns.columns[this.$route.name]
+    this.visibleColumns = dat.columns.columns[this.$route.name].map(column => column.name)
   },
 
   methods: {
