@@ -16,7 +16,7 @@
         <q-input
           outlined
           dense
-          placeholder="Search"
+          placeholder="Search reference"
           v-model="filter"
           style="min-width: 150px"
         />
@@ -87,6 +87,7 @@ export default defineComponent({
     return {
       rows: [],
       columns: [],
+      originalRows: [],
       visibleColumns: [],
       selected: [],
       pagination: {
@@ -99,10 +100,18 @@ export default defineComponent({
   },
 
   methods: {
-    getColumns () {
+    clearSelection () {
+      this.selected = []
+    },
+
+    submitSelection () {
+      this.$emit('submitSelection', this.selected, this.columns)
+    },
+
+    async getColumns () {
       const url = `${apiPathUrl.backend}/${apiPathUrl.columns}`
       const columnsKey = apiPathUrl[this.$route.meta.apiPath].columns
-      axios.get(url)
+      await axios.get(url)
         .then(response => {
           this.columns = response.data.columns.columns[columnsKey]
           this.visibleColumns = response.data.columns.columns[columnsKey].map(column => column.name ? column.name : null).filter(column => column !== null)
@@ -112,19 +121,12 @@ export default defineComponent({
         })
     },
 
-    clearSelection () {
-      this.selected = []
-    },
-
-    submitSelection () {
-      this.$emit('submitSelection', this.selected, this.columns)
-    },
-
-    getItems () {
+    async getItems () {
       const url = `${apiPathUrl.backend}/${apiPathUrl[this.$route.meta.apiPath].route}`
-      axios.get(url)
+      await axios.get(url)
         .then(response => {
           this.rows = response.data.data
+          this.originalRows = response.data.data
         })
         .catch(error => {
           console.log(error)
@@ -133,6 +135,16 @@ export default defineComponent({
   },
 
   emits: ['submitSelection'],
+
+  watch: {
+    filter (val) {
+      if (val === '' || val === null || val === undefined) {
+        this.rows = this.originalRows
+      } else {
+        this.rows = this.rows.filter(row => row.reference.toLowerCase().includes(val.toLowerCase()))
+      }
+    }
+  },
 
   mounted () {
     this.getColumns()
