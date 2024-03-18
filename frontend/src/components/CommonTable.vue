@@ -12,14 +12,30 @@
         :pagination="pagination"
       >
       <template #top-left>
-        <!-- search box -->
+        <!-- search box with a select for the column to filter-->
+        <div class="q-gutter-md tableHeader">
+        <q-select
+          v-model="filteredColumn"
+          outlined
+          dense
+          options-dense
+          emit-value
+          map-options
+          :options="columns"
+          option-value="name"
+          options-cover
+          style="min-width: 150px"
+          label="FIlter by:"
+        />
         <q-input
           outlined
           dense
           placeholder="Search reference"
           v-model="filter"
           style="min-width: 150px"
+          :disable="filteredColumn === '' || selected.length > 0"
         />
+        </div>
       </template>
         <template #top-right>
           <div class="q-gutter-md tableHeader">
@@ -95,7 +111,8 @@ export default defineComponent({
         descending: false,
         rowsPerPage: 0
       },
-      filter: ''
+      filter: '',
+      filteredColumn: ''
     }
   },
 
@@ -141,7 +158,8 @@ export default defineComponent({
       if (val === '' || val === null || val === undefined) {
         this.rows = this.originalRows
       } else {
-        this.rows = this.rows.filter(row => row.reference.toLowerCase().includes(val.toLowerCase()))
+        this.rows = this.rows.filter(row => row[this.filteredColumn].toLowerCase().includes(val.toLowerCase()))
+        console.log(this.rows)
       }
     }
   },
