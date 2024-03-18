@@ -6,7 +6,7 @@
         bordered
         :rows="rows"
         :columns="columns"
-        row-key="id"
+        :row-key="row => row.reference"
         :selection="selection"
         :visible-columns="visibleColumns"
         :pagination="pagination"
@@ -35,6 +35,16 @@
               :label="label"
               @click="submitSelection()"
             />
+            <q-btn
+              color="primary"
+              label="Reset columns"
+              @click="getColumns()"
+            />
+            <q-btn
+              color="primary"
+              label="Show all columns"
+              @click="visibleColumns = columns.map(column => column.name ? column.name : null).filter(column => column !== null)"
+            />
           </div>
           <q-select
             v-model="visibleColumns"
@@ -57,6 +67,7 @@
 <script>
 import { defineComponent } from 'vue'
 import apiPathUrl from 'src/config/apiPathUrl'
+import axios from 'axios'
 
 export default defineComponent({
   name: 'CommonTable',
@@ -75,85 +86,30 @@ export default defineComponent({
   data () {
     return {
       rows: [],
-      columns: [
-        {
-          name: 'id',
-          label: 'ID',
-          align: 'left',
-          field: 'id',
-          sortable: true,
-          visible: false
-        },
-        {
-          name: 'name',
-          label: 'Name',
-          align: 'left',
-          field: 'name',
-          sortable: true,
-          visible: true
-        },
-        {
-          name: 'buy_price',
-          label: 'Buy Price',
-          align: 'left',
-          field: 'buy_price',
-          sortable: true,
-          visible: true
-        },
-        {
-          name: 'sell_price',
-          label: 'Sell Price',
-          align: 'left',
-          field: 'sell_price',
-          sortable: true,
-          visible: true
-        },
-        {
-          name: 'stock',
-          label: 'Stock',
-          align: 'left',
-          field: 'stock',
-          sortable: true,
-          visible: true
-        },
-        {
-          name: 'category',
-          label: 'Category',
-          align: 'left',
-          field: 'category',
-          sortable: true,
-          visible: true
-        },
-        {
-          name: 'weight',
-          label: 'Weight',
-          align: 'left',
-          field: 'weight',
-          sortable: true,
-          visible: false
-        },
-        {
-          name: 'volume',
-          label: 'Volume',
-          align: 'left',
-          field: 'volume',
-          sortable: true,
-          visible: false
-        }
-      ],
+      columns: [],
       visibleColumns: [],
       selected: [],
       pagination: {
         sortBy: 'id',
         descending: false,
         rowsPerPage: 0
-      }
+      },
+      filter: ''
     }
   },
 
   methods: {
-    getVisibleColumns () {
-      this.visibleColumns = this.columns.map(column => column.visible ? column.name : null).filter(column => column !== null)
+    getColumns () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.columns}`
+      const columnsKey = apiPathUrl[this.$route.meta.apiPath].columns
+      axios.get(url)
+        .then(response => {
+          this.columns = response.data.columns.columns[columnsKey]
+          this.visibleColumns = response.data.columns.columns[columnsKey].map(column => column.name ? column.name : null).filter(column => column !== null)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
 
     clearSelection () {
@@ -165,11 +121,10 @@ export default defineComponent({
     },
 
     getItems () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.products.getProducts}`
-      this.$axios.get(url)
+      const url = `${apiPathUrl.backend}/${apiPathUrl[this.$route.meta.apiPath].route}`
+      axios.get(url)
         .then(response => {
-          console.log(response.data)
-          this.rows = response.data
+          this.rows = response.data.data
         })
         .catch(error => {
           console.log(error)
@@ -180,7 +135,7 @@ export default defineComponent({
   emits: ['submitSelection'],
 
   mounted () {
-    this.getVisibleColumns()
+    this.getColumns()
     this.getItems()
   }
 }

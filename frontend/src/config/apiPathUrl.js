@@ -1,9 +1,14 @@
 const apiPathUrl = {
-  backend: 'https://backend-api-seven-rho.vercel.app/api',
+  backend: 'https://backend-api-test-nine.vercel.app/api',
   columns: 'columns',
-  products: {
-    getProducts: 'data/clients'
-  }
+  getProducts: {
+    route: 'data/products',
+    columns: 'products'
+  },
+  deleteProduct: 'delete/product',
+  addProduct: 'add/product',
+  editProduct: 'edit/product',
+  inventory: 'inventory'
 }
 
 export default apiPathUrl
