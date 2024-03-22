@@ -5,10 +5,9 @@ const apiPathUrl = {
     route: 'data/products',
     columns: 'products'
   },
-  deleteProduct: 'delete/product',
-  addProduct: 'add/product',
-  editProduct: 'edit/product',
-  inventory: 'inventory'
+  addProduct: 'data/products/add',
+  deleteProduct: 'data/products/delete',
+  updateInventory: 'data/products/inventory'
 }
 
 export default apiPathUrl

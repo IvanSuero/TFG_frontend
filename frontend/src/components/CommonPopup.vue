@@ -1,7 +1,7 @@
 <template>
   <q-card class="cardForm">
     <q-card-section>
-      <q-card-section class="text-h6">Selected Product</q-card-section>
+      <q-card-section class="text-h6">Selected Product - {{ selected[0].reference }}</q-card-section>
       <q-card-section>
         <q-form @submit="onSubmitPopup()" class="q-gutter-md popupForm">
           <div class="input-container">

@@ -124,7 +124,7 @@ export default defineComponent({
       await axios.get(url)
         .then(response => {
           this.columns = response.data.columns.columns[columnsKey]
-          this.visibleColumns = response.data.columns.columns[columnsKey].map(column => column.name ? column.name : null).filter(column => column !== null)
+          this.visibleColumns = response.data.columns.columns[columnsKey].map(column => column.visible ? column.name : null).filter(column => column !== null)
         })
         .catch(error => {
           console.log(error)
