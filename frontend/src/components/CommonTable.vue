@@ -14,26 +14,19 @@
       <template #top-left>
         <!-- search box with a select for the column to filter-->
         <div class="q-gutter-md tableHeader">
-        <q-select
-          v-model="filteredColumn"
-          outlined
-          dense
-          options-dense
-          emit-value
-          map-options
-          :options="columns"
-          option-value="name"
-          options-cover
-          style="min-width: 150px"
-          label="FIlter by:"
-        />
         <q-input
           outlined
           dense
           placeholder="Search reference"
           v-model="filter"
           style="min-width: 150px"
-          :disable="filteredColumn === '' || selected.length > 0"
+        />
+        <q-input
+          outlined
+          dense
+          placeholder="Search description"
+          v-model="filterDescription"
+          style="min-width: 150px"
         />
         </div>
       </template>
@@ -112,7 +105,7 @@ export default defineComponent({
         rowsPerPage: 0
       },
       filter: '',
-      filteredColumn: ''
+      filterDescription: ''
     }
   },
 
@@ -158,8 +151,14 @@ export default defineComponent({
       if (val === '' || val === null || val === undefined) {
         this.rows = this.originalRows
       } else {
-        this.rows = this.rows.filter(row => row[this.filteredColumn].toLowerCase().includes(val.toLowerCase()))
-        console.log(this.rows)
+        this.rows = this.rows.filter(row => row.reference.toLowerCase().includes(val.toLowerCase()))
+      }
+    },
+    filterDescription (val) {
+      if (val === '' || val === null || val === undefined) {
+        this.rows = this.originalRows
+      } else {
+        this.rows = this.rows.filter(row => row.description.toLowerCase().includes(val.toLowerCase()))
       }
     }
   },
@@ -193,5 +192,7 @@ thead tr:first-child th{
 
 .tableHeader {
   margin-right: 15px;
+  display: flex;
+  flex-direction: row;
 }
 </style>
