@@ -10,7 +10,7 @@
               :key="column.name"
               v-model="items[0][column.name]"
               :label="column.label"
-              :disable="columns.length>0"
+              :disable="disabled"
               outlined
               dense
               clearable
@@ -37,6 +37,9 @@ export default defineComponent({
     },
     columns: {
       type: Array
+    },
+    disabled: {
+      type: Boolean
     }
   },
 

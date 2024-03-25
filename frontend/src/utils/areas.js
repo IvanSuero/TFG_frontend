@@ -13,13 +13,6 @@ const areas = {
     id: 'products-add',
     area: 'products'
   },
-  TASKGESTPRODDEL: {
-    name: 'Delete Product',
-    icon: 'delete',
-    url: 'delete',
-    id: 'products-delete',
-    area: 'products'
-  },
   TASKGESTPRODINV: {
     name: 'Inventory Management',
     icon: 'archive',

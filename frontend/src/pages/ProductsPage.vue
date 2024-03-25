@@ -5,7 +5,7 @@
     </div>
 
     <q-dialog v-model="popup">
-      <CommonPopup :selected="selected" :columns="columns" @submit-popup="onSubmitPopup" @close-popup="onClosePopup"/>
+      <CommonPopup :selected="selected" :columns="columns" @submit-popup="onSubmitPopup" @close-popup="onClosePopup" :disabled="true"/>
     </q-dialog>
   </q-page>
 </template>
