@@ -3,7 +3,9 @@ const routes = [
     path: '/',
     component: () => import('src/layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/ProductsInventoryPage.vue'), name: 'inventory', meta: { apiPath: 'getProducts' } }
+      { path: '', component: () => import('src/pages/AreasPage.vue'), name: 'areas' },
+      { path: 'inventory', component: () => import('src/pages/ProductsInventoryPage.vue'), name: 'inventory' },
+      { path: 'history', component: () => import('src/pages/HistoryPage.vue'), name: 'history' }
     ]
   },
 

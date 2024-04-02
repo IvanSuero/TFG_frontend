@@ -8,37 +8,18 @@
         bordered
         :rows="rows"
         :columns="columns"
-        :row-key="row => row.reference"
+        :row-key="row => row.date"
         :pagination="pagination"
       >
       <template v-slot:body="props">
         <q-tr :props="props">
+          <q-td key="date" :props="props">{{ props.row.date.toLocaleString() }}</q-td>
           <q-td key="reference" :props="props">{{ props.row.reference }}</q-td>
           <q-td key="description" :props="props">{{ props.row.description }}</q-td>
-          <q-td key="stock" :props="props">
-            {{ props.row.stock }}
-            <q-popup-edit v-model.number="props.row.stock" auto-save v-slot="scope" @save="oldStock=props.row.stock" persistent @update:model-value="saveInventory(props.row)">
-              <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
-            </q-popup-edit>
-            <q-icon
-              class="edit__icon"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 0 24 24"
-                width="24px"
-                fill="#000000"
-              ><path
-                d="M0 0h24v24H0V0z"
-                fill="none"
-              /><path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" /></svg>
-            </q-icon>
-          </q-td>
+          <q-td key="inventory" :props="props">{{ props.row.inventory }}</q-td>
         </q-tr>
       </template>
       <template #top-left>
-        <!-- search box with a select for the column to filter-->
         <div class="q-gutter-md tableHeader">
         <q-input
           color="secondary"
@@ -65,7 +46,6 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { useQuasar } from 'quasar'
 import apiPathUrl from 'src/config/apiPathUrl'
 import axios from 'axios'
 
@@ -77,25 +57,31 @@ export default defineComponent({
       rows: [],
       columns: [],
       pagination: {
-        sortBy: 'id',
+        sortBy: 'date',
         descending: false,
         rowsPerPage: 0
       },
       filter: '',
       filterDescription: '',
-      originalRows: [],
-      $q: useQuasar(),
-      oldStock: 0
+      originalRows: []
     }
   },
 
   methods: {
     async getItems () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.getProducts}`
+      const url = `${apiPathUrl.backend}/${apiPathUrl.getHistory}`
       await axios.get(url)
         .then(response => {
           this.rows = response.data.data
+          // for each ro in rows insert an attribute called difference
+          this.rows.forEach(row => {
+            const old = row.old_stock
+            const newStock = row.new_stock
+            row.inventory = newStock - old
+            row.date = new Date(row.date)
+          })
           this.originalRows = response.data.data
+          console.log(this.rows)
         })
         .catch(error => {
           console.log(error)
@@ -105,52 +91,34 @@ export default defineComponent({
     async getColumns () {
       this.columns = [
         {
+          name: 'date',
+          required: true,
+          label: 'Date',
+          align: 'left',
+          sortable: true
+        },
+        {
           name: 'reference',
+          required: true,
           label: 'Reference',
           align: 'left',
-          field: 'reference',
           sortable: true
         },
         {
           name: 'description',
+          required: true,
           label: 'Description',
           align: 'left',
-          field: 'description',
           sortable: true
         },
         {
-          name: 'stock',
-          label: 'Stock',
+          name: 'inventory',
+          required: true,
+          label: 'Inventory',
           align: 'left',
-          field: 'stock',
           sortable: true
         }
       ]
-    },
-
-    async saveInventory (row) {
-      console.log(row)
-      const url = `${apiPathUrl.backend}/${apiPathUrl.update}`
-      const body = {
-        reference: row.reference,
-        description: row.description,
-        stock: row.stock,
-        oldStock: this.oldStock
-      }
-      await axios.post(url, body)
-        .then(response => {
-          if (response.status === 200) {
-            this.$q.notify({
-              color: 'positive',
-              message: 'Inventory updated',
-              icon: 'check',
-              timeout: 1000
-            })
-          }
-        })
-        .catch(error => {
-          console.log(error)
-        })
     }
   },
 
@@ -181,11 +149,10 @@ export default defineComponent({
 <style>
 .sticky-header-table {
   height: 100%;
-  font-size: 14px;
-  background-color: #f5f5f5;
 }
 
 .sticky-header-table .q-table__top, .q-table__bottom, thead tr:first-child th {
+  background-color: #f5f5f5;
   font-size: 14px;
 }
 

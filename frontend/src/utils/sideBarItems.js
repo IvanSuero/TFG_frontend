@@ -4,20 +4,15 @@ const sideBarItems = {
     icon: 'home',
     url: '/'
   },
-  PROFILE: {
-    name: 'Profile',
-    icon: 'person',
-    url: '/profile'
-  },
   LANGUAGE: {
     name: 'Language',
     icon: 'translate',
     url: '/language'
   },
-  SETTINGS: {
-    name: 'Settings',
-    icon: 'settings',
-    url: '/settings'
+  HELP: {
+    name: 'Help',
+    icon: 'help',
+    url: '/help'
   },
   LOGOUT: {
     name: 'Logout',

@@ -1,1 +1,21 @@
 /* app global css */
+/* Estilos globales de la aplicación */
+/* variables colores */
+:root {
+  --primary-color: #EBF1F3;
+  /* Color primario */
+  --secondary-color: #D2D8DA;
+  /* Color secundario */
+  --success-color: #026874;
+  /* Color de éxito */
+  --info-color: #002D41;
+  /* Color de información */
+  --warning-color: #011B27;
+  /* Color de advertencia */
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--primary-color);
+  color: #333;
+}

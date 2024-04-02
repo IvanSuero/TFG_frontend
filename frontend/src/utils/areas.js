@@ -1,23 +1,16 @@
 const areas = {
-  TASKGESTPROD: {
-    name: 'View Products',
-    icon: 'list',
-    url: 'list',
-    id: 'products',
-    area: 'products'
-  },
-  TASKGESTPRODADD: {
-    name: 'Add Product',
-    icon: 'add',
-    url: 'add',
-    id: 'products-add',
-    area: 'products'
-  },
-  TASKGESTPRODINV: {
+  INVENTORY: {
     name: 'Inventory Management',
     icon: 'archive',
     url: 'inventory',
     id: 'products-inventory',
+    area: 'products'
+  },
+  HISTORY: {
+    name: 'History',
+    icon: 'history',
+    url: 'history',
+    id: 'products-history',
     area: 'products'
   }
 }

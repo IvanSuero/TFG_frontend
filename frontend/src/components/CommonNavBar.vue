@@ -1,5 +1,5 @@
 <template>
-  <q-toolbar>
+  <q-toolbar class="header">
     <q-toolbar-title>
       <div class="title">
         <a @click="this.$router.push('/')"><h6>.WMS</h6></a>
@@ -10,6 +10,14 @@
 </template>
 
 <style>
+.header {
+  background-color: var(--success-color);
+
+  /* Azul claro */
+  color: var(--primary-color);
+  /* Texto blanco */
+}
+
 .q-toolbar{
   height: 75px;
   padding: 0 20px 0 50px ;

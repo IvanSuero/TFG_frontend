@@ -17,12 +17,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f5f5f5;
+  background-color: var(--success-color);
   border-radius: 10px;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+  color: var(--primary-color);
 }
 .card:hover{
-  background-color: #e0e0e0;
+  background-color: var(--info-color);
   cursor: pointer;
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="sideBar">
     <q-btn flat round :icon="'close'" class="closeBtn" size="20px" @click="closeDrawer()"/>
     <h3 id="logo">.WMS</h3>
-    <q-list>
+    <q-list class="sidebarList">
       <SideBarItem
         v-for="item in linksList"
         :key="item.name"
@@ -16,13 +16,17 @@
 .sideBar {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
   height: 100%;
   background-color: #f5f5f5;
 }
 .closeBtn{
   padding: 25px;
   align-self: flex-end;
+}
+
+.sidebarList *:last-child {
+  margin-top: 400px;
 }
 
 .sideBar * {
