@@ -17,7 +17,7 @@
           <q-td key="description" :props="props">{{ props.row.description }}</q-td>
           <q-td key="stock" :props="props">
             {{ props.row.stock }}
-            <q-popup-edit v-model.number="props.row.stock" auto-save v-slot="scope" @save="oldStock=props.row.stock" persistent @update:model-value="saveInventory(props.row)">
+            <q-popup-edit v-model.number="props.row.stock" auto-save v-slot="scope" @save="oldStock=props.row.stock" persistent @update:model-value="openPopup(props.row)">
               <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
             </q-popup-edit>
             <q-icon
@@ -60,6 +60,34 @@
       </template>
     </q-table>
     </div>
+
+    <!-- popup to add a comment to the inventory update -->
+    <q-dialog v-model="popup" persistent>
+      <q-card>
+        <q-card-section>
+          <q-input
+            v-model="body.comments"
+            label="Comments"
+            type="text"
+            filled
+            dense
+            autofocus
+          />
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn
+            color="primary"
+            label="Save"
+            @click="saveInventory(body)"
+          />
+          <q-btn
+            color="secondary"
+            label="Cancel"
+            @click="popup = false"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -85,7 +113,9 @@ export default defineComponent({
       filterDescription: '',
       originalRows: [],
       $q: useQuasar(),
-      oldStock: 0
+      oldStock: 0,
+      body: {},
+      popup: false
     }
   },
 
@@ -128,16 +158,21 @@ export default defineComponent({
       ]
     },
 
-    async saveInventory (row) {
-      console.log(row)
-      const url = `${apiPathUrl.backend}/${apiPathUrl.update}`
-      const body = {
+    openPopup (row) {
+      this.body = {
         reference: row.reference,
         description: row.description,
         stock: row.stock,
         oldStock: this.oldStock
       }
-      await axios.post(url, body)
+      this.popup = true
+    },
+
+    async saveInventory (row) {
+      console.log(row)
+      const url = `${apiPathUrl.backend}/${apiPathUrl.update}`
+      console.log(this.body)
+      await axios.post(url, this.body)
         .then(response => {
           if (response.status === 200) {
             this.$q.notify({
@@ -151,6 +186,8 @@ export default defineComponent({
         .catch(error => {
           console.log(error)
         })
+      this.popup = false
+      this.body = {}
     }
   },
 

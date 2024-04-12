@@ -12,6 +12,13 @@ const areas = {
     url: 'history',
     id: 'products-history',
     area: 'products'
+  },
+  CREATE: {
+    name: 'Create Product',
+    icon: 'add',
+    url: 'create',
+    id: 'products-create',
+    area: 'products'
   }
 }
 

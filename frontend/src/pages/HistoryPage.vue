@@ -17,6 +17,7 @@
           <q-td key="reference" :props="props">{{ props.row.reference }}</q-td>
           <q-td key="description" :props="props">{{ props.row.description }}</q-td>
           <q-td key="inventory" :props="props">{{ props.row.inventory }}</q-td>
+          <q-td key="comments" :props="props">{{ props.row.comments }}</q-td>
         </q-tr>
       </template>
       <template #top-left>
@@ -115,6 +116,13 @@ export default defineComponent({
           name: 'inventory',
           required: true,
           label: 'Inventory',
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'comments',
+          required: true,
+          label: 'Comments',
           align: 'left',
           sortable: true
         }
