@@ -124,7 +124,8 @@ export default defineComponent({
           required: true,
           label: 'Comments',
           align: 'left',
-          sortable: true
+          sortable: true,
+          format: val => (val === null || val === undefined) ? '' : val
         }
       ]
     }

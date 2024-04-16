@@ -40,22 +40,27 @@
       <template #top-left>
         <!-- search box with a select for the column to filter-->
         <div class="q-gutter-md tableHeader">
-        <q-input
-          color="secondary"
-          outlined
-          dense
-          placeholder="Search reference"
-          v-model="filter"
-          style="min-width: 150px"
-        />
-        <q-input
-          color="secondary"
-          outlined
-          dense
-          placeholder="Search description"
-          v-model="filterDescription"
-          style="min-width: 150px"
-        />
+          <q-input
+            color="secondary"
+            outlined
+            dense
+            placeholder="Search reference"
+            v-model="filter"
+            style="min-width: 150px"
+          />
+          <q-input
+            color="secondary"
+            outlined
+            dense
+            placeholder="Search description"
+            v-model="filterDescription"
+            style="min-width: 150px"
+          />
+          <q-btn
+            color="green"
+            :label="this.noStockFilter ? 'Show all' : '0 stock'"
+            @click="filterNoStock"
+          />
         </div>
       </template>
     </q-table>
@@ -115,7 +120,9 @@ export default defineComponent({
       $q: useQuasar(),
       oldStock: 0,
       body: {},
-      popup: false
+      popup: false,
+      noStockFilter: false,
+      selection: 'none'
     }
   },
 
@@ -171,7 +178,9 @@ export default defineComponent({
     async saveInventory (row) {
       console.log(row)
       const url = `${apiPathUrl.backend}/${apiPathUrl.update}`
-      console.log(this.body)
+      if (this.body.comments === undefined) {
+        this.body.comments = ''
+      }
       await axios.post(url, this.body)
         .then(response => {
           if (response.status === 200) {
@@ -188,6 +197,24 @@ export default defineComponent({
         })
       this.popup = false
       this.body = {}
+    },
+
+    filterNoStock () {
+      if (this.rows.filter(row => row.stock === 0).length === 0) {
+        this.$q.notify({
+          color: 'negative',
+          message: 'No products with 0 stock',
+          icon: 'warning',
+          timeout: 1000
+        })
+      } else {
+        this.noStockFilter = !this.noStockFilter
+        if (this.noStockFilter) {
+          this.rows = this.rows.filter(row => row.stock === 0)
+        } else {
+          this.rows = this.originalRows
+        }
+      }
     }
   },
 

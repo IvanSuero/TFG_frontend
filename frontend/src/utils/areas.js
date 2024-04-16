@@ -19,6 +19,13 @@ const areas = {
     url: 'create',
     id: 'products-create',
     area: 'products'
+  },
+  STATISTICS: {
+    name: 'Statistics',
+    icon: 'bar_chart',
+    url: 'statistics',
+    id: 'products-statistics',
+    area: 'products'
   }
 }
 
