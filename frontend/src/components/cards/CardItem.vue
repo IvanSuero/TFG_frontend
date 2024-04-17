@@ -19,7 +19,7 @@
   align-items: center;
   background-color: var(--success-color);
   border-radius: 10px;
-  box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
   color: var(--primary-color);
 }
 .card:hover{

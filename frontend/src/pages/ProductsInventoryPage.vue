@@ -3,6 +3,7 @@
   <q-page padding>
     <div class="q-pa-md">
       <q-table
+        style="height: 100%"
         class="sticky-header-table"
         flat
         bordered
@@ -10,9 +11,23 @@
         :columns="columns"
         :row-key="row => row.reference"
         :pagination="pagination"
+        :selection="selection"
+        virtual-scroll
+        v-model:selected="selected"
       >
-      <template v-slot:body="props">
+      <template #header-selection="scope">
+        <q-checkbox v-model="scope.selected" />
+      </template>
+      <template #body="props">
         <q-tr :props="props">
+          <q-td v-if="selection === 'single' || selection ==='multiple'" auto-width>
+            <q-checkbox
+              :model-value="props.selected"
+              @update:model-value="(val) => {
+                props.selected = val;
+              }"
+            />
+          </q-td>
           <q-td key="reference" :props="props">{{ props.row.reference }}</q-td>
           <q-td key="description" :props="props">{{ props.row.description }}</q-td>
           <q-td key="stock" :props="props">
@@ -23,16 +38,7 @@
             <q-icon
               class="edit__icon"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 0 24 24"
-                width="24px"
-                fill="#000000"
-              ><path
-                d="M0 0h24v24H0V0z"
-                fill="none"
-              /><path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" /></svg>
+              <img src="src/assets/edit.svg" alt="edit" />
             </q-icon>
           </q-td>
         </q-tr>
@@ -57,9 +63,28 @@
             style="min-width: 150px"
           />
           <q-btn
+            v-if="selection==='none'"
             color="green"
             :label="this.noStockFilter ? 'Show all' : '0 stock'"
             @click="filterNoStock"
+          />
+          <q-btn
+            v-if="selection==='none'"
+            color="red"
+            label="Delete"
+            @click="activeDeleteMode"
+          />
+          <q-btn
+            v-if="selected.length > 0"
+            color="red"
+            label="Delete"
+            @click="deleteItems"
+          />
+          <q-btn
+            v-if="selection==='multiple' || selection==='single'"
+            color="yellow"
+            label="Cancel"
+            @click="cancelDeleteMode"
           />
         </div>
       </template>
@@ -122,7 +147,8 @@ export default defineComponent({
       body: {},
       popup: false,
       noStockFilter: false,
-      selection: 'none'
+      selection: 'none',
+      selected: []
     }
   },
 
@@ -215,6 +241,23 @@ export default defineComponent({
           this.rows = this.originalRows
         }
       }
+    },
+
+    activeDeleteMode () {
+      this.selection = 'multiple'
+      this.noStockFilter = false
+      this.rows = this.originalRows
+    },
+
+    cancelDeleteMode () {
+      this.selection = 'none'
+      this.selected = []
+    },
+
+    deleteItems () {
+      console.log(this.selected)
+      this.selection = 'none'
+      this.selected = []
     }
   },
 

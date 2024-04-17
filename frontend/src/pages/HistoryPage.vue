@@ -3,6 +3,7 @@
   <q-page padding>
     <div class="q-pa-md">
       <q-table
+        style="height: 600px"
         class="sticky-header-table"
         flat
         bordered
@@ -10,6 +11,7 @@
         :columns="columns"
         :row-key="row => row.date"
         :pagination="pagination"
+        virtual-scroll
       >
       <template v-slot:body="props">
         <q-tr :props="props">
@@ -59,7 +61,7 @@ export default defineComponent({
       columns: [],
       pagination: {
         sortBy: 'date',
-        descending: false,
+        descending: true,
         rowsPerPage: 0
       },
       filter: '',
@@ -94,8 +96,9 @@ export default defineComponent({
         {
           name: 'date',
           required: true,
-          label: 'Date',
+          label: 'Date and time',
           align: 'left',
+          field: 'date',
           sortable: true
         },
         {
@@ -103,6 +106,7 @@ export default defineComponent({
           required: true,
           label: 'Reference',
           align: 'left',
+          field: 'reference',
           sortable: true
         },
         {
@@ -110,6 +114,7 @@ export default defineComponent({
           required: true,
           label: 'Description',
           align: 'left',
+          field: 'description',
           sortable: true
         },
         {
@@ -117,6 +122,7 @@ export default defineComponent({
           required: true,
           label: 'Inventory',
           align: 'left',
+          field: 'inventory',
           sortable: true
         },
         {
@@ -124,6 +130,7 @@ export default defineComponent({
           required: true,
           label: 'Comments',
           align: 'left',
+          field: 'comments',
           sortable: true,
           format: val => (val === null || val === undefined) ? '' : val
         }
