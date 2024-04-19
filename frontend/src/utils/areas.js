@@ -12,7 +12,7 @@ const areas = [
     icon: 'history',
     url: 'history',
     id: 'products-history',
-    permission: 2,
+    permission: 1,
     area: 'warehouse'
   },
   {
@@ -36,7 +36,7 @@ const areas = [
     icon: 'location_on',
     url: 'create-location',
     id: 'locations-create',
-    permission: 1,
+    permission: 2,
     area: 'warehouse'
   },
   {
@@ -44,7 +44,7 @@ const areas = [
     icon: 'bar_chart',
     url: 'statistics',
     id: 'products-statistics',
-    permission: 3,
+    permission: 1,
     area: 'statistics'
   },
   {
@@ -60,7 +60,7 @@ const areas = [
     icon: 'storage',
     url: 'capacity',
     id: 'capacity',
-    permission: 3,
+    permission: 1,
     area: 'statistics'
   }
 ]
