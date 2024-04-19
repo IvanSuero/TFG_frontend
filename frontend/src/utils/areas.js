@@ -1,39 +1,68 @@
-const areas = {
-  INVENTORY: {
+const areas = [
+  {
     name: 'Inventory Management',
     icon: 'archive',
     url: 'inventory',
     id: 'products-inventory',
+    permission: 2,
     area: 'warehouse'
   },
-  HISTORY: {
+  {
     name: 'History',
     icon: 'history',
     url: 'history',
     id: 'products-history',
+    permission: 2,
     area: 'warehouse'
   },
-  CREATEPRODUCT: {
+  {
     name: 'Create Product',
     icon: 'add',
-    url: 'create',
+    url: 'create-product',
     id: 'products-create',
+    permission: 3,
     area: 'warehouse'
   },
-  LOCATIONS: {
-    name: 'Locations',
+  {
+    name: 'Labels',
+    icon: 'label',
+    url: 'labels',
+    id: 'products-labels',
+    permission: 1,
+    area: 'warehouse'
+  },
+  {
+    name: 'Create Location',
     icon: 'location_on',
-    url: 'locations',
-    id: 'products-locations',
+    url: 'create-location',
+    id: 'locations-create',
+    permission: 1,
     area: 'warehouse'
   },
-  STATISTICS: {
+  {
     name: 'Statistics',
     icon: 'bar_chart',
     url: 'statistics',
     id: 'products-statistics',
+    permission: 3,
+    area: 'statistics'
+  },
+  {
+    name: 'Users',
+    icon: 'people',
+    url: 'users',
+    id: 'users',
+    permission: 3,
+    area: 'configuration'
+  },
+  {
+    name: 'Capacity',
+    icon: 'storage',
+    url: 'capacity',
+    id: 'capacity',
+    permission: 3,
     area: 'statistics'
   }
-}
+]
 
 export default areas

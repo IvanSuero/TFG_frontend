@@ -1,17 +1,17 @@
 <!-- TABLE WITH ALL PRODUCTS AND STOCK WITH A NEW COLUMN TO WRITE THE NEW STOCK -->
 <template>
-  <q-page padding>
-    <div class="q-pa-md">
+  <q-page>
+    <div>
       <q-table
-        style="height: 600px"
+        style="height: 680px; width: 100%; margin-top: 15px; background-color: #EBF1F3; padding: 15px;"
         class="sticky-header-table"
         flat
-        bordered
         :rows="rows"
         :columns="columns"
         :row-key="row => row.date"
         :pagination="pagination"
         virtual-scroll
+        hide-bottom
       >
       <template v-slot:body="props">
         <q-tr :props="props">
@@ -165,10 +165,12 @@ export default defineComponent({
 <style>
 .sticky-header-table {
   height: 100%;
+  font-size: 14px;
+  background-color: #f5f5f5;
 }
 
 .sticky-header-table .q-table__top, .q-table__bottom, thead tr:first-child th {
-  background-color: #f5f5f5;
+  background-color: #EBF1F3;
   font-size: 14px;
 }
 

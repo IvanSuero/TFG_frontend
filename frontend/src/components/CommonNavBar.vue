@@ -18,12 +18,24 @@
   /* Texto blanco */
 }
 
+.title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 25px;
+  width: 100%;
+  padding: 0 20px;
+  color: white;
+}
+
 .q-toolbar{
   height: 75px;
   padding: 0 20px 0 50px ;
 }
 .title{
   width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 .title h6{
   width: fit-content;

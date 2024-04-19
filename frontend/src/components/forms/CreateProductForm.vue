@@ -3,7 +3,6 @@
       <q-input type="text" v-model="reference" label="Reference" filled lazy-rules mask="X-###-###-###" />
       <q-input v-model="description" label="Description" type="text" filled lazy-rules/>
       <q-input v-model="stock" label="Initial stock" type="number" filled lazy-rules/>
-      <q-input v-model="stock" label="Initial stock" type="number" filled lazy-rules/>
       <div class="addFormButtons">
         <q-btn label="Submit" color="green" type="submit" />
         <q-btn label="Reset" color="warning" type="reset" />
@@ -22,7 +21,7 @@
 
 <script>
 import axios from 'axios'
-import apiPathUrl from '../config/apiPathUrl'
+import apiPathUrl from '../../config/apiPathUrl'
 import { useQuasar } from 'quasar'
 
 export default {

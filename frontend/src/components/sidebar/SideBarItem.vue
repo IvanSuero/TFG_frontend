@@ -4,7 +4,8 @@
           <q-icon :name="item.icon" />
       </q-item-section>
       <q-item-section>
-          <q-item-label>{{ item.name }}</q-item-label>
+          <q-item-label v-if="item.type==='link'">{{ item.name }}</q-item-label>
+          <q-select v-else v-model="languageActive" :options="languages" label="Language" color="black" borderless hide-bottom-space dense></q-select>
       </q-item-section>
   </q-item>
 </template>
@@ -18,10 +19,10 @@ right: 0;
 }
 .q-item:hover{
 cursor: pointer;
-background-color: #f5f5f5;
+background-color: #C5D7DD;
 border-radius: 5px;
 transition: 0.3s;
-scale: 1.1;
+scale: 1.05;
 }
 </style>
 
@@ -34,8 +35,18 @@ export default {
       default: () => {}
     }
   },
+  data () {
+    return {
+      languages: [
+        { label: 'English', value: 'en' },
+        { label: 'Español', value: 'es' }
+      ],
+      languageActive: 'English'
+    }
+  },
   methods: {
     goToRoute () {
+      if (this.item.type !== 'link') return
       this.$router.push(this.item.url)
     }
   }

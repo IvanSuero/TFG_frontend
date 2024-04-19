@@ -2,22 +2,26 @@ const sideBarItems = {
   HOME: {
     name: 'Home',
     icon: 'home',
-    url: '/'
+    url: '/',
+    type: 'link'
   },
   LANGUAGE: {
     name: 'Language',
     icon: 'translate',
-    url: '/language'
+    url: '/language',
+    type: 'select'
   },
   HELP: {
     name: 'Help',
     icon: 'help',
-    url: '/help'
+    url: '/help',
+    type: 'link'
   },
   LOGOUT: {
     name: 'Logout',
     icon: 'exit_to_app',
-    url: '/logout'
+    url: '/logout',
+    type: 'link'
   }
 }
 

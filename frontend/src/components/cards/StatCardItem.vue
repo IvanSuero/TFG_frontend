@@ -1,7 +1,13 @@
 <template>
-  <q-card class="card" clickable @click="goToRoute()">
+  <q-card class="stat" clickable @click="goToRoute()">
     <q-card-section>
-      <q-icon :name="item.icon" size="50px"/>
+      <!--number of products-->
+      <div class="text-h6"
+        :style="{color: item.value.type==='percentage' ? (item.value.value>=90 ? 'green' :  (item.value.value>=70 ? 'orange' : 'red')) : '' }"
+      >
+        <span>{{ item.value.value }}</span>
+        <span v-if="item.value.type === 'percentage'">%</span>
+      </div>
     </q-card-section>
     <q-card-section>
       <div class="text-h6">{{ item.name }}</div>
@@ -10,44 +16,31 @@
 </template>
 
 <style>
-.card{
-  width: 300px;
-  height: 200px;
+.stat{
+  width: 200px;
+  height: 80px;
   margin: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--success-color);
+  background-color: transparent;
   border-radius: 10px;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
-  color: var(--primary-color);
-}
-.card:hover{
-  background-color: var(--info-color);
-  cursor: pointer;
+  color: black;
 }
 </style>
 
 <script>
+
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'CardItem',
+  name: 'StatCardItem',
   props: {
     item: {
       type: Object,
       required: true
     }
-  },
-  methods: {
-    goToRoute () {
-      if (this.item.url) {
-        this.$router.push({ name: this.item.url })
-      }
-    }
-  },
-  mounted () {
-    console.log(this.item)
   }
 })
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px; margin-left: 35%">
-    <h4>Create Product</h4>
-    <CreateForm />
+    <h4>Create Location</h4>
+    <CreateLocationForm />
   </div>
 </template>
 
@@ -15,11 +15,11 @@
 </style>
 
 <script>
-import CreateForm from '../components/forms/CreateProductForm.vue'
+import CreateLocationForm from '../components/forms/CreateLocationForm.vue'
 
 export default {
   components: {
-    CreateForm
+    CreateLocationForm
   }
 }
 </script>

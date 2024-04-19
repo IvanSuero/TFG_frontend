@@ -1,17 +1,39 @@
 <template>
-  <div class="graphs">
-    <apexcharts class="chart" width="500" height="350" type="line" :options="lineOptions" :series="lineSeries" title="Inventory per month"></apexcharts>
-    <apexcharts class="chart" width="500" height="350" type="donut" :options="donutOptions" :series="donutSeries"></apexcharts>
-  </div>
+  <div class="stats">
+    <div class="statsCards">
+      <StatCardItem :item="itemProducts" :stats=true />
+      <StatCardItem :item="itemLabels" :stats=true />
+      <StatCardItem :item="itemInventory" :stats=true />
+    </div>
+    <div class="graphs">
+      <apexcharts class="chart" width="500" height="350" type="line" :options="lineOptions" :series="lineSeries" title="Inventory per month"></apexcharts>
+      <apexcharts class="chart" width="500" height="350" type="donut" :options="donutOptions" :series="donutSeries"></apexcharts>
+    </div>
+</div>
 </template>
 
 <style>
+.stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+.statsCards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
 .graphs {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
   gap: 50px;
 }
 .chart {
@@ -25,14 +47,40 @@
 import VueApexCharts from 'vue3-apexcharts'
 import axios from 'axios'
 import apiPathUrl from 'src/config/apiPathUrl'
+import StatCardItem from 'src/components/cards/StatCardItem.vue'
 
 export default {
   name: 'StatisticsPage',
   components: {
-    apexcharts: VueApexCharts
+    apexcharts: VueApexCharts,
+    StatCardItem
   },
   data () {
     return {
+      itemProducts: {
+        name: 'Products',
+        url: 'inventory',
+        value: {
+          type: 'number',
+          value: 0
+        }
+      },
+      itemLabels: {
+        name: 'Labels',
+        url: 'labels',
+        value: {
+          type: 'number',
+          value: 12
+        }
+      },
+      itemInventory: {
+        name: 'Inventory',
+        url: 'inventory',
+        value: {
+          type: 'percentage',
+          value: 100
+        }
+      },
       lineSeries: [
         {
           name: 'Inventories',
@@ -109,11 +157,23 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+
+    async getProducts () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.getProducts}`
+      await axios.get(url)
+        .then(response => {
+          this.itemProducts.value.value = response.data.data.length
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
 
   mounted () {
     this.getItems()
+    this.getProducts()
   }
 }
 </script>

@@ -1,12 +1,11 @@
 <!-- TABLE WITH ALL PRODUCTS AND STOCK WITH A NEW COLUMN TO WRITE THE NEW STOCK -->
 <template>
-  <q-page padding>
-    <div class="q-pa-md">
+  <q-page>
+    <div>
       <q-table
-        style="height: 100%"
+        style="height: 680px; width: 100%; margin-top: 15px; background-color: #EBF1F3; padding: 15px;"
         class="sticky-header-table"
         flat
-        bordered
         :rows="rows"
         :columns="columns"
         :row-key="row => row.reference"
@@ -14,6 +13,7 @@
         :selection="selection"
         virtual-scroll
         v-model:selected="selected"
+        hide-bottom
       >
       <template #header-selection="scope">
         <q-checkbox v-model="scope.selected" />
@@ -32,7 +32,7 @@
           <q-td key="description" :props="props">{{ props.row.description }}</q-td>
           <q-td key="stock" :props="props">
             {{ props.row.stock }}
-            <q-popup-edit v-model.number="props.row.stock" auto-save v-slot="scope" @save="oldStock=props.row.stock" persistent @update:model-value="openPopup(props.row)">
+            <q-popup-edit v-model.number="props.row.stock" auto-save v-slot="scope" @save="oldStock=props.row.stock" @update:model-value="openPopup(props.row)">
               <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
             </q-popup-edit>
             <q-icon
@@ -293,6 +293,7 @@ export default defineComponent({
 }
 
 .sticky-header-table .q-table__top, .q-table__bottom, thead tr:first-child th {
+  background-color: #EBF1F3;
   font-size: 14px;
 }
 

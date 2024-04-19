@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div>
-      <CardList :items="areas"/>
+      <CardList :items="areasWithPermission"/>
     </div>
   </q-page>
 </template>
@@ -20,8 +20,12 @@ export default defineComponent({
 
   data () {
     return {
-      areas
+      areasWithPermission: {}
     }
+  },
+
+  mounted () {
+    this.areasWithPermission = areas.filter(area => area.permission <= 3)
   }
 })
 </script>

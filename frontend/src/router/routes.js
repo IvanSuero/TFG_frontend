@@ -6,9 +6,13 @@ const routes = [
       { path: '', component: () => import('src/pages/AreasPage.vue'), name: 'areas' },
       { path: 'inventory', component: () => import('src/pages/ProductsInventoryPage.vue'), name: 'inventory' },
       { path: 'history', component: () => import('src/pages/HistoryPage.vue'), name: 'history' },
-      { path: 'create', component: () => import('src/pages/CreateProductPage.vue'), name: 'create' },
+      { path: 'create-product', component: () => import('src/pages/CreateProductPage.vue'), name: 'create-product' },
       { path: 'statistics', component: () => import('src/pages/StatisticsPage.vue'), name: 'statistics' },
-      { path: 'locations', component: () => import('src/pages/LocationsPage.vue'), name: 'locations' }
+      { path: 'labels', component: () => import('src/pages/LabelsPage.vue'), name: 'labels' },
+      { path: 'create-location', component: () => import('src/pages/CreateLocationPage.vue'), name: 'create-location' },
+      { path: 'users', component: () => import('src/pages/UsersListPage.vue'), name: 'users' },
+      { path: 'capacity', component: () => import('src/pages/CapacityPage.vue'), name: 'capacity' },
+      { path: 'settings', component: () => import('src/pages/SettingsPage.vue'), name: 'settings' }
     ]
   },
 

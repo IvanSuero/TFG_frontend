@@ -18,7 +18,7 @@
   flex-direction: column;
   gap: 10px;
   height: 100%;
-  background-color: #f5f5f5;
+  background-color: #EBF1F3;
 }
 .closeBtn{
   padding: 25px;
