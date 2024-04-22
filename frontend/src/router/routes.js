@@ -11,6 +11,7 @@ const routes = [
       { path: 'labels', component: () => import('src/pages/LabelsPage.vue'), name: 'labels' },
       { path: 'create-location', component: () => import('src/pages/CreateLocationPage.vue'), name: 'create-location' },
       { path: 'users', component: () => import('src/pages/UsersListPage.vue'), name: 'users' },
+      { path: 'create-user', component: () => import('src/pages/CreateUserPage.vue'), name: 'create-user' },
       { path: 'capacity', component: () => import('src/pages/CapacityPage.vue'), name: 'capacity' },
       { path: 'settings', component: () => import('src/pages/SettingsPage.vue'), name: 'settings' }
     ]

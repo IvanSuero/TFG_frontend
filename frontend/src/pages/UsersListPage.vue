@@ -1,6 +1,18 @@
 <template>
   <!-- Table with all users and the level of permissions -->
   <div class="usersPage">
+    <div class="tableHeader">
+      <q-btn
+        label="Create User"
+        color="green"
+        @click="goToCreateUser"
+      />
+      <q-btn
+        label="Delete User"
+        color="blue"
+        @click="deleteUser"
+      />
+    </div>
     <q-table
       style="height: 680px; width: 100%; margin-top: 15px; background-color: #EBF1F3; padding: 15px;"
       class="sticky-header-table"
@@ -42,8 +54,8 @@
 <style>
 .usersPage {
   display: flex;
-  gap: 10px;
-  margin: 25px;
+  gap: 5px;
+  margin-top: 25px;
   flex-direction: column;
   align-items: flex-start;
 }
@@ -68,9 +80,13 @@ thead tr:first-child th{
 }
 
 .tableHeader {
-  margin-right: 15px;
+  width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  margin-left: 2rem;
+  gap: 1rem;
+  align-items: flex-start;
 }
 
 .edit__icon {
@@ -130,6 +146,15 @@ export default defineComponent({
         descending: false,
         rowsPerPage: 0
       }
+    }
+  },
+
+  methods: {
+    goToCreateUser () {
+      this.$router.push({ name: 'create-user' })
+    },
+    deleteUser () {
+      console.log('delete user')
     }
   }
 })

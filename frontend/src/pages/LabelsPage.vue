@@ -4,7 +4,7 @@
     <div class="tableHeader">
       <q-btn
         label="Reset filters"
-        color="green"
+        color="orange"
         @click="resetFilters"
       />
       <q-btn
@@ -13,13 +13,8 @@
         @click="relocate"
       />
       <q-btn
-        label="New Label"
-        color="blue"
-        @click="newLabel"
-      />
-      <q-btn
-        label="New Location"
-        color="blue"
+        label="New"
+        color="green"
         @click="goToNewLocation"
       />
     </div>
@@ -64,9 +59,9 @@
         <!-- Table content for locations of the selected zone -->
         <template #body="props">
         <q-tr :props="props" @click="clickRowLocations(props.row)"
-            :style="{ backgroundColor: props.row.name === selectedLocation ? '#D2E3E0' : '' }">
-          <q-td key="name" :props="props">
-            {{ props.row.name }}
+            :style="{ backgroundColor: props.row.location === selectedLocation ? '#D2E3E0' : '' }">
+          <q-td key="location" :props="props">
+            {{ props.row.location }}
           </q-td>
           <q-td key="zone" :props="props">
             {{ props.row.zone }}
@@ -121,7 +116,7 @@ thead tr:first-child th{
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  margin-left: 6rem;
+  margin-left: 5rem;
   gap: 1rem;
   align-items: flex-start;
 }
@@ -170,62 +165,30 @@ thead tr:first-child th{
 <script>
 
 import { defineComponent, ref } from 'vue'
+import apiPathUrl from '../config/apiPathUrl'
+import axios from 'axios'
 
 export default defineComponent({
   name: 'LabelsPage',
   setup () {
     // Data for location zones
-    const zoneRows = [
-      { id: 1, name: 'Zone 1' },
-      { id: 2, name: 'Zone 2' },
-      { id: 3, name: 'Zone 3' },
-      { id: 4, name: 'Zone 4' },
-      { id: 5, name: 'Zone 5' },
-      { id: 6, name: 'Zone 6' }
-    ]
+    const zoneRows = ref([])
     // Columns for location zones table
     const zoneColumns = [
       { name: 'name', label: 'Zone', align: 'center', field: 'name' }
     ]
     // Data for locations of the selected zone
-    const allLocations = [
-      { id: 1, name: 'Location 1', zone: 'Zone 1', volume: 100 },
-      { id: 2, name: 'Location 2', zone: 'Zone 2', volume: 200 },
-      { id: 3, name: 'Location 3', zone: 'Zone 3', volume: 300 },
-      { id: 4, name: 'Location 4', zone: 'Zone 1', volume: 400 },
-      { id: 5, name: 'Location 5', zone: 'Zone 2', volume: 500 },
-      { id: 6, name: 'Location 6', zone: 'Zone 3', volume: 600 }
-    ]
+    const allLocations = ref([])
     // Columns for locations of the selected zone table
     const locationColumns = [
-      { name: 'name', label: 'Location', align: 'left', field: 'name' },
+      { name: 'location', label: 'Location', align: 'left', field: 'location' },
       { name: 'zone', label: 'Zone', align: 'left', field: 'zone' },
       { name: 'volume', label: 'Volume', align: 'center', field: 'volume' }
     ]
 
-    const locationRows = ref([
-      { id: 1, name: 'Location 1', zone: 'Zone 1', volume: 100 },
-      { id: 2, name: 'Location 2', zone: 'Zone 2', volume: 200 },
-      { id: 3, name: 'Location 3', zone: 'Zone 3', volume: 300 },
-      { id: 4, name: 'Location 4', zone: 'Zone 1', volume: 400 },
-      { id: 5, name: 'Location 5', zone: 'Zone 2', volume: 500 },
-      { id: 6, name: 'Location 6', zone: 'Zone 3', volume: 600 }
-    ])
+    const locationRows = ref([])
 
-    const allLabels = [
-      { id: 1, label: '12345678', product: 'R-001', location: 'Location 1', quantity: 10 },
-      { id: 2, label: '36274637', product: 'R-002', location: 'Location 2', quantity: 20 },
-      { id: 3, label: '12345678', product: 'R-001', location: 'Location 3', quantity: 30 },
-      { id: 4, label: '36274637', product: 'R-002', location: 'Location 4', quantity: 40 },
-      { id: 5, label: '12345678', product: 'R-001', location: 'Location 5', quantity: 50 },
-      { id: 6, label: '36274637', product: 'R-002', location: 'Location 6', quantity: 60 },
-      { id: 7, label: '12345678', product: 'R-001', location: 'Location 1', quantity: 10 },
-      { id: 8, label: '36274637', product: 'R-002', location: 'Location 2', quantity: 20 },
-      { id: 9, label: '12345678', product: 'R-001', location: 'Location 3', quantity: 30 },
-      { id: 10, label: '36274637', product: 'R-002', location: 'Location 4', quantity: 40 },
-      { id: 11, label: '12345678', product: 'R-001', location: 'Location 5', quantity: 50 },
-      { id: 12, label: '36274637', product: 'R-002', location: 'Location 6', quantity: 60 }
-    ]
+    const allLabels = ref([])
 
     const labelColumns = [
       { name: 'label', label: 'Label', align: 'left', field: 'label' },
@@ -234,20 +197,7 @@ export default defineComponent({
       { name: 'quantity', label: 'Quantity', align: 'center', field: 'quantity' }
     ]
 
-    const labelRows = ref([
-      { id: 1, label: '12345678', product: 'R-001', location: 'Location 1', quantity: 10 },
-      { id: 2, label: '36274637', product: 'R-002', location: 'Location 2', quantity: 20 },
-      { id: 3, label: '12345678', product: 'R-001', location: 'Location 3', quantity: 30 },
-      { id: 4, label: '36274637', product: 'R-002', location: 'Location 4', quantity: 40 },
-      { id: 5, label: '12345678', product: 'R-001', location: 'Location 5', quantity: 50 },
-      { id: 6, label: '36274637', product: 'R-002', location: 'Location 6', quantity: 60 },
-      { id: 7, label: '12345678', product: 'R-001', location: 'Location 1', quantity: 10 },
-      { id: 8, label: '36274637', product: 'R-002', location: 'Location 2', quantity: 20 },
-      { id: 9, label: '12345678', product: 'R-001', location: 'Location 3', quantity: 30 },
-      { id: 10, label: '36274637', product: 'R-002', location: 'Location 4', quantity: 40 },
-      { id: 11, label: '12345678', product: 'R-001', location: 'Location 5', quantity: 50 },
-      { id: 12, label: '36274637', product: 'R-002', location: 'Location 6', quantity: 60 }
-    ])
+    const labelRows = ref([])
 
     return {
       zoneRows,
@@ -282,18 +232,18 @@ export default defineComponent({
         this.labelRows = this.allLabels
       }
       this.locationRows = this.allLocations.filter(location => location.zone === row.name)
-      this.labelRows = this.allLabels.filter(label => this.locationRows.find(location => location.name === label.location))
+      this.labelRows = this.allLabels.filter(label => this.locationRows.find(location => location.location === label.location))
       this.selectedZone = row.name
     },
 
     clickRowLocations (row) {
-      if (this.selectedLocation === row.name) {
+      if (this.selectedLocation === row.location) {
         this.selectedLocation = ''
         this.labelRows = this.allLabels
         return
       }
-      this.labelRows = this.allLabels.filter(label => label.location === row.name)
-      this.selectedLocation = row.name
+      this.labelRows = this.allLabels.filter(label => label.location === row.location)
+      this.selectedLocation = row.location
     },
 
     resetFilters () {
@@ -313,7 +263,48 @@ export default defineComponent({
 
     newLabel () {
       console.log('New Label')
+    },
+
+    async getZones () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.getZones}`
+      await axios.get(url)
+        .then(response => {
+          this.zoneRows = response.data.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    async getLocations () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.getLocations}`
+      await axios.get(url)
+        .then(response => {
+          this.locationRows = response.data.data
+          this.allLocations = response.data.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    async getLabels () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.getLabels}`
+      await axios.get(url)
+        .then(response => {
+          this.labelRows = response.data.data
+          this.allLabels = response.data.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
+  },
+
+  mounted () {
+    this.getZones()
+    this.getLocations()
+    this.getLabels()
   }
 })
 

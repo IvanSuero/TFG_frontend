@@ -260,10 +260,39 @@ export default defineComponent({
       this.selected = []
     },
 
-    deleteItems () {
-      console.log(this.selected)
+    async deleteItems () {
+      if (this.selected[0].stock !== 0) {
+        this.$q.notify({
+          color: 'red',
+          message: 'Product has stock',
+          icon: 'warning',
+          timeout: 3000
+        })
+        return
+      }
+      const url = `${apiPathUrl.backend}/${apiPathUrl.deleteProduct}`
+      const body = {
+        reference: this.selected[0].reference
+      }
+      console.log(body)
+      await axios.post(url, body)
+        .then(response => {
+          if (response.status === 200) {
+            this.$q.notify({
+              color: 'positive',
+              message: 'Product deleted correctly',
+              icon: 'check',
+              timeout: 1000
+            })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
       this.selection = 'none'
       this.selected = []
+      this.getItems()
     },
 
     goToNewProduct () {

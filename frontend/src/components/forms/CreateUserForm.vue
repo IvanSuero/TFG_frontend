@@ -1,8 +1,8 @@
 <template>
   <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-      <q-input type="text" v-model="reference" label="Reference" filled lazy-rules />
-      <q-input v-model="description" label="Description" type="text" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
-      <q-input v-model="stock" label="Initial stock" type="number" filled lazy-rules :rules="[val => val >= 0 || 'Please enter a positive number']" />
+      <q-input type="text" v-model="username" label="Username" filled lazy-rules />
+      <q-input v-model="email" label="Email" type="text" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
+      <q-select v-model="role" label="Role" filled lazy-rules :options="roles"></q-select>
       <div class="addFormButtons">
         <q-btn label="Submit" color="green" type="submit" />
         <q-btn label="Reset" color="warning" type="reset" />
@@ -23,29 +23,33 @@
 import axios from 'axios'
 import apiPathUrl from '../../config/apiPathUrl'
 import { useQuasar } from 'quasar'
-import { ref } from 'vue'
 
 export default {
   data () {
     return {
-      reference: '',
-      stock: 0,
-      description: '',
-      products: ref([]),
+      username: '',
+      email: '',
+      role: '',
+      roles: [
+        'Admin',
+        'Staff',
+        'User'
+      ],
+      users: [],
       $q: useQuasar()
     }
   },
   methods: {
     async onSubmit () {
-      const map = this.products.map(product => product.reference)
-      const exists = map.includes(this.reference)
+      const map = this.users.map(user => user.username)
+      const exists = map.includes(this.username)
 
       if (!exists && this.validateForm()) {
-        const url = `${apiPathUrl.backend}/${apiPathUrl.createProduct}`
+        const url = `${apiPathUrl.backend}/${apiPathUrl.createUser}`
         const body = {
-          reference: this.reference,
-          stock: this.stock,
-          description: this.description
+          username: this.username,
+          email: this.email,
+          role: this.role
         }
         console.log(body)
         await axios.post(url, body)
@@ -54,16 +58,16 @@ export default {
               color: 'green-4',
               textColor: 'white',
               icon: 'check',
-              message: 'Product created successfully'
+              message: 'User created successfully'
             })
-            this.$router.push({ name: 'inventory' })
+            this.$router.push({ name: 'users' })
           })
       } else if (exists) {
         this.$q.notify({
           color: 'red-4',
           textColor: 'white',
           icon: 'report_problem',
-          message: 'Product already exists'
+          message: 'Username already exists'
         })
       } else {
         this.$q.notify({
@@ -76,23 +80,23 @@ export default {
     },
 
     onReset () {
-      this.reference = ''
-      this.stock = 0
-      this.description = ''
+      this.username = ''
+      this.email = ''
+      this.role = ''
     },
 
     validateForm () {
-      if (this.reference === '' || this.description === '' || this.stock === '') {
+      if (this.username === '' || this.email === '' || this.role === '') {
         return false
       }
       return true
     },
 
-    async getItems () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.getProducts}`
+    async getUsers () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.getUsers}`
       await axios.get(url)
         .then(response => {
-          this.products = response.data.data
+          this.users = response.data.data
         })
         .catch(error => {
           console.log(error)
@@ -101,7 +105,7 @@ export default {
   },
 
   mounted () {
-    this.getItems()
+    this.getUsers()
   }
 }
 </script>

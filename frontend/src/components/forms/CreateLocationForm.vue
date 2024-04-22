@@ -1,10 +1,20 @@
 <template>
-  <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+  <q-form @submit="onSubmit" @reset="onReset" class="formHeader">
     <q-select v-model="type" filled :options="options" label="Type" lazy-rules></q-select>
-      <q-input v-show="activeForm" v-model="zoneName" label="Zone Name" type="text" filled lazy-rules/>
-      <q-input v-show="!activeForm" v-model="LocationName" label="Location Name" type="text" filled lazy-rules/>
-      <q-input v-show="!activeForm" v-model="LocationVolume" label="Volume" type="number" filled lazy-rules/>
-      <q-select v-model="locationZone" v-show="!activeForm" label="Location Zone" filled lazy-rules :options="zoneOptions"></q-select>
+    <div v-show="zoneForm">
+      <q-input v-model="zoneName" label="Zone Name" type="text" filled lazy-rules/>
+    </div>
+    <div v-show="locationForm" class="q-gutter-md">
+      <q-input v-model="locationName" label="Location Name" type="text" filled lazy-rules/>
+      <q-input v-model="locationVolume" label="Volume" type="number" filled lazy-rules/>
+      <q-select v-model="locationZone" label="Location Zone" filled lazy-rules :options="zoneOptions"></q-select>
+    </div>
+    <div v-show="labelForm" class="q-gutter-md">
+      <q-input v-model="label" label="Label" type="text" filled lazy-rules/>
+      <q-input v-model="labelProduct" label="Product" type="text" filled lazy-rules/>
+      <q-input v-model="labelLocation" label="Location" type="text" filled lazy-rules/>
+      <q-input v-model="labelQuantity" label="Quantity" type="number" filled lazy-rules/>
+    </div>
       <div class="addFormButtons">
         <q-btn label="Submit" color="green" type="submit" />
         <q-btn label="Reset" color="warning" type="reset" />
@@ -19,56 +29,118 @@
   gap: 15px;
   justify-content: center;
 }
+.formHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 </style>
 
 <script>
+import axios from 'axios'
+import apiPathUrl from 'src/config/apiPathUrl'
+
 export default {
   data () {
     return {
-      activeForm: false,
+      zoneForm: false,
+      labelForm: false,
+      locationForm: true,
       type: 'Location',
       zoneName: '',
-      LocationName: '',
-      LocationVolume: 0,
+      locationName: '',
+      locationVolume: 0,
+      locationZone: '',
+      label: '',
+      labelProduct: '',
+      labelLocation: '',
+      labelQuantity: 0,
       options: [
-        {
-          label: 'Zone',
-          value: 'Zone'
-        },
-        {
-          label: 'Location',
-          value: 'Location'
-        }
+        'Zone',
+        'Location',
+        'Label'
       ],
       zoneOptions: [
-        {
-          label: 'Zone 1',
-          value: 'Zone 1'
-        },
-        {
-          label: 'Zone 2',
-          value: 'Zone 2'
-        }
-      ],
-      locationZone: ''
+        'Zone 1',
+        'Zone 2',
+        'Zone 3'
+      ]
     }
   },
   methods: {
-    async onSubmit () {
-      console.log(this.type, this.zoneName, this.LocationName, this.LocationVolume)
+    onSubmit () {
+      console.log(this.type)
+      switch (this.type) {
+        case 'Zone':
+          this.submitZone()
+          break
+        case 'Location':
+          this.submitLocation()
+          break
+        case 'Label':
+          this.submitLabel()
+          break
+      }
+    },
+
+    async submitZone () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.createZone}`
+      const body = {
+        name: this.zoneName
+      }
+      await axios.post(url, body)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    async submitLocation () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.createLocation}`
+      const body = {
+        name: this.locationName,
+        zone: this.locationZone,
+        volume: this.locationVolume
+      }
+      await axios.post(url, body)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    async submitLabel () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.createLabel}`
+      const body = {
+        label: this.label,
+        product: this.labelProduct,
+        location: this.labelLocation,
+        quantity: this.labelQuantity
+      }
+      await axios.post(url, body)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
 
     onReset () {
       this.type = ''
       this.zoneName = ''
-      this.LocationName = ''
-      this.LocationVolume = 0
+      this.locationName = ''
+      this.locationVolume = 0
     },
 
     validateForm () {
       if (this.type === 'Zone' && this.zoneName === '') {
         return false
-      } else if (this.type === 'Location' && (this.LocationName === '' || this.LocationVolume === 0)) {
+      } else if (this.type === 'Location' && (this.locationName === '' || this.locationVolume === 0)) {
         return false
       }
       return true
@@ -76,8 +148,11 @@ export default {
   },
 
   watch: {
-    type () {
-      this.activeForm = !this.activeForm
+    type (val) {
+      console.log(val)
+      this.zoneForm = val === 'Zone'
+      this.locationForm = val === 'Location'
+      this.labelForm = val === 'Label'
     }
   }
 }
