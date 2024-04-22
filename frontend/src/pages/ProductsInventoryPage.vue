@@ -70,6 +70,12 @@
           />
           <q-btn
             v-if="selection==='none'"
+            color="blue"
+            label="New Product"
+            @click="goToNewProduct"
+          />
+          <q-btn
+            v-if="selection==='none'"
             color="red"
             label="Delete"
             @click="activeDeleteMode"
@@ -203,7 +209,7 @@ export default defineComponent({
 
     async saveInventory (row) {
       console.log(row)
-      const url = `${apiPathUrl.backend}/${apiPathUrl.update}`
+      const url = `${apiPathUrl.backend}/${apiPathUrl.updateProduct}`
       if (this.body.comments === undefined) {
         this.body.comments = ''
       }
@@ -258,6 +264,10 @@ export default defineComponent({
       console.log(this.selected)
       this.selection = 'none'
       this.selected = []
+    },
+
+    goToNewProduct () {
+      this.$router.push({ name: 'create-product' })
     }
   },
 

@@ -16,27 +16,11 @@ const areas = [
     area: 'warehouse'
   },
   {
-    name: 'Create Product',
-    icon: 'add',
-    url: 'create-product',
-    id: 'products-create',
-    permission: 3,
-    area: 'warehouse'
-  },
-  {
     name: 'Labels',
     icon: 'label',
     url: 'labels',
     id: 'products-labels',
     permission: 1,
-    area: 'warehouse'
-  },
-  {
-    name: 'Create Location',
-    icon: 'location_on',
-    url: 'create-location',
-    id: 'locations-create',
-    permission: 2,
     area: 'warehouse'
   },
   {

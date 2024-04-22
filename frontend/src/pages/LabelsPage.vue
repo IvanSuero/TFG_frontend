@@ -1,6 +1,28 @@
 <template>
   <div class="labels-page">
     <!-- Table for location zones -->
+    <div class="tableHeader">
+      <q-btn
+        label="Reset filters"
+        color="green"
+        @click="resetFilters"
+      />
+      <q-btn
+        label="Relocate"
+        color="blue"
+        @click="relocate"
+      />
+      <q-btn
+        label="New Label"
+        color="blue"
+        @click="newLabel"
+      />
+      <q-btn
+        label="New Location"
+        color="blue"
+        @click="goToNewLocation"
+      />
+    </div>
     <div class="row-tables">
     <q-table
         style="height: 200px"
@@ -70,13 +92,6 @@
         virtual-scroll
       >
       </q-table>
-      <div class="buttonsList">
-      <q-btn
-        label="Reset filters"
-        color="primary"
-        @click="resetFilters"
-      />
-    </div>
   </div>
 </template>
 
@@ -102,9 +117,13 @@ thead tr:first-child th{
 }
 
 .tableHeader {
-  margin-right: 15px;
+  width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  margin-left: 6rem;
+  gap: 1rem;
+  align-items: flex-start;
 }
 
 .labels-page {
@@ -143,6 +162,7 @@ thead tr:first-child th{
   justify-content: flex-end;
   width: 100%;
   margin-right: 5rem;
+  gap: 1rem;
 }
 
 </style>
@@ -281,6 +301,18 @@ export default defineComponent({
       this.selectedLocation = ''
       this.locationRows = this.allLocations
       this.labelRows = this.allLabels
+    },
+
+    relocate () {
+      console.log('Relocate')
+    },
+
+    goToNewLocation () {
+      this.$router.push({ name: 'create-location' })
+    },
+
+    newLabel () {
+      console.log('New Label')
     }
   }
 })
