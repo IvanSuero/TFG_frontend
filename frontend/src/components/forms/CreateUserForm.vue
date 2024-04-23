@@ -23,13 +23,14 @@
 import axios from 'axios'
 import apiPathUrl from '../../config/apiPathUrl'
 import { useQuasar } from 'quasar'
+import { ref } from 'vue'
 
 export default {
   data () {
     return {
-      username: '',
-      email: '',
-      role: '',
+      username: ref(''),
+      email: ref(''),
+      role: ref(''),
       roles: [
         'Admin',
         'Staff',
@@ -49,7 +50,7 @@ export default {
         const body = {
           username: this.username,
           email: this.email,
-          role: this.role
+          permissions: this.role
         }
         console.log(body)
         await axios.post(url, body)

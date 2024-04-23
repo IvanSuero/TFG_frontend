@@ -8,8 +8,14 @@
         @click="goToCreateUser"
       />
       <q-btn
-        label="Delete User"
+        :label="deletedActive ? 'Cancel' : 'Delete'"
         color="blue"
+        @click="activeDelete"
+      />
+      <q-btn
+        v-if="selected.length > 0"
+        label="Delete"
+        color="red"
         @click="deleteUser"
       />
     </div>
@@ -23,9 +29,22 @@
       :pagination="pagination"
       virtual-scroll
       hide-bottom
+      :selection="selection"
+      v-model:selected="selected"
     >
+      <template #header-selection="scope">
+        <q-checkbox v-model="scope.selected" />
+      </template>
       <template #body="props">
         <q-tr :props="props">
+          <q-td v-if="selection === 'single' || selection ==='multiple'" auto-width>
+            <q-checkbox
+              :model-value="props.selected"
+              @update:model-value="(val) => {
+                props.selected = val;
+              }"
+            />
+          </q-td>
           <q-td key="username" :props="props">{{ props.row.username }}</q-td>
           <q-td key="email" :props="props">{{ props.row.email }}</q-td>
           <q-td key="is_staff" :props="props">
@@ -36,7 +55,7 @@
           </q-td>
           <q-td key="permissions" :props="props">
             {{ props.row.permissions }}
-            <q-popup-edit v-model="props.row.permissions" auto-save v-slot="scope" @save="oldPermission=props.row.permissions">
+            <q-popup-edit v-model="props.row.permissions" auto-save v-slot="scope" @save="oldPermission=props.row.permissions" @update:model-value="updateUser(props.row)">
               <q-select v-model="scope.value" dense @keyup.enter="scope.set" :options="permissionOptions" />
             </q-popup-edit>
             <q-icon
@@ -96,7 +115,9 @@ thead tr:first-child th{
 </style>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import axios from 'axios'
+import apiPathUrl from '../config/apiPathUrl'
 
 export default defineComponent({
   name: 'UsersListPage',
@@ -115,46 +136,80 @@ export default defineComponent({
         { name: 'is_superuser', label: 'Superuser', align: 'center', field: 'is_superuser', sortable: true },
         { name: 'permissions', label: 'Permissions', align: 'center', field: 'permissions', sortable: true }
       ],
-      rows: [
-        {
-          id: 1,
-          username: 'admin',
-          email: 'aaa@aaa.com',
-          is_staff: false,
-          is_superuser: true,
-          permissions: 'Admin'
-        },
-        {
-          id: 2,
-          username: 'staff',
-          email: 'aaa@aaa.com',
-          is_staff: true,
-          is_superuser: false,
-          permissions: 'Staff'
-        },
-        {
-          id: 3,
-          username: 'aaa',
-          email: 'aaa@aaa.com',
-          is_staff: true,
-          is_superuser: false,
-          permissions: 'User'
-        }
-      ],
+      rows: ref([]),
       pagination: {
         sortBy: 'id',
         descending: false,
         rowsPerPage: 0
-      }
+      },
+      deletedActive: ref(false),
+      selection: ref('none'),
+      selected: ref([])
     }
   },
 
   methods: {
+    async getUsers () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.getUsers}`
+      await axios.get(url)
+        .then(response => {
+          this.rows = response.data.data
+          this.rows.forEach(row => {
+            row.is_superuser = row.permissions === 'Admin'
+            row.is_staff = !row.is_superuser
+          })
+          console.log(this.rows)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     goToCreateUser () {
       this.$router.push({ name: 'create-user' })
     },
-    deleteUser () {
-      console.log('delete user')
+    activeDelete () {
+      this.deletedActive = !this.deletedActive
+      this.selection === 'single' ? this.selection = 'none' : this.selection = 'single'
+      this.selected = []
+    },
+    async deleteUser () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.deleteUser}`
+      const body = { username: this.selected[0].username }
+      await axios.post(url, body)
+        .then(response => {
+          this.getUsers()
+          this.selected = []
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      this.activeDelete()
+    },
+
+    async updateUser (user) {
+      console.log(user)
+      const url = `${apiPathUrl.backend}/${apiPathUrl.updateUser}`
+      const body = {
+        username: user.username,
+        permissions: user.permissions
+      }
+      await axios.post(url, body)
+        .then(response => {
+          this.getUsers()
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  },
+
+  mounted () {
+    this.getUsers()
+  },
+
+  watch: {
+    permissions () {
+      this.updateUser()
     }
   }
 })

@@ -16,10 +16,10 @@ const apiPathUrl = {
   deleteZone: 'data/zones/delete',
   createLocation: 'data/locations/create', // WORKS
   deleteLocation: 'data/locations/delete',
-  getUsers: 'data/users',
-  updateUser: 'data/users/update',
-  createUser: 'data/users/create',
-  deleteUser: 'data/users/delete'
+  getUsers: 'data/users', // WORKS
+  updateUser: 'data/users/update', // WORKS
+  createUser: 'data/users/create', // WORKS
+  deleteUser: 'data/users/delete' // WORKS
 }
 
 export default apiPathUrl

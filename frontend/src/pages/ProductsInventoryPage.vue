@@ -106,7 +106,6 @@
             label="Comments"
             type="text"
             filled
-            dense
             autofocus
           />
         </q-card-section>
@@ -124,17 +123,27 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="createPopup">
+      <q-card class="q-pa-md popupCreate">
+        <h5>Create Product</h5>
+        <CreateForm />
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import apiPathUrl from 'src/config/apiPathUrl'
 import axios from 'axios'
+import CreateForm from 'src/components/forms/CreateProductForm.vue'
 
 export default defineComponent({
   name: 'ProductsInventoryPage',
+  components: {
+    CreateForm
+  },
 
   data () {
     return {
@@ -154,7 +163,8 @@ export default defineComponent({
       popup: false,
       noStockFilter: false,
       selection: 'none',
-      selected: []
+      selected: [],
+      createPopup: ref(false)
     }
   },
 
@@ -250,7 +260,7 @@ export default defineComponent({
     },
 
     activeDeleteMode () {
-      this.selection = 'multiple'
+      this.selection = 'single'
       this.noStockFilter = false
       this.rows = this.originalRows
     },
@@ -296,7 +306,7 @@ export default defineComponent({
     },
 
     goToNewProduct () {
-      this.$router.push({ name: 'create-product' })
+      this.createPopup = true
     }
   },
 
@@ -325,6 +335,12 @@ export default defineComponent({
 </script>
 
 <style>
+.popupCreate {
+  width: 30%;
+}
+.popupCreate h5 {
+  margin: 1rem 1rem 2rem 1rem;
+}
 .sticky-header-table {
   height: 100%;
   font-size: 14px;

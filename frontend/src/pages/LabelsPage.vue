@@ -87,10 +87,23 @@
         virtual-scroll
       >
       </q-table>
+
+    <q-dialog v-model="createPopup">
+      <q-card class="q-pa-lg popupLabels">
+        <h5>Create Location</h5>
+        <CreateLocationForm />
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <style>
+.popupLabels {
+  width: 30%;
+}
+.popupLabels h5 {
+  margin: 1rem 1rem 2rem 1rem;
+}
 .sticky-header-table {
   height: 100%;
   font-size: 14px;
@@ -167,9 +180,13 @@ thead tr:first-child th{
 import { defineComponent, ref } from 'vue'
 import apiPathUrl from '../config/apiPathUrl'
 import axios from 'axios'
+import CreateLocationForm from '../components/forms/CreateLocationForm.vue'
 
 export default defineComponent({
   name: 'LabelsPage',
+  components: {
+    CreateLocationForm
+  },
   setup () {
     // Data for location zones
     const zoneRows = ref([])
@@ -214,7 +231,8 @@ export default defineComponent({
         sortBy: 'id',
         descending: false,
         rowsPerPage: 0
-      }
+      },
+      createPopup: ref(false)
     }
   },
 
@@ -258,7 +276,7 @@ export default defineComponent({
     },
 
     goToNewLocation () {
-      this.$router.push({ name: 'create-location' })
+      this.createPopup = true
     },
 
     newLabel () {
