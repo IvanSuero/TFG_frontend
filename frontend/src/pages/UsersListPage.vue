@@ -67,6 +67,10 @@
         </q-tr>
       </template>
     </q-table>
+
+    <q-dialog v-model="createUserPopup">
+      <CommonPopup title="Create User" type="user"/>
+    </q-dialog>
   </div>
 </template>
 
@@ -118,9 +122,14 @@ thead tr:first-child th{
 import { defineComponent, ref } from 'vue'
 import axios from 'axios'
 import apiPathUrl from '../config/apiPathUrl'
+import CommonPopup from '../components/CommonPopup.vue'
 
 export default defineComponent({
   name: 'UsersListPage',
+
+  components: {
+    CommonPopup
+  },
 
   data () {
     return {
@@ -144,7 +153,8 @@ export default defineComponent({
       },
       deletedActive: ref(false),
       selection: ref('none'),
-      selected: ref([])
+      selected: ref([]),
+      createUserPopup: ref(false)
     }
   },
 
@@ -165,7 +175,7 @@ export default defineComponent({
         })
     },
     goToCreateUser () {
-      this.$router.push({ name: 'create-user' })
+      this.createUserPopup = true
     },
     activeDelete () {
       this.deletedActive = !this.deletedActive

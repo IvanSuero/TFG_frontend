@@ -89,21 +89,16 @@
       </q-table>
 
     <q-dialog v-model="createPopup">
-      <q-card class="q-pa-lg popupLabels">
-        <h5>Create Location</h5>
-        <CreateLocationForm />
-      </q-card>
+      <CommonPopup title="Create Location" type="location"/>
+    </q-dialog>
+
+    <q-dialog v-model="relocatePopup">
+      <CommonPopup title="Relocate Label" type="relocate"/>
     </q-dialog>
   </div>
 </template>
 
 <style>
-.popupLabels {
-  width: 30%;
-}
-.popupLabels h5 {
-  margin: 1rem 1rem 2rem 1rem;
-}
 .sticky-header-table {
   height: 100%;
   font-size: 14px;
@@ -180,12 +175,12 @@ thead tr:first-child th{
 import { defineComponent, ref } from 'vue'
 import apiPathUrl from '../config/apiPathUrl'
 import axios from 'axios'
-import CreateLocationForm from '../components/forms/CreateLocationForm.vue'
+import CommonPopup from '../components/CommonPopup.vue'
 
 export default defineComponent({
   name: 'LabelsPage',
   components: {
-    CreateLocationForm
+    CommonPopup
   },
   setup () {
     // Data for location zones
@@ -232,7 +227,8 @@ export default defineComponent({
         descending: false,
         rowsPerPage: 0
       },
-      createPopup: ref(false)
+      createPopup: ref(false),
+      relocatePopup: ref(false)
     }
   },
 
@@ -272,15 +268,11 @@ export default defineComponent({
     },
 
     relocate () {
-      console.log('Relocate')
+      this.relocatePopup = true
     },
 
     goToNewLocation () {
       this.createPopup = true
-    },
-
-    newLabel () {
-      console.log('New Label')
     },
 
     async getZones () {

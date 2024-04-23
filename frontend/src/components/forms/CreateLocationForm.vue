@@ -1,19 +1,19 @@
 <template>
   <q-form @submit="onSubmit" @reset="onReset" class="formHeader">
-    <q-select v-model="type" filled :options="options" label="Type" lazy-rules></q-select>
+    <q-select v-model="type" filled :options="options" label="Type" lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"></q-select>
     <div v-show="zoneForm">
-      <q-input v-model="zoneName" label="Zone Name" type="text" filled lazy-rules/>
+      <q-input v-model="zoneName" label="Zone Name" type="text" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
     </div>
     <div v-show="locationForm" class="q-gutter-md">
-      <q-input v-model="locationName" label="Location Name" type="text" filled lazy-rules/>
-      <q-input v-model="locationVolume" label="Volume" type="number" filled lazy-rules/>
-      <q-select v-model="locationZone" label="Location Zone" filled lazy-rules :options="zoneOptions"></q-select>
+      <q-input v-model="locationName" label="Location Name" type="text" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
+      <q-input v-model="locationVolume" label="Volume" type="number" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
+      <q-select v-model="locationZone" label="Location Zone" filled lazy-rules :options="zoneOptions" :rules="[val => val !== '' || 'Please fill all fields']"></q-select>
     </div>
     <div v-show="labelForm" class="q-gutter-md">
-      <q-input v-model="label" label="Label" type="text" filled lazy-rules/>
-      <q-input v-model="labelProduct" label="Product" type="text" filled lazy-rules/>
-      <q-input v-model="labelLocation" label="Location" type="text" filled lazy-rules/>
-      <q-input v-model="labelQuantity" label="Quantity" type="number" filled lazy-rules/>
+      <q-input v-model="label" label="Label" type="text" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
+      <q-input v-model="labelProduct" label="Product" type="text" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
+      <q-input v-model="labelLocation" label="Location" type="text" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
+      <q-input v-model="labelQuantity" label="Quantity" type="number" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
     </div>
       <div class="addFormButtons">
         <q-btn label="Submit" color="green" type="submit" />
@@ -39,6 +39,7 @@
 <script>
 import axios from 'axios'
 import apiPathUrl from 'src/config/apiPathUrl'
+import { ref } from 'vue'
 
 export default {
   data () {
@@ -60,11 +61,7 @@ export default {
         'Location',
         'Label'
       ],
-      zoneOptions: [
-        'Zone 1',
-        'Zone 2',
-        'Zone 3'
-      ]
+      zoneOptions: ref([])
     }
   },
   methods: {

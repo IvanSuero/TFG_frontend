@@ -41,6 +41,8 @@
               <img src="src/assets/edit.svg" alt="edit" />
             </q-icon>
           </q-td>
+          <q-td key="weight" :props="props">{{ props.row.weight }}</q-td>
+          <q-td key="volume" :props="props">{{ props.row.volume }}</q-td>
         </q-tr>
       </template>
       <template #top-left>
@@ -98,7 +100,7 @@
     </div>
 
     <!-- popup to add a comment to the inventory update -->
-    <q-dialog v-model="popup" persistent>
+    <q-dialog v-model="popup" rounded persistent>
       <q-card>
         <q-card-section>
           <q-input
@@ -123,11 +125,8 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <q-dialog v-model="createPopup">
-      <q-card class="q-pa-md popupCreate">
-        <h5>Create Product</h5>
-        <CreateForm />
-      </q-card>
+    <q-dialog v-model="createPopup" rounded>
+      <CommonPopup title="Create Product" type="product"/>
     </q-dialog>
   </q-page>
 </template>
@@ -137,12 +136,12 @@ import { defineComponent, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import apiPathUrl from 'src/config/apiPathUrl'
 import axios from 'axios'
-import CreateForm from 'src/components/forms/CreateProductForm.vue'
+import CommonPopup from 'src/components/CommonPopup.vue'
 
 export default defineComponent({
   name: 'ProductsInventoryPage',
   components: {
-    CreateForm
+    CommonPopup
   },
 
   data () {
@@ -202,6 +201,20 @@ export default defineComponent({
           label: 'Stock',
           align: 'left',
           field: 'stock',
+          sortable: true
+        },
+        {
+          name: 'weight',
+          label: 'Weight',
+          align: 'left',
+          field: 'weight',
+          sortable: true
+        },
+        {
+          name: 'volume',
+          label: 'Volume',
+          align: 'left',
+          field: 'volume',
           sortable: true
         }
       ]
@@ -339,7 +352,7 @@ export default defineComponent({
   width: 30%;
 }
 .popupCreate h5 {
-  margin: 1rem 1rem 2rem 1rem;
+  margin: 1rem 1rem 2rem 0rem;
 }
 .sticky-header-table {
   height: 100%;

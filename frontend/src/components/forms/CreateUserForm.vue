@@ -1,8 +1,8 @@
 <template>
   <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-      <q-input type="text" v-model="username" label="Username" filled lazy-rules />
+      <q-input type="text" v-model="username" label="Username" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
       <q-input v-model="email" label="Email" type="text" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
-      <q-select v-model="role" label="Role" filled lazy-rules :options="roles"></q-select>
+      <q-select v-model="role" label="Role" filled lazy-rules :options="roles" :rules="[val => val !== '' || 'Please fill all fields']"></q-select>
       <div class="addFormButtons">
         <q-btn label="Submit" color="green" type="submit" />
         <q-btn label="Reset" color="warning" type="reset" />

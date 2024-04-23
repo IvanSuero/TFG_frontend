@@ -1,8 +1,10 @@
 <template>
-  <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-      <q-input type="text" v-model="reference" label="Reference" filled lazy-rules />
+  <q-form @submit="onSubmit" @reset="onReset" class="formHeader">
+      <q-input type="text" v-model="reference" label="Reference" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
       <q-input v-model="description" label="Description" type="text" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
       <q-input v-model="stock" label="Initial stock" type="number" filled lazy-rules :rules="[val => val >= 0 || 'Please enter a positive number']" />
+      <q-input v-model="weight" label="Weight" type="number" filled lazy-rules :rules="[val => val >= 0 || 'Please enter a positive number']" />
+      <q-input v-model="volume" label="Volume" type="number" filled lazy-rules :rules="[val => val >= 0 || 'Please enter a positive number']" />
       <div class="addFormButtons">
         <q-btn label="Submit" color="green" type="submit" />
         <q-btn label="Reset" color="warning" type="reset" />
@@ -16,6 +18,11 @@
   flex-direction: row;
   gap: 15px;
   justify-content: center;
+}
+.formHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 </style>
 
@@ -31,6 +38,8 @@ export default {
       reference: '',
       stock: 0,
       description: '',
+      weight: 0,
+      volume: 0,
       products: ref([]),
       $q: useQuasar()
     }
@@ -40,23 +49,25 @@ export default {
       const map = this.products.map(product => product.reference)
       const exists = map.includes(this.reference)
 
-      if (!exists && this.validateForm()) {
+      if (!exists) {
         const url = `${apiPathUrl.backend}/${apiPathUrl.createProduct}`
         const body = {
           reference: this.reference,
           stock: this.stock,
-          description: this.description
+          description: this.description,
+          weight: this.weight,
+          volume: this.volume
         }
         console.log(body)
         await axios.post(url, body)
           .then(() => {
+            this.$router.push({ name: 'inventory' })
             this.$q.notify({
               color: 'green-4',
               textColor: 'white',
               icon: 'check',
               message: 'Product created successfully'
             })
-            this.$router.push({ name: 'inventory' })
           })
       } else if (exists) {
         this.$q.notify({
@@ -79,13 +90,8 @@ export default {
       this.reference = ''
       this.stock = 0
       this.description = ''
-    },
-
-    validateForm () {
-      if (this.reference === '' || this.description === '' || this.stock === '') {
-        return false
-      }
-      return true
+      this.weight = 0
+      this.volume = 0
     },
 
     async getItems () {
