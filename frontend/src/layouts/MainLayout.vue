@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <CommonHeader />
-    <q-page-container padding>
+    <q-page-container padding class="q-gutter-md">
       <router-view />
     </q-page-container>
   </q-layout>

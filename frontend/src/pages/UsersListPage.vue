@@ -53,16 +53,16 @@
           <q-td key="is_superuser" :props="props">
             <q-checkbox v-model="props.row.is_superuser" checked-icon="task_alt" unchecked-icon="highlight_off" dense disable color="green"></q-checkbox>
           </q-td>
-          <q-td key="permissions" :props="props">
-            {{ props.row.permissions }}
-            <q-popup-edit v-model="props.row.permissions" auto-save v-slot="scope" @save="oldPermission=props.row.permissions" @update:model-value="updateUser(props.row)">
-              <q-select v-model="scope.value" dense @keyup.enter="scope.set" :options="permissionOptions" />
-            </q-popup-edit>
+          <q-td key="permissions" :props="props" class="editInput">
             <q-icon
               class="edit__icon"
             >
               <img src="src/assets/edit.svg" alt="edit" />
             </q-icon>
+            {{ props.row.permissions }}
+            <q-popup-edit v-model="props.row.permissions" auto-save v-slot="scope" @save="oldPermission=props.row.permissions" @update:model-value="updateUser(props.row)">
+              <q-select v-model="scope.value" dense @keyup.enter="scope.set" :options="permissionOptions" />
+            </q-popup-edit>
           </q-td>
         </q-tr>
       </template>
@@ -143,7 +143,7 @@ export default defineComponent({
         { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
         { name: 'is_staff', label: 'Staff', align: 'center', field: 'is_staff', sortable: true },
         { name: 'is_superuser', label: 'Superuser', align: 'center', field: 'is_superuser', sortable: true },
-        { name: 'permissions', label: 'Permissions', align: 'center', field: 'permissions', sortable: true }
+        { name: 'permissions', label: 'Permissions', align: 'left', field: 'permissions', sortable: true }
       ],
       rows: ref([]),
       pagination: {

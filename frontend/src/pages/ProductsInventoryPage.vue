@@ -6,6 +6,7 @@
         style="height: 680px; width: 100%; margin-top: 15px; background-color: #EBF1F3; padding: 15px;"
         class="sticky-header-table"
         flat
+        bordered
         :rows="rows"
         :columns="columns"
         :row-key="row => row.reference"
@@ -30,16 +31,16 @@
           </q-td>
           <q-td key="reference" :props="props">{{ props.row.reference }}</q-td>
           <q-td key="description" :props="props">{{ props.row.description }}</q-td>
-          <q-td key="stock" :props="props">
-            {{ props.row.stock }}
-            <q-popup-edit v-model.number="props.row.stock" auto-save v-slot="scope" @save="oldStock=props.row.stock" @update:model-value="openPopup(props.row)">
-              <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
-            </q-popup-edit>
+          <q-td key="stock" :props="props" class="editInput">
             <q-icon
               class="edit__icon"
             >
               <img src="src/assets/edit.svg" alt="edit" />
             </q-icon>
+            {{ props.row.stock }}
+            <q-popup-edit v-model.number="props.row.stock" auto-save v-slot="scope" @save="oldStock=props.row.stock" @update:model-value="openPopup(props.row)">
+              <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
+            </q-popup-edit>
           </q-td>
           <q-td key="weight" :props="props">{{ props.row.weight }}</q-td>
           <q-td key="volume" :props="props">{{ props.row.volume }}</q-td>
@@ -348,6 +349,11 @@ export default defineComponent({
 </script>
 
 <style>
+.editInput {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 .popupCreate {
   width: 30%;
 }

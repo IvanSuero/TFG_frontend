@@ -2,7 +2,8 @@
   <q-toolbar class="header">
     <q-toolbar-title>
       <div class="title">
-        <a @click="this.$router.push('/')"><h6>.WMS</h6></a>
+        <h6 v-if="title !== 'Areas'"><a @click="this.$router.push('/')">Home</a> / {{ title }}</h6>
+        <h6 v-else>.WMS</h6>
       </div>
     </q-toolbar-title>
     <q-btn flat round dense :icon="drawer ? 'close' : 'menu'" @click="modifyDrawer" size="20px" />
@@ -24,7 +25,7 @@
   align-items: center;
   gap: 25px;
   width: 100%;
-  padding: 0 20px;
+  padding: 0;
   color: white;
 }
 
@@ -41,7 +42,7 @@
   width: fit-content;
   padding: 0 10px;
 }
-.title h6:hover{
+.title a:hover{
   cursor: pointer;
 }
 </style>
@@ -61,6 +62,22 @@ export default defineComponent({
   methods: {
     modifyDrawer () {
       this.$emit('drawerModify')
+    }
+  },
+
+  data () {
+    return {
+      title: ''
+    }
+  },
+
+  mounted () {
+    this.title = this.$route.meta.title
+  },
+
+  watch: {
+    $route () {
+      this.title = this.$route.meta.title
     }
   }
 })
