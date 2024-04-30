@@ -3,9 +3,9 @@ const routes = [
     path: '/',
     component: () => import('src/layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/AreasPage.vue'), name: 'areas', meta: { title: 'Areas' } },
-      { path: 'inventory', component: () => import('src/pages/ProductsInventoryPage.vue'), name: 'inventory', meta: { title: 'Inventory' } },
-      { path: 'history', component: () => import('src/pages/HistoryPage.vue'), name: 'history', meta: { title: 'History' } },
+      { path: '', component: () => import('src/pages/AreasPage.vue'), name: 'areas', meta: { title: 'Areas' } }, // FINALIZADA
+      { path: 'inventory', component: () => import('src/pages/ProductsInventoryPage.vue'), name: 'inventory', meta: { title: 'Inventory' } }, // FINALIZADA
+      { path: 'history', component: () => import('src/pages/HistoryPage.vue'), name: 'history', meta: { title: 'History' } }, // FINALIZADA
       { path: 'statistics', component: () => import('src/pages/StatisticsPage.vue'), name: 'statistics', meta: { title: 'Statistics' } },
       { path: 'labels', component: () => import('src/pages/LabelsPage.vue'), name: 'labels', meta: { title: 'Labels' } },
       { path: 'users', component: () => import('src/pages/UsersListPage.vue'), name: 'users', meta: { title: 'Users' } },

@@ -17,7 +17,7 @@
         <q-tr :props="props" @click="clickRowZones(props.row)"
             :style="{ backgroundColor: props.row.zone === selectedZone ? '#D2E3E0' : '' }">
           <q-td key="zone" :props="props">{{ props.row.zone }}</q-td>
-          <q-td key="ocupation" :props="props">{{ props.row.ocupation }} %</q-td>
+          <q-td key="ocupation" :props="props">{{ props.row.ocupation.toFixed(2) }} %</q-td>
         </q-tr>
       </template>
       </q-table>
@@ -36,7 +36,7 @@
         <template #body="props">
           <q-tr :props="props">
             <q-td key="location" :props="props">{{ props.row.location }}</q-td>
-            <q-td key="ocupation" :props="props">{{ props.row.ocupation }} %</q-td>
+            <q-td key="ocupation" :props="props">{{ props.row.ocupation.toFixed(2) }} %</q-td>
           </q-tr>
         </template>
       </q-table>
@@ -132,21 +132,38 @@ export default defineComponent({
     },
 
     calculateOcupancy () {
-      const location = this.locations.find(location => location.location === 'Location 2')
-      const labelsInLocation = this.labels.filter(label => label.location === location.location)
-      console.log(labelsInLocation)
-      const productsInLocation = this.products.filter(product => product.reference === labelsInLocation[0].product)
-      console.log(this.products)
-      console.log(productsInLocation)
-      const ocupation = productsInLocation.reduce((acc, product) => acc + product.volume, 0)
-      this.locationRows.push({ location: location.location, zone: location.zone, ocupation })
-      this.originalRows.push({ location: location.location, zone: location.zone, ocupation })
+      this.locations.forEach(location => {
+        const locationLabels = this.labels.filter(label => label.location === location.location)
+        const capacity = location.volume
+        let ocupation = 0
+        locationLabels.forEach(label => {
+          const product = this.products.find(product => product.reference === label.product)
+          ocupation = ocupation + (label.quantity * product.volume)
+        })
+        const pctOcupation = (ocupation / capacity) * 100
+        this.locationRows.push({ location: location.location, ocupation: pctOcupation, capacity, volume: ocupation })
+      })
+
+      this.zones.forEach(zone => {
+        const zoneLocations = this.locations.filter(location => location.zone === zone.name)
+        let ocupation = 0
+        let capacity = 0
+
+        zoneLocations.forEach(location => {
+          const locationRows = this.locationRows.find(row => row.location === location.location)
+          ocupation = ocupation + locationRows.volume
+          capacity = capacity + locationRows.capacity
+        })
+        const zonePctOcupation = (ocupation / capacity) * 100
+        this.zoneRows.push({ zone: zone.name, ocupation: zonePctOcupation })
+        console.log(this.zoneRows)
+      })
     }
 
   },
 
   async mounted () {
-    // this.getZones()
+    this.getZones()
     await this.getLocations()
     await this.getLabels()
     await this.getProducts()

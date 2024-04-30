@@ -59,7 +59,7 @@
             >
               <img src="src/assets/edit.svg" alt="edit" />
             </q-icon>
-            {{ props.row.permissions }}
+            {{ getPermissionString(props.row.permissions) }}
             <q-popup-edit v-model="props.row.permissions" auto-save v-slot="scope" @save="oldPermission=props.row.permissions" @update:model-value="updateUser(props.row)">
               <q-select v-model="scope.value" dense @keyup.enter="scope.set" :options="permissionOptions" />
             </q-popup-edit>
@@ -78,7 +78,7 @@
 .usersPage {
   display: flex;
   gap: 5px;
-  margin-top: 25px;
+  margin-top: 50px;
   flex-direction: column;
   align-items: flex-start;
 }
@@ -134,9 +134,9 @@ export default defineComponent({
   data () {
     return {
       permissionOptions: [
-        'Admin',
-        'Staff',
-        'User'
+        '3: Admin',
+        '2: Staff',
+        '1: User'
       ],
       columns: [
         { name: 'username', label: 'Username', align: 'left', field: 'username', sortable: true },
@@ -165,8 +165,9 @@ export default defineComponent({
         .then(response => {
           this.rows = response.data.data
           this.rows.forEach(row => {
-            row.is_superuser = row.permissions === 'Admin'
+            row.is_superuser = row.permissions === 3
             row.is_staff = !row.is_superuser
+            row.permissionString = this.getPermissionString(row.permissions)
           })
           console.log(this.rows)
         })
@@ -201,7 +202,7 @@ export default defineComponent({
       const url = `${apiPathUrl.backend}/${apiPathUrl.updateUser}`
       const body = {
         username: user.username,
-        permissions: user.permissions
+        permissions: this.rows.find(row => row.username === user.username).permissions
       }
       await axios.post(url, body)
         .then(response => {
@@ -210,6 +211,19 @@ export default defineComponent({
         .catch(error => {
           console.log(error)
         })
+    },
+
+    getPermissionString (permission) {
+      switch (permission) {
+        case 3:
+          return '3. Admin'
+        case 2:
+          return '2. Staff'
+        case 1:
+          return '1. User'
+        default:
+          return 'User'
+      }
     }
   },
 

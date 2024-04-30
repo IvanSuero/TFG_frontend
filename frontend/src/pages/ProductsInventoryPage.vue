@@ -138,6 +138,7 @@ import { useQuasar } from 'quasar'
 import apiPathUrl from 'src/config/apiPathUrl'
 import axios from 'axios'
 import CommonPopup from 'src/components/CommonPopup.vue'
+import productColumns from 'src/utils/productsColumns'
 
 export default defineComponent({
   name: 'ProductsInventoryPage',
@@ -148,7 +149,7 @@ export default defineComponent({
   data () {
     return {
       rows: [],
-      columns: [],
+      columns: ref([]),
       pagination: {
         sortBy: 'id',
         descending: false,
@@ -181,58 +182,19 @@ export default defineComponent({
         })
     },
 
-    async getColumns () {
-      this.columns = [
-        {
-          name: 'reference',
-          label: 'Reference',
-          align: 'left',
-          field: 'reference',
-          sortable: true
-        },
-        {
-          name: 'description',
-          label: 'Description',
-          align: 'left',
-          field: 'description',
-          sortable: true
-        },
-        {
-          name: 'stock',
-          label: 'Stock',
-          align: 'left',
-          field: 'stock',
-          sortable: true
-        },
-        {
-          name: 'weight',
-          label: 'Weight',
-          align: 'left',
-          field: 'weight',
-          sortable: true
-        },
-        {
-          name: 'volume',
-          label: 'Volume',
-          align: 'left',
-          field: 'volume',
-          sortable: true
-        }
-      ]
-    },
-
     openPopup (row) {
       this.body = {
         reference: row.reference,
         description: row.description,
         stock: row.stock,
+        weight: row.weight,
+        volume: row.volume,
         oldStock: this.oldStock
       }
       this.popup = true
     },
 
     async saveInventory (row) {
-      console.log(row)
       const url = `${apiPathUrl.backend}/${apiPathUrl.updateProduct}`
       if (this.body.comments === undefined) {
         this.body.comments = ''
@@ -298,7 +260,6 @@ export default defineComponent({
       const body = {
         reference: this.selected[0].reference
       }
-      console.log(body)
       await axios.post(url, body)
         .then(response => {
           if (response.status === 200) {
@@ -342,7 +303,7 @@ export default defineComponent({
   },
 
   mounted () {
-    this.getColumns()
+    this.columns = productColumns
     this.getItems()
   }
 })

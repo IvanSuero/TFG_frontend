@@ -51,6 +51,7 @@
 import { defineComponent } from 'vue'
 import apiPathUrl from 'src/config/apiPathUrl'
 import axios from 'axios'
+import historyColumns from 'src/utils/historyColumns'
 
 export default defineComponent({
   name: 'ProductsInventoryPage',
@@ -78,9 +79,7 @@ export default defineComponent({
           this.rows = response.data.data
           // for each ro in rows insert an attribute called difference
           this.rows.forEach(row => {
-            const old = row.old_stock
-            const newStock = row.new_stock
-            row.inventory = newStock - old
+            row.inventory = row.new_stock - row.old_stock
             row.date = new Date(row.date)
           })
           this.originalRows = response.data.data
@@ -89,52 +88,6 @@ export default defineComponent({
         .catch(error => {
           console.log(error)
         })
-    },
-
-    async getColumns () {
-      this.columns = [
-        {
-          name: 'date',
-          required: true,
-          label: 'Date and time',
-          align: 'left',
-          field: 'date',
-          sortable: true
-        },
-        {
-          name: 'reference',
-          required: true,
-          label: 'Reference',
-          align: 'left',
-          field: 'reference',
-          sortable: true
-        },
-        {
-          name: 'description',
-          required: true,
-          label: 'Description',
-          align: 'left',
-          field: 'description',
-          sortable: true
-        },
-        {
-          name: 'inventory',
-          required: true,
-          label: 'Inventory',
-          align: 'left',
-          field: 'inventory',
-          sortable: true
-        },
-        {
-          name: 'comments',
-          required: true,
-          label: 'Comments',
-          align: 'left',
-          field: 'comments',
-          sortable: true,
-          format: val => (val === null || val === undefined) ? '' : val
-        }
-      ]
     }
   },
 
@@ -156,7 +109,7 @@ export default defineComponent({
   },
 
   mounted () {
-    this.getColumns()
+    this.columns = historyColumns
     this.getItems()
   }
 })

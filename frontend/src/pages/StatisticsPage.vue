@@ -70,7 +70,7 @@ export default {
         url: 'labels',
         value: {
           type: 'number',
-          value: 12
+          value: 0
         }
       },
       itemInventory: {
@@ -168,12 +168,24 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+
+    async getLabels () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.getLabels}`
+      await axios.get(url)
+        .then(response => {
+          this.itemLabels.value.value = response.data.data.length
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
 
   mounted () {
     this.getItems()
     this.getProducts()
+    this.getLabels()
   }
 }
 </script>

@@ -66,9 +66,9 @@ export default {
   },
   methods: {
     onSubmit () {
-      console.log(this.type)
       switch (this.type) {
         case 'Zone':
+          console.log('zoneseee')
           this.submitZone()
           break
         case 'Location':
@@ -141,12 +141,30 @@ export default {
         return false
       }
       return true
+    },
+
+    async getZones () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.getZones}`
+      await axios.get(url)
+        .then(response => {
+          this.zoneOptions = response.data.data.map(zone => {
+            return {
+              label: zone.name
+            }
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
+  },
+
+  mounted () {
+    this.getZones()
   },
 
   watch: {
     type (val) {
-      console.log(val)
       this.zoneForm = val === 'Zone'
       this.locationForm = val === 'Location'
       this.labelForm = val === 'Label'
