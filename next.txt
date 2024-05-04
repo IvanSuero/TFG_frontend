@@ -2,8 +2,8 @@
 DONE RELOCATE LABELS
 DONE ADD WEIGHT AND VOLUME TO PRODUCTS
 4. CAPACITY CHART ON STATISTICS (domingo)
-5. CAPACITY TABLE (location, zone, capacity) (viernes)
-6. CHANGE BBDD (abril)
+DONE CAPACITY TABLE (location, zone, capacity) (viernes)
+DONE CHANGE BBDD (abril)
 7. LOGIN PAGE (primera semana mayo)
 8. ERROR CONTROL
 9. TRANSLATE (primera semana mayo)

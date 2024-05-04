@@ -4,10 +4,12 @@
       <StatCardItem :item="itemProducts" :stats=true />
       <StatCardItem :item="itemLabels" :stats=true />
       <StatCardItem :item="itemInventory" :stats=true />
+      <StatCardItem :item="itemCapacity" :stats=true />
     </div>
     <div class="graphs">
-      <apexcharts class="chart" width="500" height="350" type="line" :options="lineOptions" :series="lineSeries" title="Inventory per month"></apexcharts>
-      <apexcharts class="chart" width="500" height="350" type="donut" :options="donutOptions" :series="donutSeries"></apexcharts>
+      <apexcharts class="chart" width="400" height="300" type="line" :options="lineOptions" :series="lineSeries" title="Inventory per month"></apexcharts>
+      <apexcharts class="chart" width="400" height="300" type="donut" :options="donutOptions" :series="donutSeries"></apexcharts>
+      <apexcharts class="chart" width="400" height="300" type="donut" :options="capacityOptions" :series="capacitySeries"></apexcharts>
     </div>
 </div>
 </template>
@@ -16,14 +18,16 @@
 .stats {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 30px;
-  margin-top: 20px;
+  margin-top: 35px;
 }
 .statsCards {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 50px;
@@ -81,6 +85,14 @@ export default {
           value: 100
         }
       },
+      itemCapacity: {
+        name: 'Capacity',
+        url: 'capacity',
+        value: {
+          type: 'percentage',
+          value: 100
+        }
+      },
       lineSeries: [
         {
           name: 'Inventories',
@@ -130,6 +142,24 @@ export default {
         colors: ['#02808D', '#E27E23'],
         title: {
           text: 'Inventory changes'
+        }
+      },
+      capacitySeries: [100, 0],
+      capacityOptions: {
+        chart: {
+          id: 'capacity-pie'
+        },
+        labels: ['Used', 'Free'],
+        plotOptions: {
+          pie: {
+            donut: {
+              size: '50%'
+            }
+          }
+        },
+        colors: ['#E27E23', '#02808D'],
+        title: {
+          text: 'Capacity'
         }
       }
     }
