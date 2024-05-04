@@ -2,14 +2,11 @@
   <div class="stats">
     <div class="statsCards">
       <StatCardItem :item="itemProducts" :stats=true />
-      <StatCardItem :item="itemLabels" :stats=true />
       <StatCardItem :item="itemInventory" :stats=true />
-      <StatCardItem :item="itemCapacity" :stats=true />
     </div>
     <div class="graphs">
-      <apexcharts class="chart" width="400" height="300" type="line" :options="lineOptions" :series="lineSeries" title="Inventory per month"></apexcharts>
-      <apexcharts class="chart" width="400" height="300" type="donut" :options="donutOptions" :series="donutSeries"></apexcharts>
-      <apexcharts class="chart" width="400" height="300" type="donut" :options="capacityOptions" :series="capacitySeries"></apexcharts>
+      <apexcharts class="chart" width="600" height="400" type="line" :options="lineOptions" :series="lineSeries" title="Inventory per month"></apexcharts>
+      <apexcharts class="chart" width="600" height="400" type="donut" :options="donutOptions" :series="donutSeries"></apexcharts>
     </div>
 </div>
 </template>
@@ -69,25 +66,9 @@ export default {
           value: 0
         }
       },
-      itemLabels: {
-        name: 'Labels',
-        url: 'labels',
-        value: {
-          type: 'number',
-          value: 0
-        }
-      },
       itemInventory: {
         name: 'Inventory',
         url: 'inventory',
-        value: {
-          type: 'percentage',
-          value: 100
-        }
-      },
-      itemCapacity: {
-        name: 'Capacity',
-        url: 'capacity',
         value: {
           type: 'percentage',
           value: 100
@@ -143,24 +124,6 @@ export default {
         title: {
           text: 'Inventory changes'
         }
-      },
-      capacitySeries: [100, 0],
-      capacityOptions: {
-        chart: {
-          id: 'capacity-pie'
-        },
-        labels: ['Used', 'Free'],
-        plotOptions: {
-          pie: {
-            donut: {
-              size: '50%'
-            }
-          }
-        },
-        colors: ['#E27E23', '#02808D'],
-        title: {
-          text: 'Capacity'
-        }
       }
     }
   },
@@ -198,24 +161,12 @@ export default {
         .catch(error => {
           console.log(error)
         })
-    },
-
-    async getLabels () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.getLabels}`
-      await axios.get(url)
-        .then(response => {
-          this.itemLabels.value.value = response.data.data.length
-        })
-        .catch(error => {
-          console.log(error)
-        })
     }
   },
 
   mounted () {
     this.getItems()
     this.getProducts()
-    this.getLabels()
   }
 }
 </script>

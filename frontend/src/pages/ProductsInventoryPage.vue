@@ -186,10 +186,10 @@ export default defineComponent({
       this.body = {
         reference: row.reference,
         description: row.description,
-        stock: row.stock,
         weight: row.weight,
         volume: row.volume,
-        oldStock: this.oldStock
+        oldStock: this.oldStock,
+        newStock: row.stock
       }
       this.popup = true
     },

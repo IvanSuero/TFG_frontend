@@ -50,7 +50,7 @@ export default {
         const body = {
           username: this.username,
           email: this.email,
-          permissions: this.role
+          permissions: this.role === 'Admin' ? 3 : this.role === 2 ? 'staff' : 1
         }
         console.log(body)
         await axios.post(url, body)

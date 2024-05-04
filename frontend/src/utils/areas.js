@@ -16,14 +16,6 @@ const areas = [
     area: 'warehouse'
   },
   {
-    name: 'Labels',
-    icon: 'label',
-    url: 'labels',
-    id: 'products-labels',
-    permission: 1,
-    area: 'warehouse'
-  },
-  {
     name: 'Statistics',
     icon: 'bar_chart',
     url: 'statistics',
@@ -38,14 +30,6 @@ const areas = [
     id: 'users',
     permission: 3,
     area: 'configuration'
-  },
-  {
-    name: 'Capacity',
-    icon: 'storage',
-    url: 'capacity',
-    id: 'capacity',
-    permission: 1,
-    area: 'statistics'
   }
 ]
 
