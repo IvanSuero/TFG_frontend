@@ -6,20 +6,11 @@ const apiPathUrl = {
   createProduct: 'products/create', // WORKS
   deleteProduct: 'products/delete', // WORKS
   getHistory: 'history', // WORKS
-  getZones: 'zones', // WORKS
-  getLocations: 'locations', // WORKS
-  getLabels: 'labels', // WORKS
-  relocate: 'labels/relocate',
-  createLabel: 'labels/create', // WORKS
-  deleteLabel: 'labels/delete',
-  createZone: 'zones/create', // WORKS
-  deleteZone: 'zones/delete',
-  createLocation: 'locations/create', // WORKS
-  deleteLocation: 'locations/delete',
   getUsers: 'users', // WORKS
   updateUser: 'users/update', // WORKS
   createUser: 'users/create', // WORKS
-  deleteUser: 'users/delete' // WORKS
+  deleteUser: 'users/delete', // WORKS
+  login: 'login'
 }
 
 export default apiPathUrl

@@ -14,6 +14,13 @@ const routes = [
       { path: 'settings', component: () => import('src/pages/SettingsPage.vue'), name: 'settings', meta: { title: 'Settings' } }
     ]
   },
+  {
+    path: '/login',
+    component: () => import('src/layouts/LoginLayout.vue'),
+    children: [
+      { path: '', component: () => import('src/pages/LoginPage.vue'), name: 'login', meta: { title: 'Login' } }
+    ]
+  },
 
   // Always leave this as last one,
   // but you can also remove it
