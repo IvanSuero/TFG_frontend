@@ -2,6 +2,7 @@
   <div class="stats">
     <div class="statsCards">
       <StatCardItem :item="itemProducts" :stats=true />
+      <StatCardItem :item="itemMovements" :stats=true />
       <StatCardItem :item="itemInventory" :stats=true />
     </div>
     <div class="graphs">
@@ -72,6 +73,14 @@ export default {
         value: {
           type: 'percentage',
           value: 100
+        }
+      },
+      itemMovements: {
+        name: 'Movements',
+        url: 'inventory',
+        value: {
+          type: 'number',
+          value: 0
         }
       },
       lineSeries: [
@@ -161,12 +170,23 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    async getMovements () {
+      const url = `${apiPathUrl.backend}/${apiPathUrl.getHistory}`
+      await axios.get(url)
+        .then(response => {
+          this.itemMovements.value.value = response.data.data.length
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
 
   mounted () {
     this.getItems()
     this.getProducts()
+    this.getMovements()
   }
 }
 </script>

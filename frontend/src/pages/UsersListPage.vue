@@ -53,15 +53,26 @@
           <q-td key="is_superuser" :props="props">
             <q-checkbox v-model="props.row.is_superuser" checked-icon="task_alt" unchecked-icon="highlight_off" dense disable color="green"></q-checkbox>
           </q-td>
-          <q-td key="permissions" :props="props" class="editInput">
+          <q-td key="permissionString" :props="props" class="editInput">
             <q-icon
               class="edit__icon"
             >
               <img src="src/assets/edit.svg" alt="edit" />
             </q-icon>
-            {{ getPermissionString(props.row.permissions) }}
-            <q-popup-edit v-model="props.row.permissions" auto-save v-slot="scope" @save="oldPermission=props.row.permissions" @update:model-value="updateUser(props.row)">
+            {{ props.row.permissionString }}
+            <q-popup-edit v-model="props.row.permissionString" auto-save v-slot="scope" @save="oldPermission=props.row.permission" @update:model-value="updateUser(props.row)">
               <q-select v-model="scope.value" dense @keyup.enter="scope.set" :options="permissionOptions" />
+            </q-popup-edit>
+          </q-td>
+          <q-td key="password" :props="props" class="editInput">
+            <q-icon
+              class="edit__icon"
+            >
+              <img src="src/assets/edit.svg" alt="edit" />
+            </q-icon>
+            {{ props.row.password}}
+            <q-popup-edit v-model="props.row.password" auto-save v-slot="scope" @save="oldPassword=props.row.password" @update:model-value="updateUser(props.row)">
+              <q-input v-model="scope.value" dense @keyup.enter="scope.set" autofocus></q-input>
             </q-popup-edit>
           </q-td>
         </q-tr>
@@ -134,16 +145,17 @@ export default defineComponent({
   data () {
     return {
       permissionOptions: [
-        '3: Admin',
-        '2: Staff',
-        '1: User'
+        'Admin',
+        'Staff',
+        'User'
       ],
       columns: [
         { name: 'username', label: 'Username', align: 'left', field: 'username', sortable: true },
         { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
         { name: 'is_staff', label: 'Staff', align: 'center', field: 'is_staff', sortable: true },
         { name: 'is_superuser', label: 'Superuser', align: 'center', field: 'is_superuser', sortable: true },
-        { name: 'permissions', label: 'Permissions', align: 'left', field: 'permissions', sortable: true }
+        { name: 'permissionString', label: 'Permissions', align: 'left', field: 'permissionString', sortable: true },
+        { name: 'password', label: 'Password', align: 'left', field: 'password', sortable: true }
       ],
       rows: ref([]),
       pagination: {
@@ -167,7 +179,7 @@ export default defineComponent({
           this.rows.forEach(row => {
             row.is_superuser = row.permissions === 3
             row.is_staff = !row.is_superuser
-            row.permissionString = this.getPermissionString(row.permissions)
+            row.permissionString = row.permissions === 1 ? 'User' : row.permissions === 2 ? 'Staff' : 'Admin'
           })
           console.log(this.rows)
         })
@@ -202,7 +214,8 @@ export default defineComponent({
       const url = `${apiPathUrl.backend}/${apiPathUrl.updateUser}`
       const body = {
         username: user.username,
-        permissions: this.rows.find(row => row.username === user.username).permissions
+        permissions: this.rows.find(row => row.username === user.username).permissionString === 'Admin' ? 3 : this.rows.find(row => row.username === user.username).permissionString === 'Staff' ? 2 : 1,
+        password: this.rows.find(row => row.username === user.username).password
       }
       await axios.post(url, body)
         .then(response => {
@@ -211,19 +224,6 @@ export default defineComponent({
         .catch(error => {
           console.log(error)
         })
-    },
-
-    getPermissionString (permission) {
-      switch (permission) {
-        case 3:
-          return '3. Admin'
-        case 2:
-          return '2. Staff'
-        case 1:
-          return '1. User'
-        default:
-          return 'User'
-      }
     }
   },
 

@@ -2,6 +2,7 @@
   <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
       <q-input type="text" v-model="username" label="Username" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
       <q-input v-model="email" label="Email" type="text" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
+      <q-input v-model="password" label="Password" type="password" filled lazy-rules :rules="[val => val !== '' || 'Please fill all fields']"/>
       <q-select v-model="role" label="Role" filled lazy-rules :options="roles" :rules="[val => val !== '' || 'Please fill all fields']"></q-select>
       <div class="addFormButtons">
         <q-btn label="Submit" color="green" type="submit" />
@@ -31,6 +32,7 @@ export default {
       username: ref(''),
       email: ref(''),
       role: ref(''),
+      password: ref(''),
       roles: [
         'Admin',
         'Staff',
@@ -50,7 +52,8 @@ export default {
         const body = {
           username: this.username,
           email: this.email,
-          permissions: this.role === 'Admin' ? 3 : this.role === 2 ? 'staff' : 1
+          permissions: this.role === 'Admin' ? 3 : this.role === 'Staff' ? 2 : 1,
+          password: this.password
         }
         console.log(body)
         await axios.post(url, body)
@@ -84,10 +87,11 @@ export default {
       this.username = ''
       this.email = ''
       this.role = ''
+      this.password = ''
     },
 
     validateForm () {
-      if (this.username === '' || this.email === '' || this.role === '') {
+      if (this.username === '' || this.email === '' || this.role === '' || this.password === '') {
         return false
       }
       return true

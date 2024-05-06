@@ -5,7 +5,6 @@
       </q-item-section>
       <q-item-section>
           <q-item-label v-if="item.type==='link'">{{ item.name }}</q-item-label>
-          <q-select v-else v-model="languageActive" :options="languages" label="Language" color="black" borderless hide-bottom-space dense></q-select>
       </q-item-section>
   </q-item>
 </template>
