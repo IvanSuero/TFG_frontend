@@ -4,7 +4,7 @@
           <q-icon :name="item.icon" />
       </q-item-section>
       <q-item-section>
-          <q-item-label v-if="item.type==='link'">{{ item.name }}</q-item-label>
+          <q-item-label>{{ item.name }}</q-item-label>
       </q-item-section>
   </q-item>
 </template>
@@ -26,6 +26,7 @@ scale: 1.05;
 </style>
 
 <script>
+import { Cookies } from 'quasar'
 export default {
   name: 'SideBarItem',
   props: {
@@ -45,8 +46,18 @@ export default {
   },
   methods: {
     goToRoute () {
-      if (this.item.type !== 'link') return
-      this.$router.push(this.item.url)
+      switch (this.item.type) {
+        case 'link':
+          window.open(this.item.url, '_blank')
+          break
+        case 'logout':
+          Cookies.remove('token')
+          Cookies.remove('username')
+          this.$router.push('/login')
+          break
+        default:
+          this.$router.push(this.item.url)
+      }
     }
   }
 }

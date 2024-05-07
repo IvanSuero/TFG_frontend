@@ -9,7 +9,7 @@ const sideBarItems = {
     name: 'Logout',
     icon: 'exit_to_app',
     url: '/logout',
-    type: 'link'
+    type: 'logout'
   }
 }
 

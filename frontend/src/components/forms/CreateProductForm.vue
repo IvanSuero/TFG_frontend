@@ -58,8 +58,7 @@ export default {
           weight: this.weight,
           volume: this.volume
         }
-        console.log(body)
-        await axios.post(url, body)
+        await (axios.post(url, body))
           .then(() => {
             this.$router.push({ name: 'inventory' })
             this.$q.notify({

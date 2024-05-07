@@ -1,6 +1,6 @@
 <template>
-  <q-page padding>
-    <div class="mainContainer">
+  <q-page padding class="q-page-main-form">
+    <div class="mainContainerForm">
       <div class="text-h6">Login | .WMS</div>
       <q-form @submit="submit" class="loginForm">
         <q-input
@@ -39,6 +39,7 @@ import { defineComponent, ref } from 'vue'
 import axios from 'axios'
 import apiPathUrl from '../config/apiPathUrl'
 import { useRouter } from 'vue-router'
+import { Cookies } from 'quasar'
 
 export default defineComponent({
   name: 'LoginPage',
@@ -68,6 +69,9 @@ export default defineComponent({
               icon: 'check',
               timeout: 1000
             })
+            Cookies.set('token', response.data.token)
+            Cookies.set('username', this.username)
+            axios.defaults.headers.common = { 'auth-token': Cookies.get('token') }
             this.$router.push('/')
           }
         })
@@ -87,7 +91,7 @@ export default defineComponent({
 </script>
 
 <style>
-.mainContainer {
+.mainContainerForm {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -111,7 +115,7 @@ export default defineComponent({
   gap: 10px;
 }
 
-.q-page {
+.q-page-main-form {
   display: flex;
   justify-content: center;
   align-items: center;

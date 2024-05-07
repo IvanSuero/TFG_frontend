@@ -6,10 +6,11 @@
 
 <style>
 .card-list{
-  margin: 20px 50PX;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  justify-content: center;
+  margin: 20px 40PX;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: start;
   gap: 10px;
 }
 </style>
