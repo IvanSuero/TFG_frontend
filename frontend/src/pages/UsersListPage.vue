@@ -79,7 +79,7 @@
       </template>
     </q-table>
 
-    <q-dialog v-model="createUserPopup">
+    <q-dialog v-model="createUserPopup" @hide="getUsers">
       <CommonPopup title="Create User" type="user"/>
     </q-dialog>
   </div>
@@ -160,7 +160,7 @@ const deleteUser = async () => {
         message: error
       })
     })
-  this.activeDelete()
+  activeDelete()
 }
 
 const updateUser = async (user) => {

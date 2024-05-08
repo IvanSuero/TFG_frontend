@@ -62,13 +62,13 @@
             outlined
             dense
             placeholder="Search description"
-            v-model="filterDescription.value"
+            v-model="filterDescription"
             style="min-width: 150px"
           />
           <q-btn
             v-if="selection==='none'"
             color="green"
-            :label="noStockFilter.value ? 'Show all' : '0 stock'"
+            label="Filter stock"
             @click="filterNoStock"
           />
           <q-btn
@@ -91,7 +91,7 @@
           />
           <q-btn
             v-if="selection==='multiple' || selection==='single'"
-            color="yellow"
+            color="orange"
             label="Cancel"
             @click="cancelDeleteMode"
           />
@@ -126,7 +126,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <q-dialog v-model="createPopup" rounded>
+    <q-dialog v-model="createPopup" rounded @hide="getItems">
       <CommonPopup title="Create Product" type="product"/>
     </q-dialog>
   </q-page>
@@ -254,7 +254,6 @@ const deleteItems = async () => {
       })
     })
 
-  selection.value = 'none'
   selected.value = []
   getItems()
 }

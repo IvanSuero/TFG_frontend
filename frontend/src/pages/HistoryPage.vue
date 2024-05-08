@@ -88,12 +88,12 @@ const getItems = async () => {
 }
 
 watch(filter, (val) => {
-  if (val === '' || val === null || val === undefined) rows.value = originalRows
+  if (val === '' || val === null || val === undefined) rows.value = originalRows.value
   else rows.value = rows.value.filter(row => row.reference.toLowerCase().includes(val.toLowerCase()))
 })
 
 watch(filterDescription, (val) => {
-  if (val === '' || val === null || val === undefined) rows.value = originalRows
+  if (val === '' || val === null || val === undefined) rows.value = originalRows.value
   else rows.value = rows.value.filter(row => row.description.toLowerCase().includes(val.toLowerCase()))
 })
 
