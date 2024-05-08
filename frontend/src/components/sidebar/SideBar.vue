@@ -26,7 +26,10 @@
 }
 
 .sidebarList *:last-child {
-  margin-top: 400px;
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
 }
 
 .sideBar * {

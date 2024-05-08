@@ -1,4 +1,10 @@
 const sideBarItems = {
+  PROFILE: {
+    name: 'Profile',
+    icon: 'account_circle',
+    url: '/profile',
+    type: 'profile'
+  },
   HOME: {
     name: 'Home',
     icon: 'home',
