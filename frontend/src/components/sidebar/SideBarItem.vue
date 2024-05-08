@@ -39,7 +39,7 @@ const goToRoute = () => {
 }
 </script>
 
-<style>
+<style scoped>
 .q-item:hover{
   cursor: pointer;
   background-color: #C5D7DD;

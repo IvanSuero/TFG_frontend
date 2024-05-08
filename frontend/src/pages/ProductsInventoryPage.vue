@@ -62,13 +62,13 @@
             outlined
             dense
             placeholder="Search description"
-            v-model="filterDescription"
+            v-model="filterDescription.value"
             style="min-width: 150px"
           />
           <q-btn
             v-if="selection==='none'"
             color="green"
-            :label="this.noStockFilter ? 'Show all' : '0 stock'"
+            :label="noStockFilter.value ? 'Show all' : '0 stock'"
             @click="filterNoStock"
           />
           <q-btn
@@ -139,6 +139,7 @@ import apiPathUrl from 'src/config/apiPathUrl'
 import axios from 'axios'
 import CommonPopup from 'src/components/CommonPopup.vue'
 import productColumns from 'src/utils/productsColumns'
+import { getProducts } from 'src/helpers/getProducts'
 
 const rows = ref([])
 const columns = ref([])
@@ -160,18 +161,8 @@ const selected = ref([])
 const createPopup = ref(false)
 
 const getItems = async () => {
-  const url = `${apiPathUrl.backend}/${apiPathUrl.getProducts}`
-  await axios.get(url)
-    .then(response => {
-      rows.value = response.data.data
-      originalRows.value = response.data.data
-    })
-    .catch(error => {
-      $q.notify({
-        type: 'error',
-        message: error + ' - Could not get products data.'
-      })
-    })
+  const data = await getProducts($q)
+  rows.value = originalRows.value = data
 }
 
 const openPopup = (row) => {
@@ -180,7 +171,7 @@ const openPopup = (row) => {
     description: row.description,
     weight: row.weight,
     volume: row.volume,
-    oldStock: this.oldStock,
+    oldStock: oldStock.value,
     newStock: row.stock
   }
   popup.value = true
@@ -218,7 +209,7 @@ const filterNoStock = () => {
       message: 'No products with 0 stock'
     })
   } else {
-    noStockFilter.value = !this.value.noStockFilter
+    noStockFilter.value = !noStockFilter.value
     if (noStockFilter.value) rows.value = rows.value.filter(row => row.stock === 0)
     else rows.value = originalRows.value
   }
@@ -288,7 +279,7 @@ onMounted(() => {
 })
 </script>
 
-<style>
+<style scoped>
 .editInput {
   display: flex;
   align-items: center;

@@ -32,7 +32,7 @@ const goToRoute = () => {
 }
 </script>
 
-<style>
+<style scoped>
 .card{
   width: 300px;
   height: 200px;

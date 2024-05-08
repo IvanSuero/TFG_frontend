@@ -163,7 +163,7 @@ onMounted(() => {
 })
 </script>
 
-<style>
+<style scoped>
 .stats {
   display: flex;
   flex-direction: column;

@@ -81,7 +81,7 @@ const submit = async () => {
 }
 </script>
 
-<style>
+<style scoped>
 .mainContainerForm {
   display: flex;
   flex-direction: column;

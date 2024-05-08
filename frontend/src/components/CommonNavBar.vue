@@ -37,7 +37,7 @@ watch(route, () => {
 })
 </script>
 
-<style>
+<style scoped>
 .header {
   background-color: var(--success-color);
 

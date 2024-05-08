@@ -9,7 +9,7 @@
 import CreateUserForm from '../components/forms/CreateUserForm.vue'
 </script>
 
-<style>
+<style scoped>
 .addFormButtons {
   display: flex;
   flex-direction: row;

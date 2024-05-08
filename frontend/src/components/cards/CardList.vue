@@ -12,7 +12,7 @@ const props = defineProps({
 })
 </script>
 
-<style>
+<style scoped>
 .card-list{
   margin: 20px 40PX;
   display: flex;

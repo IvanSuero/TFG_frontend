@@ -21,7 +21,7 @@ const props = defineProps({
 })
 </script>
 
-<style>
+<style scoped>
 .stat{
   width: 200px;
   height: 80px;

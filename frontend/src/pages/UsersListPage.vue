@@ -187,7 +187,7 @@ onMounted(() => {
 })
 </script>
 
-<style>
+<style scoped>
 .usersPage {
   display: flex;
   gap: 5px;

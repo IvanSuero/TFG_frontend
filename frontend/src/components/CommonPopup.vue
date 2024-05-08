@@ -16,7 +16,7 @@ const props = defineProps({
 })
 </script>
 
-<style>
+<style scoped>
 .popup {
   width: 30%;
   display: flex;

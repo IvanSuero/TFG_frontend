@@ -61,7 +61,7 @@ const onReset = () => {
 }
 </script>
 
-<style>
+<style scoped>
 .addFormButtons {
   display: flex;
   flex-direction: row;

@@ -7,15 +7,6 @@
   </q-layout>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup>
 import CommonHeader from 'src/components/CommonHeader.vue'
-
-export default defineComponent({
-  name: 'MainLayout',
-
-  components: {
-    CommonHeader
-  }
-})
 </script>
