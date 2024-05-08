@@ -39,6 +39,14 @@ const historyColumns = [
     field: 'comments',
     sortable: true,
     format: val => (val === null || val === undefined) ? '' : val
+  },
+  {
+    name: 'username',
+    required: true,
+    label: 'Username',
+    align: 'left',
+    field: 'username',
+    sortable: true
   }
 ]
 

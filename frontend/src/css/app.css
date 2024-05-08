@@ -12,6 +12,9 @@
   /* Color de información */
   --warning-color: #011B27;
   /* Color de advertencia */
+  --danger-color: #6f1a07;
+  /* Color de peligro */
+
 }
 
 body {

@@ -20,6 +20,7 @@
           <q-td key="description" :props="props">{{ props.row.description }}</q-td>
           <q-td key="inventory" :props="props">{{ props.row.inventory }}</q-td>
           <q-td key="comments" :props="props">{{ props.row.comments }}</q-td>
+          <q-td key="username" :props="props">{{ props.row.username }}</q-td>
         </q-tr>
       </template>
       <template #top-left>
@@ -73,21 +74,31 @@ export default defineComponent({
 
   methods: {
     async getItems () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.getHistory}`
-      await axios.get(url)
-        .then(response => {
-          this.rows = response.data.data
-          // for each ro in rows insert an attribute called difference
-          this.rows.forEach(row => {
-            row.inventory = row.new_stock - row.old_stock
-            row.date = new Date(row.date)
+      try {
+        const url = `${apiPathUrl.backend}/${apiPathUrl.getHistory}`
+        await axios.get(url)
+          .then(response => {
+            this.rows = response.data.data
+            // for each ro in rows insert an attribute called inventory
+            this.rows.forEach(row => {
+              row.inventory = row.new_stock - row.old_stock
+              row.date = new Date(row.date)
+            })
+            this.originalRows = response.data.data
+            console.log(this.rows)
           })
-          this.originalRows = response.data.data
-          console.log(this.rows)
+          .catch(error => {
+            this.$q.notify({
+              type: 'error',
+              message: error + ' - Could not get history data.'
+            })
+          })
+      } catch (error) {
+        this.$q.notify({
+          type: 'error',
+          message: error + ' - Could not get history data.'
         })
-        .catch(error => {
-          console.log(error)
-        })
+      }
     }
   },
 

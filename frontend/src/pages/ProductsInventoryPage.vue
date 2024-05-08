@@ -134,7 +134,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import { useQuasar } from 'quasar'
+import { Cookies, useQuasar } from 'quasar'
 import apiPathUrl from 'src/config/apiPathUrl'
 import axios from 'axios'
 import CommonPopup from 'src/components/CommonPopup.vue'
@@ -178,7 +178,10 @@ export default defineComponent({
           this.originalRows = response.data.data
         })
         .catch(error => {
-          console.log(error)
+          this.$q.notify({
+            type: 'error',
+            message: error + ' - Could not get products data.'
+          })
         })
     },
 
@@ -198,20 +201,22 @@ export default defineComponent({
       const url = `${apiPathUrl.backend}/${apiPathUrl.updateProduct}`
       if (this.body.comments === undefined) {
         this.body.comments = ''
+        this.body.user = Cookies.get('username')
       }
       await axios.post(url, this.body)
         .then(response => {
           if (response.status === 200) {
             this.$q.notify({
-              color: 'positive',
-              message: 'Inventory updated',
-              icon: 'check',
-              timeout: 1000
+              type: 'positive',
+              message: response.data.message
             })
           }
         })
         .catch(error => {
-          console.log(error)
+          this.$q.notify({
+            type: 'error',
+            message: error + ' - Could not update inventory.'
+          })
         })
       this.popup = false
       this.body = {}
@@ -220,10 +225,8 @@ export default defineComponent({
     filterNoStock () {
       if (this.rows.filter(row => row.stock === 0).length === 0) {
         this.$q.notify({
-          color: 'negative',
-          message: 'No products with 0 stock',
-          icon: 'warning',
-          timeout: 1000
+          type: 'warning',
+          message: 'No products with 0 stock'
         })
       } else {
         this.noStockFilter = !this.noStockFilter
@@ -249,10 +252,8 @@ export default defineComponent({
     async deleteItems () {
       if (this.selected[0].stock !== 0) {
         this.$q.notify({
-          color: 'red',
-          message: 'Product has stock',
-          icon: 'warning',
-          timeout: 3000
+          type: 'warning',
+          message: 'Only products with 0 stock can be deleted'
         })
         return
       }
@@ -264,15 +265,16 @@ export default defineComponent({
         .then(response => {
           if (response.status === 200) {
             this.$q.notify({
-              color: 'positive',
-              message: 'Product deleted correctly',
-              icon: 'check',
-              timeout: 1000
+              type: 'positive',
+              message: response.data.message
             })
           }
         })
         .catch(error => {
-          console.log(error)
+          this.$q.notify({
+            type: 'error',
+            message: error + ' - Could not delete product.'
+          })
         })
 
       this.selection = 'none'

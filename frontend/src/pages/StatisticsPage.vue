@@ -143,7 +143,6 @@ export default {
       await axios.get(url)
         .then(response => {
           const data = response.data.data
-          console.log(data)
           data.forEach(row => {
             const month = new Date(row.date).getMonth()
             this.lineSeries[0].data[month]++
@@ -157,7 +156,10 @@ export default {
           })
         })
         .catch(error => {
-          console.log(error)
+          this.$q.notify({
+            type: 'error',
+            message: error
+          })
         })
     },
 
@@ -168,7 +170,10 @@ export default {
           this.itemProducts.value.value = response.data.data.length
         })
         .catch(error => {
-          console.log(error)
+          this.$q.notify({
+            type: 'error',
+            message: error
+          })
         })
     },
     async getMovements () {
@@ -178,7 +183,10 @@ export default {
           this.itemMovements.value.value = response.data.data.length
         })
         .catch(error => {
-          console.log(error)
+          this.$q.notify({
+            type: 'error',
+            message: error
+          })
         })
     }
   },

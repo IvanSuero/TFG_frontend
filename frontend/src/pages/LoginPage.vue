@@ -63,25 +63,26 @@ export default defineComponent({
       await axios.post(url, body)
         .then(response => {
           if (response.status === 200) {
-            this.$q.notify({
-              color: 'positive',
-              message: 'Welcome!',
-              icon: 'check',
-              timeout: 1000
-            })
             Cookies.set('token', response.data.token)
             Cookies.set('username', this.username)
             axios.defaults.headers.common = { 'auth-token': Cookies.get('token') }
             this.$router.push('/')
+            this.$q.notify({
+              type: 'positive',
+              message: 'Welcome!'
+            })
           }
         })
         .catch(error => {
           if (error.response.status === 401) {
             this.$q.notify({
-              color: 'negative',
-              message: 'Invalid username or password',
-              icon: 'warning',
-              timeout: 1000
+              type: 'error',
+              message: 'Invalid username or password'
+            })
+          } else {
+            this.$q.notify({
+              type: 'other',
+              message: error + ' - Could not login.'
             })
           }
         })

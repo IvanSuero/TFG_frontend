@@ -59,25 +59,19 @@ export default {
         await axios.post(url, body)
           .then(() => {
             this.$q.notify({
-              color: 'green-4',
-              textColor: 'white',
-              icon: 'check',
+              type: 'success',
               message: 'User created successfully'
             })
             this.$router.push({ name: 'users' })
           })
       } else if (exists) {
         this.$q.notify({
-          color: 'red-4',
-          textColor: 'white',
-          icon: 'report_problem',
-          message: 'Username already exists'
+          type: 'warning',
+          message: 'User already exists'
         })
       } else {
         this.$q.notify({
-          color: 'red-4',
-          textColor: 'white',
-          icon: 'report_problem',
+          type: 'warning',
           message: 'Please fill all fields'
         })
       }
@@ -104,7 +98,10 @@ export default {
           this.users = response.data.data
         })
         .catch(error => {
-          console.log(error)
+          this.$q.notify({
+            type: 'error',
+            message: error
+          })
         })
     }
   },

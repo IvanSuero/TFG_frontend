@@ -62,25 +62,19 @@ export default {
           .then(() => {
             this.$router.push({ name: 'inventory' })
             this.$q.notify({
-              color: 'green-4',
-              textColor: 'white',
-              icon: 'check',
+              type: 'success',
               message: 'Product created successfully'
             })
           })
       } else if (exists) {
         this.$q.notify({
-          color: 'red-4',
-          textColor: 'white',
-          icon: 'report_problem',
+          type: 'warning',
           message: 'Product already exists'
         })
       } else {
         this.$q.notify({
-          color: 'red-4',
-          textColor: 'white',
-          icon: 'report_problem',
-          message: 'Please fill all fields'
+          type: 'error',
+          message: 'Could not create product'
         })
       }
     },
@@ -100,7 +94,10 @@ export default {
           this.products = response.data.data
         })
         .catch(error => {
-          console.log(error)
+          this.$q.notify({
+            type: 'error',
+            message: error
+          })
         })
     }
   },

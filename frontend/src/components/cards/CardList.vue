@@ -34,10 +34,6 @@ export default defineComponent({
     return {
       CardItem
     }
-  },
-
-  mounted () {
-    console.log(this.items)
   }
 })
 </script>

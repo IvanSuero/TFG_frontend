@@ -181,10 +181,12 @@ export default defineComponent({
             row.is_staff = !row.is_superuser
             row.permissionString = row.permissions === 1 ? 'User' : row.permissions === 2 ? 'Staff' : 'Admin'
           })
-          console.log(this.rows)
         })
         .catch(error => {
-          console.log(error)
+          this.$q.notify({
+            type: 'error',
+            message: error
+          })
         })
     },
     goToCreateUser () {
@@ -204,13 +206,15 @@ export default defineComponent({
           this.selected = []
         })
         .catch(error => {
-          console.log(error)
+          this.$q.notify({
+            type: 'error',
+            message: error
+          })
         })
       this.activeDelete()
     },
 
     async updateUser (user) {
-      console.log(user)
       const url = `${apiPathUrl.backend}/${apiPathUrl.updateUser}`
       const body = {
         username: user.username,
@@ -222,7 +226,10 @@ export default defineComponent({
           this.getUsers()
         })
         .catch(error => {
-          console.log(error)
+          this.$q.notify({
+            type: 'error',
+            message: error
+          })
         })
     }
   },

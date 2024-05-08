@@ -43,11 +43,13 @@ export default defineComponent({
     goToRoute () {
       if (this.item.url) {
         this.$router.push({ name: this.item.url })
+      } else {
+        this.$q.notify({
+          type: 'warning',
+          message: 'This feature is not available yet.'
+        })
       }
     }
-  },
-  mounted () {
-    console.log(this.item)
   }
 })
 </script>

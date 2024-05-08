@@ -1,5 +1,9 @@
 import { Cookies } from 'quasar'
 
-export default function getJWToken () {
+export function getJWToken () {
   return Cookies.get('token')
+}
+
+export function getUsername () {
+  return Cookies.get('username')
 }
