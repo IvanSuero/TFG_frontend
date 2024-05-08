@@ -2,13 +2,40 @@
   <q-toolbar class="header">
     <q-toolbar-title>
       <div class="title">
-        <h6 v-if="title !== 'Areas'"><a @click="this.$router.push('/')">Home</a> / {{ title }}</h6>
+        <h6 v-if="title !== 'Areas'"><a @click="router.push('/')">Home</a> / {{ title }}</h6>
         <h6 v-else>.WMS</h6>
       </div>
     </q-toolbar-title>
-    <q-btn flat round dense :icon="drawer ? 'close' : 'menu'" @click="modifyDrawer" size="20px" />
+    <q-btn flat round dense :icon="props.drawer ? 'close' : 'menu'" @click="modifyDrawer" size="20px" />
   </q-toolbar>
 </template>
+
+<script setup>
+import { ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const props = defineProps({
+  drawer: Boolean
+})
+
+const title = ref('')
+const route = useRoute()
+const router = useRouter()
+
+const emit = defineEmits(['drawerModify'])
+
+const modifyDrawer = () => {
+  emit('drawerModify')
+}
+
+onMounted(() => {
+  title.value = route.meta.title
+})
+
+watch(route, () => {
+  title.value = route.meta.title
+})
+</script>
 
 <style>
 .header {
@@ -46,39 +73,3 @@
   cursor: pointer;
 }
 </style>
-
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'CommonNavBar',
-  props: {
-    drawer: {
-      type: Boolean,
-      default: false
-    }
-  },
-  emit: ['drawerModify'],
-  methods: {
-    modifyDrawer () {
-      this.$emit('drawerModify')
-    }
-  },
-
-  data () {
-    return {
-      title: ''
-    }
-  },
-
-  mounted () {
-    this.title = this.$route.meta.title
-  },
-
-  watch: {
-    $route () {
-      this.title = this.$route.meta.title
-    }
-  }
-})
-</script>

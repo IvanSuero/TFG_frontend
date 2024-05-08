@@ -4,13 +4,27 @@
     <h3 id="logo">.WMS</h3>
     <q-list class="sidebarList">
       <SideBarItem
-        v-for="item in linksList"
+        v-for="item in props.linksList"
         :key="item.name"
         :item="item"
       />
     </q-list>
   </div>
 </template>
+
+<script setup>
+import SideBarItem from './SideBarItem.vue'
+
+const props = defineProps({
+  linksList: Object
+})
+
+const emit = defineEmits(['drawerModify'])
+
+const closeDrawer = () => {
+  emit('drawerModify')
+}
+</script>
 
 <style scoped>
 .sideBar {
@@ -47,27 +61,3 @@
   color: black;
 }
 </style>
-
-<script>
-import { defineComponent } from 'vue'
-import SideBarItem from './SideBarItem.vue'
-
-export default defineComponent({
-  name: 'SideBar',
-  components: {
-    SideBarItem
-  },
-  props: {
-    linksList: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  emit: ['drawerModify'],
-  methods: {
-    closeDrawer () {
-      this.$emit('drawerModify')
-    }
-  }
-})
-</script>

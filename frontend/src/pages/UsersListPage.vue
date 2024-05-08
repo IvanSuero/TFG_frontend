@@ -85,6 +85,108 @@
   </div>
 </template>
 
+<script setup>
+import { onMounted, ref } from 'vue'
+import axios from 'axios'
+import apiPathUrl from '../config/apiPathUrl'
+import CommonPopup from '../components/CommonPopup.vue'
+import { useQuasar } from 'quasar'
+
+const permissionOptions = [
+  'Admin',
+  'Staff',
+  'User'
+]
+const columns = [
+  { name: 'username', label: 'Username', align: 'left', field: 'username', sortable: true },
+  { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
+  { name: 'is_staff', label: 'Staff', align: 'center', field: 'is_staff', sortable: true },
+  { name: 'is_superuser', label: 'Superuser', align: 'center', field: 'is_superuser', sortable: true },
+  { name: 'permissionString', label: 'Permissions', align: 'left', field: 'permissionString', sortable: true },
+  { name: 'password', label: 'Password', align: 'left', field: 'password', sortable: true }
+]
+const rows = ref([])
+const pagination = {
+  sortBy: 'id',
+  descending: false,
+  rowsPerPage: 0
+}
+const deletedActive = ref(false)
+const selection = ref('none')
+const selected = ref([])
+const createUserPopup = ref(false)
+const $q = useQuasar()
+
+const getUsers = async () => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.getUsers}`
+  await axios.get(url)
+    .then(response => {
+      rows.value = response.data.data
+      rows.value.forEach(row => {
+        row.is_superuser = row.permissions === 3
+        row.is_staff = !row.is_superuser
+        row.permissionString = row.permissions === 1 ? 'User' : row.permissions === 2 ? 'Staff' : 'Admin'
+      })
+    })
+    .catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error
+      })
+    })
+}
+
+const goToCreateUser = () => {
+  createUserPopup.value = true
+}
+
+const activeDelete = () => {
+  deletedActive.value = !deletedActive.value
+  selection.value === 'single' ? selection.value = 'none' : selection.value = 'single'
+  selected.value = []
+}
+
+const deleteUser = async () => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.deleteUser}`
+  const body = { username: selected.value[0].username }
+  await axios.post(url, body)
+    .then(() => {
+      getUsers()
+      selected.value = []
+    })
+    .catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error
+      })
+    })
+  this.activeDelete()
+}
+
+const updateUser = async (user) => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.updateUser}`
+  const body = {
+    username: user.username,
+    permissions: rows.value.find(row => row.username === user.username).permissionString === 'Admin' ? 3 : rows.value.find(row => row.username === user.username).permissionString === 'Staff' ? 2 : 1,
+    password: rows.value.find(row => row.username === user.username).password
+  }
+  await axios.post(url, body)
+    .then(() => {
+      getUsers()
+    })
+    .catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error
+      })
+    })
+}
+
+onMounted(() => {
+  getUsers()
+})
+</script>
+
 <style>
 .usersPage {
   display: flex;
@@ -128,120 +230,3 @@ thead tr:first-child th{
   float: right;
 }
 </style>
-
-<script>
-import { defineComponent, ref } from 'vue'
-import axios from 'axios'
-import apiPathUrl from '../config/apiPathUrl'
-import CommonPopup from '../components/CommonPopup.vue'
-
-export default defineComponent({
-  name: 'UsersListPage',
-
-  components: {
-    CommonPopup
-  },
-
-  data () {
-    return {
-      permissionOptions: [
-        'Admin',
-        'Staff',
-        'User'
-      ],
-      columns: [
-        { name: 'username', label: 'Username', align: 'left', field: 'username', sortable: true },
-        { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
-        { name: 'is_staff', label: 'Staff', align: 'center', field: 'is_staff', sortable: true },
-        { name: 'is_superuser', label: 'Superuser', align: 'center', field: 'is_superuser', sortable: true },
-        { name: 'permissionString', label: 'Permissions', align: 'left', field: 'permissionString', sortable: true },
-        { name: 'password', label: 'Password', align: 'left', field: 'password', sortable: true }
-      ],
-      rows: ref([]),
-      pagination: {
-        sortBy: 'id',
-        descending: false,
-        rowsPerPage: 0
-      },
-      deletedActive: ref(false),
-      selection: ref('none'),
-      selected: ref([]),
-      createUserPopup: ref(false)
-    }
-  },
-
-  methods: {
-    async getUsers () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.getUsers}`
-      await axios.get(url)
-        .then(response => {
-          this.rows = response.data.data
-          this.rows.forEach(row => {
-            row.is_superuser = row.permissions === 3
-            row.is_staff = !row.is_superuser
-            row.permissionString = row.permissions === 1 ? 'User' : row.permissions === 2 ? 'Staff' : 'Admin'
-          })
-        })
-        .catch(error => {
-          this.$q.notify({
-            type: 'error',
-            message: error
-          })
-        })
-    },
-    goToCreateUser () {
-      this.createUserPopup = true
-    },
-    activeDelete () {
-      this.deletedActive = !this.deletedActive
-      this.selection === 'single' ? this.selection = 'none' : this.selection = 'single'
-      this.selected = []
-    },
-    async deleteUser () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.deleteUser}`
-      const body = { username: this.selected[0].username }
-      await axios.post(url, body)
-        .then(response => {
-          this.getUsers()
-          this.selected = []
-        })
-        .catch(error => {
-          this.$q.notify({
-            type: 'error',
-            message: error
-          })
-        })
-      this.activeDelete()
-    },
-
-    async updateUser (user) {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.updateUser}`
-      const body = {
-        username: user.username,
-        permissions: this.rows.find(row => row.username === user.username).permissionString === 'Admin' ? 3 : this.rows.find(row => row.username === user.username).permissionString === 'Staff' ? 2 : 1,
-        password: this.rows.find(row => row.username === user.username).password
-      }
-      await axios.post(url, body)
-        .then(response => {
-          this.getUsers()
-        })
-        .catch(error => {
-          this.$q.notify({
-            type: 'error',
-            message: error
-          })
-        })
-    }
-  },
-
-  mounted () {
-    this.getUsers()
-  },
-
-  watch: {
-    permissions () {
-      this.updateUser()
-    }
-  }
-})
-</script>

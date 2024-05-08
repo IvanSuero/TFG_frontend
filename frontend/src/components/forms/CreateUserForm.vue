@@ -11,6 +11,56 @@
     </q-form>
 </template>
 
+<script setup>
+import axios from 'axios'
+import apiPathUrl from '../../config/apiPathUrl'
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const username = ref('')
+const email = ref('')
+const role = ref('')
+const password = ref('')
+const roles = [
+  'Admin',
+  'Staff',
+  'User'
+]
+const $q = useQuasar()
+const router = useRouter()
+
+const onSubmit = async () => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.createUser}`
+  const body = {
+    username: username.value,
+    email: email.value,
+    permissions: role.value === 'Admin' ? 3 : role.value === 'Staff' ? 2 : 1,
+    password: password.value
+  }
+  await (axios.post(url, body))
+    .then(() => {
+      $q.notify({
+        type: 'success',
+        message: 'User created successfully'
+      })
+      router.push({ name: 'users' })
+    }).catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error.message
+      })
+    })
+}
+
+const onReset = () => {
+  username.value = ''
+  email.value = ''
+  role.value = ''
+  password.value = ''
+}
+</script>
+
 <style>
 .addFormButtons {
   display: flex;
@@ -19,95 +69,3 @@
   justify-content: center;
 }
 </style>
-
-<script>
-import axios from 'axios'
-import apiPathUrl from '../../config/apiPathUrl'
-import { useQuasar } from 'quasar'
-import { ref } from 'vue'
-
-export default {
-  data () {
-    return {
-      username: ref(''),
-      email: ref(''),
-      role: ref(''),
-      password: ref(''),
-      roles: [
-        'Admin',
-        'Staff',
-        'User'
-      ],
-      users: [],
-      $q: useQuasar()
-    }
-  },
-  methods: {
-    async onSubmit () {
-      const map = this.users.map(user => user.username)
-      const exists = map.includes(this.username)
-
-      if (!exists && this.validateForm()) {
-        const url = `${apiPathUrl.backend}/${apiPathUrl.createUser}`
-        const body = {
-          username: this.username,
-          email: this.email,
-          permissions: this.role === 'Admin' ? 3 : this.role === 'Staff' ? 2 : 1,
-          password: this.password
-        }
-        console.log(body)
-        await axios.post(url, body)
-          .then(() => {
-            this.$q.notify({
-              type: 'success',
-              message: 'User created successfully'
-            })
-            this.$router.push({ name: 'users' })
-          })
-      } else if (exists) {
-        this.$q.notify({
-          type: 'warning',
-          message: 'User already exists'
-        })
-      } else {
-        this.$q.notify({
-          type: 'warning',
-          message: 'Please fill all fields'
-        })
-      }
-    },
-
-    onReset () {
-      this.username = ''
-      this.email = ''
-      this.role = ''
-      this.password = ''
-    },
-
-    validateForm () {
-      if (this.username === '' || this.email === '' || this.role === '' || this.password === '') {
-        return false
-      }
-      return true
-    },
-
-    async getUsers () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.getUsers}`
-      await axios.get(url)
-        .then(response => {
-          this.users = response.data.data
-        })
-        .catch(error => {
-          this.$q.notify({
-            type: 'error',
-            message: error
-          })
-        })
-    }
-  },
-
-  mounted () {
-    this.getUsers()
-  }
-}
-</script>

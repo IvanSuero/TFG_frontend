@@ -12,6 +12,51 @@
     </q-form>
 </template>
 
+<script setup>
+import axios from 'axios'
+import apiPathUrl from '../../config/apiPathUrl'
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
+const reference = ref('')
+const stock = ref(0)
+const description = ref('')
+const weight = ref(0)
+const volume = ref(0)
+const $q = useQuasar()
+
+const onSubmit = async () => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.createProduct}`
+  const body = {
+    reference: reference.value,
+    stock: stock.value,
+    description: description.value,
+    weight: weight.value,
+    volume: volume.value
+  }
+  await (axios.post(url, body))
+    .then(() => {
+      $q.notify({
+        type: 'success',
+        message: 'Product created successfully'
+      })
+    }).catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error.message
+      })
+    })
+}
+
+const onReset = () => {
+  reference.value = ''
+  stock.value = 0
+  description.value = ''
+  weight.value = 0
+  volume.value = 0
+}
+</script>
+
 <style>
 .addFormButtons {
   display: flex;
@@ -25,85 +70,3 @@
   gap: 15px;
 }
 </style>
-
-<script>
-import axios from 'axios'
-import apiPathUrl from '../../config/apiPathUrl'
-import { useQuasar } from 'quasar'
-import { ref } from 'vue'
-
-export default {
-  data () {
-    return {
-      reference: '',
-      stock: 0,
-      description: '',
-      weight: 0,
-      volume: 0,
-      products: ref([]),
-      $q: useQuasar()
-    }
-  },
-  methods: {
-    async onSubmit () {
-      const map = this.products.map(product => product.reference)
-      const exists = map.includes(this.reference)
-
-      if (!exists) {
-        const url = `${apiPathUrl.backend}/${apiPathUrl.createProduct}`
-        const body = {
-          reference: this.reference,
-          stock: this.stock,
-          description: this.description,
-          weight: this.weight,
-          volume: this.volume
-        }
-        await (axios.post(url, body))
-          .then(() => {
-            this.$router.push({ name: 'inventory' })
-            this.$q.notify({
-              type: 'success',
-              message: 'Product created successfully'
-            })
-          })
-      } else if (exists) {
-        this.$q.notify({
-          type: 'warning',
-          message: 'Product already exists'
-        })
-      } else {
-        this.$q.notify({
-          type: 'error',
-          message: 'Could not create product'
-        })
-      }
-    },
-
-    onReset () {
-      this.reference = ''
-      this.stock = 0
-      this.description = ''
-      this.weight = 0
-      this.volume = 0
-    },
-
-    async getItems () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.getProducts}`
-      await axios.get(url)
-        .then(response => {
-          this.products = response.data.data
-        })
-        .catch(error => {
-          this.$q.notify({
-            type: 'error',
-            message: error
-          })
-        })
-    }
-  },
-
-  mounted () {
-    this.getItems()
-  }
-}
-</script>

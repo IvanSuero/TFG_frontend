@@ -6,34 +6,22 @@
   </q-page>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup>
+import { onMounted, ref } from 'vue'
 import CardList from 'src/components/cards/CardList.vue'
 import areas from 'src/utils/areas'
 import { useQuasar } from 'quasar'
 
-export default defineComponent({
-  name: 'AreasPage',
+const areasWithPermission = ref({})
+const $q = useQuasar()
 
-  components: {
-    CardList
-  },
-
-  data () {
-    return {
-      areasWithPermission: {},
-      $q: useQuasar()
-    }
-  },
-
-  mounted () {
-    this.areasWithPermission = areas.filter(area => area.permission <= 3)
-    if (this.areasWithPermission.length === 0) {
-      this.$q.notify({
-        type: 'error',
-        message: 'You do not have permission to view any areas.'
-      })
-    }
+onMounted(() => {
+  areasWithPermission.value = areas.filter(area => area.permission <= 3)
+  if (areasWithPermission.value.length === 0) {
+    $q.notify({
+      type: 'error',
+      message: 'You do not have permission to view any areas.'
+    })
   }
 })
 </script>

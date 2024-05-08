@@ -132,182 +132,159 @@
   </q-page>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
+<script setup>
+import { ref, onMounted, watch } from 'vue'
 import { Cookies, useQuasar } from 'quasar'
 import apiPathUrl from 'src/config/apiPathUrl'
 import axios from 'axios'
 import CommonPopup from 'src/components/CommonPopup.vue'
 import productColumns from 'src/utils/productsColumns'
 
-export default defineComponent({
-  name: 'ProductsInventoryPage',
-  components: {
-    CommonPopup
-  },
+const rows = ref([])
+const columns = ref([])
+const pagination = ref({
+  sortBy: 'id',
+  descending: false,
+  rowsPerPage: 0
+})
+const filter = ref('')
+const filterDescription = ref('')
+const originalRows = ref([])
+const $q = useQuasar()
+const oldStock = ref(0)
+const body = ref({})
+const popup = ref(false)
+const noStockFilter = ref(false)
+const selection = ref('none')
+const selected = ref([])
+const createPopup = ref(false)
 
-  data () {
-    return {
-      rows: [],
-      columns: ref([]),
-      pagination: {
-        sortBy: 'id',
-        descending: false,
-        rowsPerPage: 0
-      },
-      filter: '',
-      filterDescription: '',
-      originalRows: [],
-      $q: useQuasar(),
-      oldStock: 0,
-      body: {},
-      popup: false,
-      noStockFilter: false,
-      selection: 'none',
-      selected: [],
-      createPopup: ref(false)
-    }
-  },
+const getItems = async () => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.getProducts}`
+  await axios.get(url)
+    .then(response => {
+      rows.value = response.data.data
+      originalRows.value = response.data.data
+    })
+    .catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error + ' - Could not get products data.'
+      })
+    })
+}
 
-  methods: {
-    async getItems () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.getProducts}`
-      await axios.get(url)
-        .then(response => {
-          this.rows = response.data.data
-          this.originalRows = response.data.data
-        })
-        .catch(error => {
-          this.$q.notify({
-            type: 'error',
-            message: error + ' - Could not get products data.'
-          })
-        })
-    },
-
-    openPopup (row) {
-      this.body = {
-        reference: row.reference,
-        description: row.description,
-        weight: row.weight,
-        volume: row.volume,
-        oldStock: this.oldStock,
-        newStock: row.stock
-      }
-      this.popup = true
-    },
-
-    async saveInventory (row) {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.updateProduct}`
-      if (this.body.comments === undefined) {
-        this.body.comments = ''
-        this.body.user = Cookies.get('username')
-      }
-      await axios.post(url, this.body)
-        .then(response => {
-          if (response.status === 200) {
-            this.$q.notify({
-              type: 'positive',
-              message: response.data.message
-            })
-          }
-        })
-        .catch(error => {
-          this.$q.notify({
-            type: 'error',
-            message: error + ' - Could not update inventory.'
-          })
-        })
-      this.popup = false
-      this.body = {}
-    },
-
-    filterNoStock () {
-      if (this.rows.filter(row => row.stock === 0).length === 0) {
-        this.$q.notify({
-          type: 'warning',
-          message: 'No products with 0 stock'
-        })
-      } else {
-        this.noStockFilter = !this.noStockFilter
-        if (this.noStockFilter) {
-          this.rows = this.rows.filter(row => row.stock === 0)
-        } else {
-          this.rows = this.originalRows
-        }
-      }
-    },
-
-    activeDeleteMode () {
-      this.selection = 'single'
-      this.noStockFilter = false
-      this.rows = this.originalRows
-    },
-
-    cancelDeleteMode () {
-      this.selection = 'none'
-      this.selected = []
-    },
-
-    async deleteItems () {
-      if (this.selected[0].stock !== 0) {
-        this.$q.notify({
-          type: 'warning',
-          message: 'Only products with 0 stock can be deleted'
-        })
-        return
-      }
-      const url = `${apiPathUrl.backend}/${apiPathUrl.deleteProduct}`
-      const body = {
-        reference: this.selected[0].reference
-      }
-      await axios.post(url, body)
-        .then(response => {
-          if (response.status === 200) {
-            this.$q.notify({
-              type: 'positive',
-              message: response.data.message
-            })
-          }
-        })
-        .catch(error => {
-          this.$q.notify({
-            type: 'error',
-            message: error + ' - Could not delete product.'
-          })
-        })
-
-      this.selection = 'none'
-      this.selected = []
-      this.getItems()
-    },
-
-    goToNewProduct () {
-      this.createPopup = true
-    }
-  },
-
-  watch: {
-    filter (val) {
-      if (val === '' || val === null || val === undefined) {
-        this.rows = this.originalRows
-      } else {
-        this.rows = this.rows.filter(row => row.reference.toLowerCase().includes(val.toLowerCase()))
-      }
-    },
-    filterDescription (val) {
-      if (val === '' || val === null || val === undefined) {
-        this.rows = this.originalRows
-      } else {
-        this.rows = this.rows.filter(row => row.description.toLowerCase().includes(val.toLowerCase()))
-      }
-    }
-  },
-
-  mounted () {
-    this.columns = productColumns
-    this.getItems()
+const openPopup = (row) => {
+  body.value = {
+    reference: row.reference,
+    description: row.description,
+    weight: row.weight,
+    volume: row.volume,
+    oldStock: this.oldStock,
+    newStock: row.stock
   }
+  popup.value = true
+}
+
+const saveInventory = async (row) => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.updateProduct}`
+  if (body.value.comments === undefined) {
+    body.value.comments = ''
+    body.value.user = Cookies.get('username')
+  }
+  await axios.post(url, body.value)
+    .then(response => {
+      if (response.status === 200) {
+        $q.notify({
+          type: 'positive',
+          message: response.data.message
+        })
+      }
+    })
+    .catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error + ' - Could not update inventory.'
+      })
+    })
+  popup.value = false
+  body.value = {}
+}
+
+const filterNoStock = () => {
+  if (rows.value.filter(row => row.stock === 0).length === 0) {
+    $q.notify({
+      type: 'warning',
+      message: 'No products with 0 stock'
+    })
+  } else {
+    noStockFilter.value = !this.value.noStockFilter
+    if (noStockFilter.value) rows.value = rows.value.filter(row => row.stock === 0)
+    else rows.value = originalRows.value
+  }
+}
+
+const activeDeleteMode = () => {
+  selection.value = 'single'
+  noStockFilter.value = false
+  rows.value = originalRows.value
+}
+
+const cancelDeleteMode = () => {
+  selection.value = 'none'
+  selected.value = []
+}
+
+const deleteItems = async () => {
+  if (selected.value[0].stock !== 0) {
+    $q.notify({
+      type: 'warning',
+      message: 'Only products with 0 stock can be deleted'
+    })
+    return
+  }
+  const url = `${apiPathUrl.backend}/${apiPathUrl.deleteProduct}`
+  const body = {
+    reference: selected.value[0].reference
+  }
+  await axios.post(url, body)
+    .then(response => {
+      if (response.status === 200) {
+        $q.notify({
+          type: 'positive',
+          message: response.data.message
+        })
+      }
+    })
+    .catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error + ' - Could not delete product.'
+      })
+    })
+
+  selection.value = 'none'
+  selected.value = []
+  getItems()
+}
+
+const goToNewProduct = () => {
+  createPopup.value = true
+}
+
+watch(filter, (val) => {
+  if (val === '' || val === null || val === undefined) rows.value = originalRows.value
+  else rows.value = rows.value.filter(row => row.reference.toLowerCase().includes(val.toLowerCase()))
+})
+
+watch(filterDescription, (val) => {
+  if (val === '' || val === null || val === undefined) rows.value = originalRows.value
+  else rows.value = rows.value.filter(row => row.description.toLowerCase().includes(val.toLowerCase()))
+})
+
+onMounted(() => {
+  columns.value = productColumns
+  getItems()
 })
 </script>
 

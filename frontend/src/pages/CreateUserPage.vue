@@ -5,6 +5,10 @@
   </div>
 </template>
 
+<script setup>
+import CreateUserForm from '../components/forms/CreateUserForm.vue'
+</script>
+
 <style>
 .addFormButtons {
   display: flex;
@@ -13,13 +17,3 @@
   justify-content: center;
 }
 </style>
-
-<script>
-import CreateUserForm from '../components/forms/CreateUserForm.vue'
-
-export default {
-  components: {
-    CreateUserForm
-  }
-}
-</script>

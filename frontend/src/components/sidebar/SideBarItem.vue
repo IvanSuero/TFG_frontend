@@ -10,6 +10,35 @@
   </q-item>
 </template>
 
+<script setup>
+import { Cookies } from 'quasar'
+import { useRouter } from 'vue-router'
+
+const props = defineProps({
+  item: Object
+})
+
+const username = Cookies.get('username')
+const router = useRouter()
+
+const goToRoute = () => {
+  switch (props.item.type) {
+    case 'link':
+      router.push(props.item.url)
+      break
+    case 'logout':
+      Cookies.remove('token')
+      Cookies.remove('username')
+      router.push('/login')
+      break
+    case 'profile':
+      break
+    default:
+      router.push(props.item.url)
+  }
+}
+</script>
+
 <style>
 .q-item:hover{
   cursor: pointer;
@@ -19,40 +48,3 @@
   scale: 1.05;
 }
 </style>
-
-<script>
-import { Cookies } from 'quasar'
-
-export default {
-  name: 'SideBarItem',
-  props: {
-    item: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  data () {
-    return {
-      username: Cookies.get('username')
-    }
-  },
-  methods: {
-    goToRoute () {
-      switch (this.item.type) {
-        case 'link':
-          this.$router.push(this.item.url)
-          break
-        case 'logout':
-          Cookies.remove('token')
-          Cookies.remove('username')
-          this.$router.push('/login')
-          break
-        case 'profile':
-          break
-        default:
-          this.$router.push(this.item.url)
-      }
-    }
-  }
-}
-</script>

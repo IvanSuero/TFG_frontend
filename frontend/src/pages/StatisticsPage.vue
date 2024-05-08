@@ -12,6 +12,157 @@
 </div>
 </template>
 
+<script setup>
+import axios from 'axios'
+import apiPathUrl from 'src/config/apiPathUrl'
+import StatCardItem from 'src/components/cards/StatCardItem.vue'
+import { ref, onMounted } from 'vue'
+import { useQuasar } from 'quasar'
+import apexcharts from 'vue3-apexcharts'
+
+const $q = useQuasar()
+
+const itemProducts = ref({
+  name: 'Products',
+  url: 'inventory',
+  value: {
+    type: 'number',
+    value: 0
+  }
+})
+
+const itemInventory = ref({
+  name: 'Inventory',
+  url: 'inventory',
+  value: {
+    type: 'percentage',
+    value: 100
+  }
+})
+
+const itemMovements = ref({
+  name: 'Movements',
+  url: 'inventory',
+  value: {
+    type: 'number',
+    value: 0
+  }
+})
+
+const lineSeries = ref([
+  {
+    name: 'Inventories',
+    type: 'line',
+    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  },
+  {
+    name: 'Positive',
+    type: 'column',
+    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  },
+  {
+    name: 'Negative',
+    type: 'column',
+    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  }
+])
+
+const lineOptions = ref({
+  chart: {
+    type: 'line',
+    id: 'inventory-bar',
+    stacked: true
+  },
+  xaxis: {
+    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  },
+  title: {
+    text: 'Inventory per month'
+  },
+  stroke: {
+    width: [2, 2, 2]
+  }
+})
+
+const donutSeries = ref([0, 0])
+const donutOptions = ref({
+  chart: {
+    id: 'inventory-pie'
+  },
+  labels: ['Positive', 'Negative'],
+  plotOptions: {
+    pie: {
+      donut: {
+        size: '50%'
+      }
+    }
+  },
+  colors: ['#02808D', '#E27E23'],
+  title: {
+    text: 'Inventory changes'
+  }
+})
+
+const getItems = async () => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.getHistory}`
+  await axios.get(url)
+    .then(response => {
+      const data = response.data.data
+      data.forEach(row => {
+        const month = new Date(row.date).getMonth()
+        lineSeries.value[0].data[month]++
+        if (row.old_stock > row.new_stock) {
+          donutSeries.value[1]++
+          lineSeries.value[2].data[month]++
+        } else {
+          donutSeries.value[0]++
+          lineSeries.value[1].data[month]++
+        }
+      })
+    })
+    .catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error
+      })
+    })
+}
+
+const getProducts = async () => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.getProducts}`
+  await axios.get(url)
+    .then(response => {
+      itemProducts.value.value.value = response.data.data.length
+    })
+    .catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error
+      })
+    })
+}
+
+const getMovements = async () => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.getHistory}`
+  await axios.get(url)
+    .then(response => {
+      itemMovements.value.value.value = response.data.data.length
+    })
+    .catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error
+      })
+    })
+}
+
+onMounted(() => {
+  getItems()
+  getProducts()
+  getMovements()
+})
+</script>
+
 <style>
 .stats {
   display: flex;
@@ -44,157 +195,3 @@
   box-shadow: 0 0 10px #026874;
 }
 </style>
-
-<script>
-import VueApexCharts from 'vue3-apexcharts'
-import axios from 'axios'
-import apiPathUrl from 'src/config/apiPathUrl'
-import StatCardItem from 'src/components/cards/StatCardItem.vue'
-
-export default {
-  name: 'StatisticsPage',
-  components: {
-    apexcharts: VueApexCharts,
-    StatCardItem
-  },
-  data () {
-    return {
-      itemProducts: {
-        name: 'Products',
-        url: 'inventory',
-        value: {
-          type: 'number',
-          value: 0
-        }
-      },
-      itemInventory: {
-        name: 'Inventory',
-        url: 'inventory',
-        value: {
-          type: 'percentage',
-          value: 100
-        }
-      },
-      itemMovements: {
-        name: 'Movements',
-        url: 'inventory',
-        value: {
-          type: 'number',
-          value: 0
-        }
-      },
-      lineSeries: [
-        {
-          name: 'Inventories',
-          type: 'line',
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        },
-        {
-          name: 'Positive',
-          type: 'column',
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        },
-        {
-          name: 'Negative',
-          type: 'column',
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        }
-      ],
-      lineOptions: {
-        chart: {
-          type: 'line',
-          id: 'inventory-bar',
-          stacked: true
-        },
-        xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
-        title: {
-          text: 'Inventory per month'
-        },
-        stroke: {
-          width: [2, 2, 2]
-        }
-      },
-      donutSeries: [0, 0],
-      donutOptions: {
-        chart: {
-          id: 'inventory-pie'
-        },
-        labels: ['Positive', 'Negative'],
-        plotOptions: {
-          pie: {
-            donut: {
-              size: '50%'
-            }
-          }
-        },
-        colors: ['#02808D', '#E27E23'],
-        title: {
-          text: 'Inventory changes'
-        }
-      }
-    }
-  },
-
-  methods: {
-    async getItems () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.getHistory}`
-      await axios.get(url)
-        .then(response => {
-          const data = response.data.data
-          data.forEach(row => {
-            const month = new Date(row.date).getMonth()
-            this.lineSeries[0].data[month]++
-            if (row.old_stock > row.new_stock) {
-              this.donutSeries[1]++
-              this.lineSeries[2].data[month]++
-            } else {
-              this.donutSeries[0]++
-              this.lineSeries[1].data[month]++
-            }
-          })
-        })
-        .catch(error => {
-          this.$q.notify({
-            type: 'error',
-            message: error
-          })
-        })
-    },
-
-    async getProducts () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.getProducts}`
-      await axios.get(url)
-        .then(response => {
-          this.itemProducts.value.value = response.data.data.length
-        })
-        .catch(error => {
-          this.$q.notify({
-            type: 'error',
-            message: error
-          })
-        })
-    },
-    async getMovements () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.getHistory}`
-      await axios.get(url)
-        .then(response => {
-          this.itemMovements.value.value = response.data.data.length
-        })
-        .catch(error => {
-          this.$q.notify({
-            type: 'error',
-            message: error
-          })
-        })
-    }
-  },
-
-  mounted () {
-    this.getItems()
-    this.getProducts()
-    this.getMovements()
-  }
-}
-</script>

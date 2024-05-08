@@ -1,8 +1,16 @@
 <template>
   <div class="card-list">
-    <CardItem v-for="item in items" :key="item.name" :item="item" />
+    <CardItem v-for="item in props.items" :key="item.name" :item="item" />
   </div>
 </template>
+
+<script setup>
+import CardItem from './CardItem.vue'
+
+const props = defineProps({
+  items: Object
+})
+</script>
 
 <style>
 .card-list{
@@ -14,26 +22,3 @@
   gap: 10px;
 }
 </style>
-
-<script>
-import { defineComponent } from 'vue'
-import CardItem from './CardItem.vue'
-
-export default defineComponent({
-  name: 'CardList',
-  components: {
-    CardItem
-  },
-  props: {
-    items: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  setup () {
-    return {
-      CardItem
-    }
-  }
-})
-</script>

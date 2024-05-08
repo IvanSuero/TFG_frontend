@@ -3,17 +3,23 @@
     <q-card-section>
       <!--number of products-->
       <div class="text-h6"
-        :style="{color: item.value.type==='percentage' ? (item.value.value>=90 ? 'green' :  (item.value.value>=70 ? 'orange' : 'red')) : '' }"
+        :style="{color: props.item.value.type==='percentage' ? (props.item.value.value>=90 ? 'green' :  (props.item.value.value>=70 ? 'orange' : 'red')) : '' }"
       >
-        <span>{{ item.value.value }}</span>
-        <span v-if="item.value.type === 'percentage'">%</span>
+        <span>{{ props.item.value.value }}</span>
+        <span v-if="props.item.value.type === 'percentage'">%</span>
       </div>
     </q-card-section>
     <q-card-section>
-      <div class="text-h6">{{ item.name }}</div>
+      <div class="text-h6">{{ props.item.name }}</div>
     </q-card-section>
   </q-card>
 </template>
+
+<script setup>
+const props = defineProps({
+  item: Object
+})
+</script>
 
 <style>
 .stat{
@@ -29,18 +35,3 @@
   color: black;
 }
 </style>
-
-<script>
-
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'StatCardItem',
-  props: {
-    item: {
-      type: Object,
-      required: true
-    }
-  }
-})
-</script>

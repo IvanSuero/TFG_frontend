@@ -4,10 +4,33 @@
       <q-icon :name="item.icon" size="50px"/>
     </q-card-section>
     <q-card-section>
-      <div class="text-h6">{{ item.name }}</div>
+      <div class="text-h6">{{ props.item.name }}</div>
     </q-card-section>
   </q-card>
 </template>
+
+<script setup>
+import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
+
+const router = useRouter()
+const $q = useQuasar()
+
+const props = defineProps({
+  item: Object
+})
+
+const goToRoute = () => {
+  if (props.item.url) {
+    router.push({ name: props.item.url })
+  } else {
+    $q.notify({
+      type: 'warning',
+      message: 'This feature is not available yet.'
+    })
+  }
+}
+</script>
 
 <style>
 .card{
@@ -27,29 +50,3 @@
   cursor: pointer;
 }
 </style>
-
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'CardItem',
-  props: {
-    item: {
-      type: Object,
-      required: true
-    }
-  },
-  methods: {
-    goToRoute () {
-      if (this.item.url) {
-        this.$router.push({ name: this.item.url })
-      } else {
-        this.$q.notify({
-          type: 'warning',
-          message: 'This feature is not available yet.'
-        })
-      }
-    }
-  }
-})
-</script>

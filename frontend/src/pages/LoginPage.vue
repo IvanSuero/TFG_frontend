@@ -34,61 +34,51 @@
   </q-page>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
+<script setup>
+import { ref } from 'vue'
 import axios from 'axios'
 import apiPathUrl from '../config/apiPathUrl'
 import { useRouter } from 'vue-router'
-import { Cookies } from 'quasar'
+import { Cookies, useQuasar } from 'quasar'
 
-export default defineComponent({
-  name: 'LoginPage',
+const router = useRouter()
+const $q = useQuasar()
+const username = ref('')
+const password = ref('')
 
-  data () {
-    const router = useRouter()
-    return {
-      username: ref(''),
-      password: ref(''),
-      router
-    }
-  },
-
-  methods: {
-    async submit () {
-      const url = `${apiPathUrl.backend}/${apiPathUrl.login}`
-      const body = {
-        username: this.username,
-        password: this.password
-      }
-      await axios.post(url, body)
-        .then(response => {
-          if (response.status === 200) {
-            Cookies.set('token', response.data.token)
-            Cookies.set('username', this.username)
-            axios.defaults.headers.common = { 'auth-token': Cookies.get('token') }
-            this.$router.push('/')
-            this.$q.notify({
-              type: 'positive',
-              message: 'Welcome!'
-            })
-          }
-        })
-        .catch(error => {
-          if (error.response.status === 401) {
-            this.$q.notify({
-              type: 'error',
-              message: 'Invalid username or password'
-            })
-          } else {
-            this.$q.notify({
-              type: 'other',
-              message: error + ' - Could not login.'
-            })
-          }
-        })
-    }
+const submit = async () => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.login}`
+  const body = {
+    username: username.value,
+    password: password.value
   }
-})
+  await axios.post(url, body)
+    .then(response => {
+      if (response.status === 200) {
+        Cookies.set('token', response.data.token)
+        Cookies.set('username', username.value)
+        axios.defaults.headers.common = { 'auth-token': Cookies.get('token') }
+        router.push('/')
+        $q.notify({
+          type: 'positive',
+          message: 'Welcome ' + username.value
+        })
+      }
+    })
+    .catch(error => {
+      if (error.response.status === 401) {
+        $q.notify({
+          type: 'error',
+          message: 'Invalid username or password'
+        })
+      } else {
+        $q.notify({
+          type: 'other',
+          message: error + ' - Could not login.'
+        })
+      }
+    })
+}
 </script>
 
 <style>

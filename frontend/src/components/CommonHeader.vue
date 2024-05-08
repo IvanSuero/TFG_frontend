@@ -8,29 +8,17 @@
   </q-drawer>
 </template>
 
-<script>
+<script setup>
 
-import { defineComponent } from 'vue'
+import { ref } from 'vue'
 import CommonNavBar from 'src/components/CommonNavBar.vue'
 import SideBar from 'src/components/sidebar/SideBar.vue'
 import sideBarItems from 'src/utils/sideBarItems'
 
-export default defineComponent({
-  name: 'CommonHeader',
-  components: {
-    CommonNavBar,
-    SideBar
-  },
-  data () {
-    return {
-      drawer: false,
-      linksList: sideBarItems
-    }
-  },
-  methods: {
-    onDrawerModify () {
-      this.drawer = !this.drawer
-    }
-  }
-})
+const drawer = ref(false)
+const linksList = ref(sideBarItems)
+
+const onDrawerModify = () => {
+  drawer.value = !drawer.value
+}
 </script>

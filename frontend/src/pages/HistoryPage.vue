@@ -48,81 +48,58 @@
   </q-page>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup>
+import { ref, onMounted, watch } from 'vue'
 import apiPathUrl from 'src/config/apiPathUrl'
 import axios from 'axios'
 import historyColumns from 'src/utils/historyColumns'
+import { useQuasar } from 'quasar'
 
-export default defineComponent({
-  name: 'ProductsInventoryPage',
+const rows = ref([])
+const columns = ref([])
+const pagination = ref({
+  sortBy: 'date',
+  descending: true,
+  rowsPerPage: 0
+})
+const filter = ref('')
+const filterDescription = ref('')
+const originalRows = ref([])
+const $q = useQuasar()
 
-  data () {
-    return {
-      rows: [],
-      columns: [],
-      pagination: {
-        sortBy: 'date',
-        descending: true,
-        rowsPerPage: 0
-      },
-      filter: '',
-      filterDescription: '',
-      originalRows: []
-    }
-  },
+const getItems = async () => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.getHistory}`
+  await axios.get(url)
+    .then(response => {
+      rows.value = response.data.data
+      // for each ro in rows insert an attribute called inventory
+      rows.value.forEach(row => {
+        row.inventory = row.new_stock - row.old_stock
+        row.date = new Date(row.date)
+      })
+      originalRows.value = response.data.data
+    })
+    .catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error + ' - Could not get history data.'
+      })
+    })
+}
 
-  methods: {
-    async getItems () {
-      try {
-        const url = `${apiPathUrl.backend}/${apiPathUrl.getHistory}`
-        await axios.get(url)
-          .then(response => {
-            this.rows = response.data.data
-            // for each ro in rows insert an attribute called inventory
-            this.rows.forEach(row => {
-              row.inventory = row.new_stock - row.old_stock
-              row.date = new Date(row.date)
-            })
-            this.originalRows = response.data.data
-            console.log(this.rows)
-          })
-          .catch(error => {
-            this.$q.notify({
-              type: 'error',
-              message: error + ' - Could not get history data.'
-            })
-          })
-      } catch (error) {
-        this.$q.notify({
-          type: 'error',
-          message: error + ' - Could not get history data.'
-        })
-      }
-    }
-  },
+watch(filter, (val) => {
+  if (val === '' || val === null || val === undefined) rows.value = originalRows
+  else rows.value = rows.value.filter(row => row.reference.toLowerCase().includes(val.toLowerCase()))
+})
 
-  watch: {
-    filter (val) {
-      if (val === '' || val === null || val === undefined) {
-        this.rows = this.originalRows
-      } else {
-        this.rows = this.rows.filter(row => row.reference.toLowerCase().includes(val.toLowerCase()))
-      }
-    },
-    filterDescription (val) {
-      if (val === '' || val === null || val === undefined) {
-        this.rows = this.originalRows
-      } else {
-        this.rows = this.rows.filter(row => row.description.toLowerCase().includes(val.toLowerCase()))
-      }
-    }
-  },
+watch(filterDescription, (val) => {
+  if (val === '' || val === null || val === undefined) rows.value = originalRows
+  else rows.value = rows.value.filter(row => row.description.toLowerCase().includes(val.toLowerCase()))
+})
 
-  mounted () {
-    this.columns = historyColumns
-    this.getItems()
-  }
+onMounted(() => {
+  getItems()
+  columns.value = historyColumns
 })
 </script>
 

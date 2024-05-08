@@ -1,25 +1,19 @@
 <template>
   <q-card class="q-pa-lg popup">
-    <h5>{{ title }}</h5>
-    <CreateProductForm v-if="type==='product'" />
-    <CreateUserForm v-else-if="type==='user'" />
+    <h5>{{ props.title }}</h5>
+    <CreateProductForm v-if="props.type==='product'" />
+    <CreateUserForm v-else-if="props.type==='user'" />
   </q-card>
 </template>
 
-<script>
+<script setup>
 import CreateProductForm from './forms/CreateProductForm.vue'
 import CreateUserForm from './forms/CreateUserForm.vue'
 
-export default {
-  components: {
-    CreateProductForm,
-    CreateUserForm
-  },
-  props: {
-    title: String,
-    type: String
-  }
-}
+const props = defineProps({
+  title: String,
+  type: String
+})
 </script>
 
 <style>
