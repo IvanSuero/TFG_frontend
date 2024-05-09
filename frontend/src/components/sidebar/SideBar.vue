@@ -40,7 +40,7 @@ const closeDrawer = () => {
 }
 
 .sidebarList *:last-child {
-  position: fixed;
+  margin-top: 160%;
   bottom: 20px;
   left: 0;
   right: 0;

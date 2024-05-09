@@ -3,10 +3,9 @@
   <q-page>
     <div>
       <q-table
-        style="height: 680px; width: 100%; margin-top: 15px; background-color: #EBF1F3; padding: 15px;"
-        class="sticky-header-table"
+        :style="`height: 700px; width: 100%; margin-top: 15px; background-color: #EBF1F3; padding: 15px;'`"
+        class="sticky-header-table sticky-first-column"
         flat
-        bordered
         :rows="rows"
         :columns="columns"
         :row-key="row => row.reference"
@@ -46,30 +45,34 @@
           <q-td key="volume" :props="props">{{ props.row.volume }}</q-td>
         </q-tr>
       </template>
-      <template #top-left>
+      <template #top>
         <!-- search box with a select for the column to filter-->
         <div class="q-gutter-md tableHeader">
-          <q-input
-            color="secondary"
-            outlined
-            dense
-            placeholder="Search reference"
-            v-model="filter"
-            style="min-width: 150px"
-          />
-          <q-input
-            color="secondary"
-            outlined
-            dense
-            placeholder="Search description"
-            v-model="filterDescription"
-            style="min-width: 150px"
-          />
-          <CommonButton v-if="selection==='none'" message="Filter products with no stock" icon="filter_list" @click="filterNoStock"/>
-          <CommonButton v-if="selection==='none'" message="Add new product" icon="add" @click="goToNewProduct"/>
-          <CommonButton v-if="selection==='none'" message="Delete product" icon="delete" @click="activeDeleteMode"/>
-          <CommonButton v-if="selection!=='none'" message="Cancel" icon="cancel" @click="cancelDeleteMode"/>
-          <CommonButton v-if="selected.length > 0" message="Confirm deletion" icon="check" @click="deleteItems"/>
+          <div class="filterInputs">
+            <q-input
+              color="secondary"
+              outlined
+              dense
+              placeholder="Search reference"
+              v-model="filter"
+              style="min-width: 150px"
+            />
+            <q-input
+              color="secondary"
+              outlined
+              dense
+              placeholder="Search description"
+              v-model="filterDescription"
+              style="min-width: 150px"
+            />
+          </div>
+          <div class="buttonsList">
+            <CommonButton v-if="selection==='none'" message="Filter products with no stock" icon="filter_list" @click="filterNoStock"/>
+            <CommonButton v-if="selection==='none'" message="Add new product" icon="add" @click="goToNewProduct"/>
+            <CommonButton v-if="selection==='none'" message="Delete product" icon="delete" @click="activeDeleteMode"/>
+            <CommonButton v-if="selection!=='none'" message="Cancel" icon="cancel" @click="cancelDeleteMode"/>
+            <CommonButton v-if="selected.length > 0" message="Confirm deletion" icon="check" @click="deleteItems"/>
+          </div>
         </div>
       </template>
     </q-table>
@@ -253,11 +256,12 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
+<style>
 .editInput {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 .popupCreate {
   width: 30%;
@@ -286,13 +290,45 @@ thead tr:first-child th{
 }
 
 .tableHeader {
+  width: 100%;
   margin-right: 15px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+
+.tableHeader .buttonsList {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .edit__icon {
   height: 1rem;
   float: right;
+}
+
+.tableHeader .filterInputs {
+  display: flex;
+  flex-direction: row;
+  gap: 140px;
+}
+
+@media screen and (max-width: 600px) {
+  .tableHeader {
+    flex-direction: column-reverse;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0;
+    gap: 15px;
+    margin-top: 0;;
+  }
+
+  .tableHeader .filterInputs {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
 }
 </style>

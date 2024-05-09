@@ -3,10 +3,9 @@
   <q-page>
     <div>
       <q-table
-        style="height: 680px; width: 100%; margin-top: 15px; background-color: #EBF1F3; padding: 15px;"
+        style="height: 650px; width: 100%; margin-top: 15px; background-color: #EBF1F3; padding: 15px;"
         class="sticky-header-table"
         flat
-        bordered
         :rows="rows"
         :columns="columns"
         :row-key="row => row.date"
@@ -24,24 +23,24 @@
           <q-td key="username" :props="props">{{ props.row.username }}</q-td>
         </q-tr>
       </template>
-      <template #top-left>
+      <template #top-right>
         <div class="q-gutter-md tableHeader">
-        <q-input
-          color="secondary"
-          outlined
-          dense
-          placeholder="Search reference"
-          v-model="filter"
-          style="min-width: 150px"
-        />
-        <q-input
-          color="secondary"
-          outlined
-          dense
-          placeholder="Search description"
-          v-model="filterDescription"
-          style="min-width: 150px"
-        />
+          <q-input
+            color="secondary"
+            outlined
+            dense
+            placeholder="Search reference"
+            v-model="filter"
+            style="min-width: 150px"
+          />
+          <q-input
+            color="secondary"
+            outlined
+            dense
+            placeholder="Search description"
+            v-model="filterDescription"
+            style="min-width: 150px"
+          />
         </div>
       </template>
     </q-table>
@@ -104,7 +103,7 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
+<style>
 .sticky-header-table {
   height: 100%;
   font-size: 14px;

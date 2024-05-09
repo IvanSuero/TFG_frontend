@@ -6,8 +6,8 @@
       <StatCardItem :item="itemInventory" :stats=true />
     </div>
     <div class="graphs">
-      <apexcharts class="chart" width="600" height="400" type="line" :options="lineOptions" :series="lineSeries" title="Inventory per month"></apexcharts>
-      <apexcharts class="chart" width="600" height="400" type="donut" :options="donutOptions" :series="donutSeries"></apexcharts>
+      <apexcharts class="chart" :width="getHeight()*1.5" :height="getHeight()" type="line" :options="lineOptions" :series="lineSeries" title="Inventory per month"></apexcharts>
+      <apexcharts class="chart" :width="getHeight()*1.5" :height="getHeight()" type="donut" :options="donutOptions" :series="donutSeries"></apexcharts>
     </div>
 </div>
 </template>
@@ -156,6 +156,12 @@ const getMovements = async () => {
     })
 }
 
+const getHeight = () => {
+  if (window.innerWidth < 600) return window.innerWidth / 2
+  else if (window.innerWidth < 1200) return window.innerWidth / 2.3
+  else return window.innerWidth / 3.5
+}
+
 onMounted(() => {
   getItems()
   getProducts()
@@ -172,6 +178,7 @@ onMounted(() => {
   align-items: center;
   gap: 30px;
   margin-top: 35px;
+  margin-bottom: 35px;
 }
 .statsCards {
   display: flex;
