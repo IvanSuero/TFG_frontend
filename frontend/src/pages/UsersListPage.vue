@@ -2,22 +2,10 @@
   <!-- Table with all users and the level of permissions -->
   <div class="usersPage">
     <div class="tableHeader">
-      <q-btn
-        label="Create User"
-        color="green"
-        @click="goToCreateUser"
-      />
-      <q-btn
-        :label="deletedActive ? 'Cancel' : 'Delete'"
-        color="blue"
-        @click="activeDelete"
-      />
-      <q-btn
-        v-if="selected.length > 0"
-        label="Delete"
-        color="red"
-        @click="deleteUser"
-      />
+      <CommonButton v-if="selection==='none'" message="Create user" icon="add" @click="goToCreateUser"/>
+      <CommonButton v-if="selection === 'none'" message="Delete user" icon="delete" @click="activeDelete"/>
+      <CommonButton v-if="selection!=='none'" message="Cancel" icon="cancel" @click="cancelDeleteMode"/>
+      <CommonButton v-if="selected.length > 0" message="Confirm deletion" icon="check" @click="deleteUser"/>
     </div>
     <q-table
       style="height: 680px; width: 100%; margin-top: 15px; background-color: #EBF1F3; padding: 15px;"
@@ -25,7 +13,7 @@
       flat
       :rows="rows"
       :columns="columns"
-      :row-key="row => row.id"
+      :row-key="row => row.username"
       :pagination="pagination"
       virtual-scroll
       hide-bottom
@@ -60,7 +48,7 @@
               <img src="src/assets/edit.svg" alt="edit" />
             </q-icon>
             {{ props.row.permissionString }}
-            <q-popup-edit v-model="props.row.permissionString" auto-save v-slot="scope" @save="oldPermission=props.row.permission" @update:model-value="updateUser(props.row)">
+            <q-popup-edit v-model="props.row.permissionString" auto-save v-slot="scope" @save="oldPermission=props.row.permission" @update:model-value="updateUser(props.row, true)">
               <q-select v-model="scope.value" dense @keyup.enter="scope.set" :options="permissionOptions" />
             </q-popup-edit>
           </q-td>
@@ -70,8 +58,8 @@
             >
               <img src="src/assets/edit.svg" alt="edit" />
             </q-icon>
-            {{ props.row.password}}
-            <q-popup-edit v-model="props.row.password" auto-save v-slot="scope" @save="oldPassword=props.row.password" @update:model-value="updateUser(props.row)">
+            *************
+            <q-popup-edit v-model="props.row.password" auto-save v-slot="scope" @save="oldPassword=props.row.password" @update:model-value="updateUser(props.row, false)">
               <q-input v-model="scope.value" dense @keyup.enter="scope.set" autofocus></q-input>
             </q-popup-edit>
           </q-td>
@@ -91,6 +79,7 @@ import axios from 'axios'
 import apiPathUrl from '../config/apiPathUrl'
 import CommonPopup from '../components/CommonPopup.vue'
 import { useQuasar } from 'quasar'
+import CommonButton from '../components/CommonButton.vue'
 
 const permissionOptions = [
   'Admin',
@@ -111,7 +100,7 @@ const pagination = {
   descending: false,
   rowsPerPage: 0
 }
-const deletedActive = ref(false)
+
 const selection = ref('none')
 const selected = ref([])
 const createUserPopup = ref(false)
@@ -141,8 +130,11 @@ const goToCreateUser = () => {
 }
 
 const activeDelete = () => {
-  deletedActive.value = !deletedActive.value
-  selection.value === 'single' ? selection.value = 'none' : selection.value = 'single'
+  selection.value = 'single'
+}
+
+const cancelDeleteMode = () => {
+  selection.value = 'none'
   selected.value = []
 }
 
@@ -163,16 +155,29 @@ const deleteUser = async () => {
   activeDelete()
 }
 
-const updateUser = async (user) => {
-  const url = `${apiPathUrl.backend}/${apiPathUrl.updateUser}`
-  const body = {
-    username: user.username,
-    permissions: rows.value.find(row => row.username === user.username).permissionString === 'Admin' ? 3 : rows.value.find(row => row.username === user.username).permissionString === 'Staff' ? 2 : 1,
-    password: rows.value.find(row => row.username === user.username).password
+const updateUser = async (user, isPermissionUpdated) => {
+  let url = ''
+  let body = {}
+  if (!isPermissionUpdated) {
+    url = `${apiPathUrl.backend}/${apiPathUrl.updateUserPassword}`
+    body = {
+      username: user.username,
+      password: rows.value.find(row => row.username === user.username).password
+    }
+  } else {
+    url = `${apiPathUrl.backend}/${apiPathUrl.updateUserPermission}`
+    body = {
+      username: user.username,
+      permissions: rows.value.find(row => row.username === user.username).permissionString === 'Admin' ? 3 : rows.value.find(row => row.username === user.username).permissionString === 'Staff' ? 2 : 1
+    }
   }
   await axios.post(url, body)
     .then(() => {
       getUsers()
+      $q.notify({
+        type: 'success',
+        message: 'User updated successfully!'
+      })
     })
     .catch(error => {
       $q.notify({

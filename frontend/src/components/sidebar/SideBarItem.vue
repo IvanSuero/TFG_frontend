@@ -13,12 +13,14 @@
 <script setup>
 import { Cookies } from 'quasar'
 import { useRouter } from 'vue-router'
+import { useUserStore } from 'src/stores/user.store'
 
 const props = defineProps({
   item: Object
 })
 
-const username = Cookies.get('username')
+const userStore = useUserStore()
+const username = userStore.getUsername
 const router = useRouter()
 
 const goToRoute = () => {

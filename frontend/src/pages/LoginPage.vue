@@ -40,6 +40,7 @@ import axios from 'axios'
 import apiPathUrl from '../config/apiPathUrl'
 import { useRouter } from 'vue-router'
 import { Cookies, useQuasar } from 'quasar'
+import { useUserStore } from 'src/stores/user.store'
 
 const router = useRouter()
 const $q = useQuasar()
@@ -56,7 +57,8 @@ const submit = async () => {
     .then(response => {
       if (response.status === 200) {
         Cookies.set('token', response.data.token)
-        Cookies.set('username', username.value)
+        Cookies.set('areas', response.data.areas)
+        useUserStore().setUsername(username.value)
         axios.defaults.headers.common = { 'auth-token': Cookies.get('token') }
         router.push('/')
         $q.notify({

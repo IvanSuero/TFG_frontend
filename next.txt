@@ -1,5 +1,0 @@
-DONE ADD WEIGHT AND VOLUME TO PRODUCTS
-DONE CHANGE BBDD (abril)
-7. LOGIN PAGE (primera semana mayo)
-DONE ERROR CONTROL
-11. DOCUMENTACIÓN (ultima semana de mayo)

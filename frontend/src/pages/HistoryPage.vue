@@ -6,6 +6,7 @@
         style="height: 680px; width: 100%; margin-top: 15px; background-color: #EBF1F3; padding: 15px;"
         class="sticky-header-table"
         flat
+        bordered
         :rows="rows"
         :columns="columns"
         :row-key="row => row.date"

@@ -65,36 +65,11 @@
             v-model="filterDescription"
             style="min-width: 150px"
           />
-          <q-btn
-            v-if="selection==='none'"
-            color="green"
-            label="Filter stock"
-            @click="filterNoStock"
-          />
-          <q-btn
-            v-if="selection==='none'"
-            color="blue"
-            label="New Product"
-            @click="goToNewProduct"
-          />
-          <q-btn
-            v-if="selection==='none'"
-            color="red"
-            label="Delete"
-            @click="activeDeleteMode"
-          />
-          <q-btn
-            v-if="selected.length > 0"
-            color="red"
-            label="Delete"
-            @click="deleteItems"
-          />
-          <q-btn
-            v-if="selection==='multiple' || selection==='single'"
-            color="orange"
-            label="Cancel"
-            @click="cancelDeleteMode"
-          />
+          <CommonButton v-if="selection==='none'" message="Filter products with no stock" icon="filter_list" @click="filterNoStock"/>
+          <CommonButton v-if="selection==='none'" message="Add new product" icon="add" @click="goToNewProduct"/>
+          <CommonButton v-if="selection==='none'" message="Delete product" icon="delete" @click="activeDeleteMode"/>
+          <CommonButton v-if="selection!=='none'" message="Cancel" icon="cancel" @click="cancelDeleteMode"/>
+          <CommonButton v-if="selected.length > 0" message="Confirm deletion" icon="check" @click="deleteItems"/>
         </div>
       </template>
     </q-table>
@@ -138,6 +113,7 @@ import { Cookies, useQuasar } from 'quasar'
 import apiPathUrl from 'src/config/apiPathUrl'
 import axios from 'axios'
 import CommonPopup from 'src/components/CommonPopup.vue'
+import CommonButton from 'src/components/CommonButton.vue'
 import productColumns from 'src/utils/productsColumns'
 import { getProducts } from 'src/helpers/getProducts'
 
@@ -217,8 +193,6 @@ const filterNoStock = () => {
 
 const activeDeleteMode = () => {
   selection.value = 'single'
-  noStockFilter.value = false
-  rows.value = originalRows.value
 }
 
 const cancelDeleteMode = () => {
@@ -255,6 +229,7 @@ const deleteItems = async () => {
     })
 
   selected.value = []
+  selection.value = 'none'
   getItems()
 }
 

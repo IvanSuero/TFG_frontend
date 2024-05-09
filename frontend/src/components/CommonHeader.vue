@@ -22,3 +22,15 @@ const onDrawerModify = () => {
   drawer.value = !drawer.value
 }
 </script>
+
+<style scoped>
+.q-header {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+  border-bottom: 3px solid #01535c;
+}
+
+.q-drawer {
+  border-left: 2px solid #ccd3d5;
+  border-radius: 50px !important;
+}
+</style>

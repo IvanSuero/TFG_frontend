@@ -1,13 +1,14 @@
 const apiPathUrl = {
   backend: 'https://tfg-production-5451.up.railway.app/api',
-  columns: 'columns',
+  areas: 'areas',
   getProducts: 'products', // WORKS
   updateProduct: 'products/update', // WORKS
   createProduct: 'products/create', // WORKS
   deleteProduct: 'products/delete', // WORKS
   getHistory: 'history', // WORKS
   getUsers: 'users', // WORKS
-  updateUser: 'users/update', // WORKS
+  updateUserPassword: 'users/update-password', // WORKS
+  updateUserPermission: 'users/update-permission', // WORKS
   createUser: 'users/create', // WORKS
   deleteUser: 'users/delete', // WORKS
   login: 'login'
