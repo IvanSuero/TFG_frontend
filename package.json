@@ -10,7 +10,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build",
-    "start": "cd server && node server.js"
+    "start": "cd server && node start.js"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
