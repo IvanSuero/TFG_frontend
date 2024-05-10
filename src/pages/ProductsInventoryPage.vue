@@ -34,7 +34,7 @@
             <q-icon
               class="edit__icon"
             >
-              <img src="src/assets/edit.svg" alt="edit" />
+              <img src="/edit.svg" alt="edit" />
             </q-icon>
             {{ props.row.stock }}
             <q-popup-edit v-model.number="props.row.stock" auto-save v-slot="scope" @save="oldStock=props.row.stock" @update:model-value="openPopup(props.row)">

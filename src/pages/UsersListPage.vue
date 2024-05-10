@@ -33,7 +33,7 @@
             <q-icon
               class="edit__icon"
             >
-              <img src="src/assets/edit.svg" alt="edit" />
+              <img src="/edit.svg" alt="edit" />
             </q-icon>
             *************
             <q-popup-edit v-model="props.row.password" auto-save v-slot="scope" @save="oldPassword=props.row.password" @update:model-value="updateUser(props.row, false)">
@@ -50,7 +50,7 @@
             <q-icon
               class="edit__icon"
             >
-              <img src="src/assets/edit.svg" alt="edit" />
+              <img src="/edit.svg" alt="edit" />
             </q-icon>
             {{ props.row.permissionString }}
             <q-popup-edit v-model="props.row.permissionString" auto-save v-slot="scope" @save="oldPermission=props.row.permission" @update:model-value="updateUser(props.row, true)">
