@@ -18,7 +18,7 @@ const props = defineProps({
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 10px;
 }
 </style>
