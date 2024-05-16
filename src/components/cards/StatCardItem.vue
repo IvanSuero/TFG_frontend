@@ -6,7 +6,8 @@
         :style="{color: props.item.value.type==='percentage' ? (props.item.value.value>=90 ? 'green' :  (props.item.value.value>=70 ? 'orange' : 'red')) : '' }"
       >
         <span>{{ props.item.value.value }}</span>
-        <span v-if="props.item.value.type === 'percentage'">%</span>
+        <span v-if="props.item.name === 'Weight'"> kg</span>
+        <span v-if="props.item.name === 'Volume'"> m<sup>3</sup></span>
       </div>
     </q-card-section>
     <q-card-section>
@@ -23,7 +24,7 @@ const props = defineProps({
 
 <style scoped>
 .stat{
-  width: 200px;
+  width: 220px;
   height: 80px;
   margin: 10px;
   display: flex;

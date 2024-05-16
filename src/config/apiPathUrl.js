@@ -5,6 +5,7 @@ const apiPathUrl = {
   updateProduct: 'products/update', // WORKS
   createProduct: 'products/create', // WORKS
   deleteProduct: 'products/delete', // WORKS
+  getVolumeAndWeight: 'products/volume-weight', // WORKS
   getHistory: 'history', // WORKS
   getUsers: 'users', // WORKS
   updateUserPassword: 'users/update-password', // WORKS

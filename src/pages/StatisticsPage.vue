@@ -3,7 +3,8 @@
     <div class="statsCards">
       <StatCardItem :item="itemProducts" :stats=true />
       <StatCardItem :item="itemMovements" :stats=true />
-      <StatCardItem :item="itemInventory" :stats=true />
+      <StatCardItem :item="volumeTotal" :stats=true />
+      <StatCardItem :item="weightTotal" :stats=true />
     </div>
     <div class="graphs">
       <apexcharts class="chart" :width="getHeight()*1.5" :height="getHeight()" type="line" :options="lineOptions" :series="lineSeries" title="Inventory per month"></apexcharts>
@@ -31,17 +32,26 @@ const itemProducts = ref({
   }
 })
 
-const itemInventory = ref({
-  name: 'Inventory',
+const itemMovements = ref({
+  name: 'Movements',
   url: 'inventory',
   value: {
-    type: 'percentage',
-    value: 100
+    type: 'number',
+    value: 0
   }
 })
 
-const itemMovements = ref({
-  name: 'Movements',
+const volumeTotal = ref({
+  name: 'Volume',
+  url: 'inventory',
+  value: {
+    type: 'number',
+    value: 0
+  }
+})
+
+const weightTotal = ref({
+  name: 'Weight',
   url: 'inventory',
   value: {
     type: 'number',
@@ -123,7 +133,7 @@ const getItems = async () => {
     .catch(error => {
       $q.notify({
         type: 'error',
-        message: error
+        message: error.message
       })
     })
 }
@@ -137,7 +147,7 @@ const getProducts = async () => {
     .catch(error => {
       $q.notify({
         type: 'error',
-        message: error
+        message: error.message
       })
     })
 }
@@ -151,7 +161,23 @@ const getMovements = async () => {
     .catch(error => {
       $q.notify({
         type: 'error',
-        message: error
+        message: error.message
+      })
+    })
+}
+
+const getVolumeAndWeight = async () => {
+  const url = `${apiPathUrl.backend}/${apiPathUrl.getVolumeAndWeight}`
+  await axios.get(url)
+    .then(response => {
+      const data = response.data.data[0]
+      volumeTotal.value.value.value = data.volume
+      weightTotal.value.value.value = data.weight
+    })
+    .catch(error => {
+      $q.notify({
+        type: 'error',
+        message: error.message
       })
     })
 }
@@ -166,6 +192,7 @@ onMounted(() => {
   getItems()
   getProducts()
   getMovements()
+  getVolumeAndWeight()
 })
 </script>
 
