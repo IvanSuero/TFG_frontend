@@ -57,7 +57,6 @@ const submit = async () => {
     .then(response => {
       if (response.status === 200) {
         Cookies.set('token', response.data.token)
-        Cookies.set('areas', response.data.areas)
         useUserStore().setUsername(username.value)
         axios.defaults.headers.common = { 'auth-token': Cookies.get('token') }
         router.push('/')

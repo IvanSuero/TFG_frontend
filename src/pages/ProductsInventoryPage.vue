@@ -112,13 +112,14 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { Cookies, useQuasar } from 'quasar'
+import { useQuasar } from 'quasar'
 import apiPathUrl from 'src/config/apiPathUrl'
 import axios from 'axios'
 import CommonPopup from 'src/components/CommonPopup.vue'
 import CommonButton from 'src/components/CommonButton.vue'
 import productColumns from 'src/utils/productsColumns'
 import { getProducts } from 'src/helpers/getProducts'
+import { useUserStore } from 'src/stores/user.store'
 
 const rows = ref([])
 const columns = ref([])
@@ -138,6 +139,8 @@ const noStockFilter = ref(false)
 const selection = ref('none')
 const selected = ref([])
 const createPopup = ref(false)
+const userStore = useUserStore()
+const username = userStore.getUsername
 
 const getItems = async () => {
   const data = await getProducts($q)
@@ -160,7 +163,7 @@ const saveInventory = async (row) => {
   const url = `${apiPathUrl.backend}/${apiPathUrl.updateProduct}`
   if (body.value.comments === undefined) {
     body.value.comments = ''
-    body.value.user = Cookies.get('username')
+    body.value.user = username
   }
   await axios.post(url, body.value)
     .then(response => {
