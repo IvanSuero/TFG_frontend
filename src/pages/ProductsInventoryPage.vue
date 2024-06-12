@@ -154,7 +154,8 @@ const openPopup = (row) => {
     weight: row.weight,
     volume: row.volume,
     oldStock: oldStock.value,
-    newStock: row.stock
+    newStock: row.stock,
+    user: username
   }
   popup.value = true
 }
@@ -163,7 +164,6 @@ const saveInventory = async (row) => {
   const url = `${apiPathUrl.backend}/${apiPathUrl.updateProduct}`
   if (body.value.comments === undefined) {
     body.value.comments = ''
-    body.value.user = username
   }
   await axios.post(url, body.value)
     .then(response => {
